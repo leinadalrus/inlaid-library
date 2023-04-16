@@ -1,0 +1,7 @@
+*build/**
+*test/**
+*ext/**
+*.cmake
+*.json
+*.txt
+*.exe
