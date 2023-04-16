@@ -17,6 +17,8 @@ typedef struct Username
 
 typedef struct Vector2Position
 {
+  int x;
+  int y;
 } Vector2Position;
 
 typedef struct DistyData
