@@ -1,4 +1,4 @@
-project('source_main', 'c')
+project('wanna_grind', 'c')
 
-executable('source_main', 'src/main.c',
+executable('wanna_grind', 'src/main.c',
     win_subsystem: 'windows')

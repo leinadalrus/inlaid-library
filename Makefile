@@ -2,7 +2,7 @@ SHELL = /bin/bash
 
 cxx_comp = g++
 
-target_exec := bestiary_snowball_main
+target_exec := main
 
 build_dir := ./builddir
 include_dir := ./inc

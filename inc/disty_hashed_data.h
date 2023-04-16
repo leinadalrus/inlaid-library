@@ -1,34 +1,30 @@
 #ifndef DISTY_HASHED_DATA_H
 #define DISTY_HASHED_DATA_H
 
-enum EHashes
-{
+typedef enum EHashes {
   Node = 0,
-};
+} EHashes;
 
-typedef struct UnitEntity
-{
+typedef struct UnitEntity {
 } UnitEntity;
 
-typedef struct Username
-{
-  const char *username[sizeof(15)];
+typedef struct Username {
+  const char *username[sizeof(char *)];
 } Username;
 
-typedef struct Vector2Position
-{
+typedef struct Vector2Position {
+  int x;
+  int y;
 } Vector2Position;
 
-typedef struct DistyData
-{
+typedef struct DistyData {
   char *source;
   char *destination;
   char *data_size;
   char *user_data;
 } DistyData;
 
-typedef struct TrackingTable
-{
+typedef struct TrackingTable {
   EHashes e_hash;
   UnitEntity entity;
   Username name;
