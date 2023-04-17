@@ -1,4 +1,4 @@
-#include "../inc/disty_hashed_data.h" // Enumerated Chord DHT controller-daemon
+#include "../inc/distributed_user_data.h" // Enumerated Chord DHT controller-daemon
 #include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,4 +1,4 @@
-#include "../inc/disty_hashed_data.h"
+#include "../inc/distributed_user_data.h"
 #include "../inc/observed_items_command.h"
 
 typedef enum EErrors {

@@ -1,5 +1,5 @@
-#ifndef DISTY_HASHED_DATA_H
-#define DISTY_HASHED_DATA_H
+#ifndef DISTRIBUTED_USER_DATA_H
+#define DISTRIBUTED_USER_DATA_H
 
 typedef enum EHashes {
   Node = 0,
@@ -32,4 +32,4 @@ typedef struct TrackingTable {
   DistyData disty_data;
 } TrackingTable;
 
-#endif // DISTY_HASHED_DATA_H
+#endif // DISTRIBUTED_USER_DATA_H
