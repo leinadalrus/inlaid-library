@@ -1,6 +1,6 @@
 *build/**
 *test/**
-*ext/**
+# *ext/**
 *.cmake
 *.json
 *.txt
