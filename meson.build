@@ -1,4 +1,4 @@
-project('wanna_grind', 'c')
+project('systemd_ioofd', 'c')
 
-executable('wanna_grind', 'src/main.c',
+executable('systemd_ioofd', 'src/main.c',
     win_subsystem: 'windows')

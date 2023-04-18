@@ -1,6 +1,6 @@
 #ifndef OBSERVED_ITEMS_COMMAND_H
 #define OBSERVED_ITEMS_COMMAND_H
-#include "../inc/disty_hashed_data.h"
+#include "../inc/distributed_user_data.h""
 #include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>

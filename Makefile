@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 
-cxx_comp = g++
+cxx_comp = gcc
 
 target_exec := main
 
@@ -32,11 +32,3 @@ $(build_dir)/%.cpp.o: %.cpp
 		rm -r $(build_dir)
 
 -include $(proj_deps)
-
-windows_msvc_x86_64:
-	copy lib/raygui/src/raygui.h lib/raygui/src/raygui.c
-	gcc -o lib/raygui/src/raygui.dll lib/raygui/src/raygui.c -shared -DRAYGUI_IMPLEMENTATION -DBUILD_LIBTYPE_SHARED -static-libgcc -lopengl32 -lgdi32 -lwinmm -Wl,--out-implib,lib/raygui/src/librayguidll.a
-
-linux_gnu_x86_64:
-	mv lib/raygui/src/raygui.h lib/raygui/src/raygui.c
-	gcc -o lib/raygui/raygui.so lib/raygui/src/raygui.c -shared -fpic -DRAYGUI_IMPLEMENTATION -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
