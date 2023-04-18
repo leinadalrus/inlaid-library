@@ -32,3 +32,8 @@ $(build_dir)/%.cpp.o: %.cpp
 		rm -r $(build_dir)
 
 -include $(proj_deps)
+
+unknown_linux_x86_64: 
+	cd build
+	cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+	cmake --build .

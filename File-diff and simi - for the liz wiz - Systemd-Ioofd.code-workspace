@@ -6,9 +6,6 @@
 	],
 	"settings": {
 		"files.associations": {
-			"echord_dht_ctld.h": "c",
-			"stdio.h": "c",
-			"echord_dht_data.h": "c"
 		}
 	}
 }
