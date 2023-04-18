@@ -4,11 +4,9 @@
 - _A system-daemon for the Linux system._
 - _Being developed as an idea for a dynamic file-directory._
 
-Between a server and its nodes, the daemon checks to see-
-    -if the compressed files received are valid, verifying its integrity.
+Between a server and its nodes, the daemon checks to see if the compressed files received are valid, verifying its integrity.
 
-The general idea is to enable to the user to have a portable daemon which can be dropped in and dropped out- 
-    -like a node.
+The general idea is to enable to the user to have a portable daemon which can be dropped in and dropped out like a node.
 
 This was an idea I had for a virtual filesystem in Kernel Virtual Machine (KVM).
 In this way we can have a programmatic-process which can monitor and defend files within a dynamic directory.
