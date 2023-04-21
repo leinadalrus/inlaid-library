@@ -1,5 +1,5 @@
-# "systemd-ioofd"
-###### _System-Daemon---Indexed-outside-of-Filesystem-Daemon_
+# "systemd-oofsd"
+###### _System-Daemon---Outside-of-Filesystem-Daemon_
 
 - _A system-daemon for the Linux system._
 - _Being developed as an idea for a dynamic file-directory._
