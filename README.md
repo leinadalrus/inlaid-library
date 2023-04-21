@@ -1,4 +1,4 @@
-# "systemd-oofsd"
+# "systemd-oofd"
 ###### _System-Daemon---Outside-of-Filesystem-Daemon_
 
 - _A system-daemon for the Linux system._
