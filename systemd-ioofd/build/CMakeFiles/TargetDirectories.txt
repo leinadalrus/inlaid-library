@@ -1,3 +1,0 @@
-F:/Projects/Repos/wanna-grind/build/CMakeFiles/source_main.dir
-F:/Projects/Repos/wanna-grind/build/CMakeFiles/edit_cache.dir
-F:/Projects/Repos/wanna-grind/build/CMakeFiles/rebuild_cache.dir
