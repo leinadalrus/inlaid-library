@@ -16,8 +16,8 @@ name = "systemd_ctld"
 path = "src/dist/systemd_ctld.rs"
 
 [[bin]]
-name = "systemd_oomd"
-path = "src/dist/systemd_oomd.rs"
+name = "systemd_vbufd"
+path = "src/dist/systemd_vbufd.rs"
 
 [dependencies]
 anyhow = "1.0.70"

@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
-pub mod systemd_oomd;
 pub mod systemd_ctld;
+pub mod systemd_vbufd;
 
 use thiserror::Error;
 
