@@ -6,44 +6,51 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct UserCommand {
+typedef struct UserCommand
+{
   int (*execute)(char *command);
 } UserCommand;
 
-typedef struct UserHandler {
+typedef struct UserHandler
+{
   UserCommand *user_command;
   int (*handle)(char *command);
 } UserHandler;
 
-int dimmdir_note_throughput(void *table_data, void *data_input,
-                            void *data_output, size_t data_size) {
-  table_data = malloc(sizeof(data_size));
-  memcpy(data_input, data_output, data_size);
-  free(table_data);
-
-  return 0;
+void dimmdir_note_throughput(void *data_output, void *data_input,
+                            void *request_block, unsigned long long data_size)
+{
+  data_input = memset(data_output, data_size, request_block);
+  // memcpy(data_input, data_output, data_size);
+  // free(table_data);
 }
 
-int hashed_callback_with_flush(int(function)(char *x, char *y, char *z,
-                                             char *a)) {
+void hashed_callback_with_flush(int(function)(char *x, char *y, char *z,
+                                             char *a))
+{
   int (*reader)(char *); // this is a non-heap object.
   char *x, *y, *z, *a;
   memset(*reader, function(x, y, z, a), sizeof(function));
   memmove(function, reader, sizeof *function);
 
   int retval = 0;
-  if (!reader) {
+  if (!reader)
+  {
     retval = 1;
   }
-  flushall(); // don't forget to flush!
-  // free(reader); // this is a non-heap object.
-
-  return retval; // return false as a boolean check codition.
+  // free(reader); // free doesn't work with this non-heap object.
 }
 
+<<<<<<< Updated upstream
 int error_profound_command_handle(int(context)(char *, char *, char *,
                                                char *)) {
   int error = memset(context, 0, sizeof(char));
+=======
+int error_profound_command_handle(int(context)(void *, char *, char *,
+                                               char *))
+{
+  int error = context(memset(context, 0, sizeof(char)), 0, 0, 0);
+>>>>>>> Stashed changes
 
   if (error <= 1) // have it not be 0 or 1 for event-based messaging
     exit(0);
@@ -51,7 +58,8 @@ int error_profound_command_handle(int(context)(char *, char *, char *,
   return error;
 }
 
-const int *handle_user_input() {
+const int *handle_user_input()
+{
   int *retval = 0;
 
   if (!hashed_callback_with_flush)
