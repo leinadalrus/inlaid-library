@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <zlib.h>
+
+#define Z_CHUNK 16384
 
 int read_file_throughput(char *table_data, char *data_input, char *data_size,
                          char *data_output) {
@@ -25,17 +28,13 @@ int reading_author_callback(int(function)(char *, char *, char *, char *)) {
   return retval; // return false as a boolean check codition.
 }
 
-<<<<<<< Updated upstream
-
-int main(int argc, char *argv[]) { return 0; }
-=======
 int allocated_deflated_state(FILE *source_buffer, FILE *destination_buffer, int level, char *argv[])
 {
   int retval = Z_OK;
   int flush;
   unsigned have;
-  unsigned char input_data[CHUNK];
-  unsigned char output_data[CHUNK];
+  unsigned char input_data[Z_CHUNK];
+  unsigned char output_data[Z_CHUNK];
   // allocate deflate state
   z_stream buffer_streamer;
   buffer_streamer.zfree = Z_NULL;
@@ -51,7 +50,7 @@ int allocated_deflated_state(FILE *source_buffer, FILE *destination_buffer, int 
 
   do
   {
-    buffer_streamer.avail_in = fread(input_data, 1, CHUNK, source_buffer);
+    buffer_streamer.avail_in = fread(input_data, 1, Z_CHUNK, source_buffer);
 
     if (ferror(source_buffer))
     {
@@ -95,4 +94,3 @@ int main(int argc, char *argv[])
 
   return 0;
 }
->>>>>>> Stashed changes
