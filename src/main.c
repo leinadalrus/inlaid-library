@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define __iomem                                                                \
+  __attribute__((                                                              \
+      noderef,                                                                 \
+      address_space(2))) // temporary definition of __iomem from sparse
+
 #define SLICE_ARRAY_SIZE 16384
 
 struct SlicedUserMemoryMap {
@@ -43,6 +48,29 @@ struct MemoryMapEntry {
   };
 } MemoryMapEntry;
 
-const struct MemoryMapHeader *MemoryMapVirtualTable[] = {};
+struct MemoryDevice {
+  struct device *device_pt;
+  char *user_data; // supposed __iomem *io
+} MemoryDevice;
+
+struct DeviceAttribute {
+  int device_id;
+  char *stored_command[];
+} DeviceAttribute;
+
+struct VirtualTable {
+  struct serial_bus *bus;
+  char *destination;
+  char *source;
+  char *user_data;
+  size_t *data_size;
+} VirtualTable;
+
+size_t memory_device_store_command(struct MemoryDevice *device_pt,
+                                   struct DeviceAttribute device_attr,
+                                   const char *buffer_string[],
+                                   size_t t_length) {
+  return t_length;
+}
 
 int main(int argc, char *argv[]) { return 0; }
