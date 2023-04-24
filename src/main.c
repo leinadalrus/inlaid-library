@@ -1,7 +1,12 @@
+#pragma GCC diagnostic warning "-Wformat"
+#pragma GCC diagnostic error "-Wuninitialized"
+#include <assert.h>
+#include <fcntl.h>
 #include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
 #define __iomem                                                                \
   __attribute__((                                                              \
@@ -10,67 +15,49 @@
 
 #define SLICE_ARRAY_SIZE 16384
 
-struct SlicedUserMemoryMap {
-  enum {
-    VIRT_GPIO,        // This redistributor space allows up to 2*64kB*123 CPUs
-    VIRT_SECURE_UART, // This redistributor space allows up to 2*64kB*123 CPUs
-    VIRT_SECURE_MEM,  // ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each
-                      // of that size
-    VIRT_USER_DATA,   // Our own user-data to bundle and siphon through
-  };                  // have an enum inside a struct to next it further
-} SlicedUserMemoryMap; // write a struct over a typedef struct for private usage
-
-struct MemoryMapEntry {
-  enum {
-    // Space up to 0x8000000 is reserved for a boot ROM
-    VIRT_FLASH,
-    VIRT_CPUPERIPHS,
-    // GIC distributor and CPU interfaces sit inside the CPU peripheral space
-    VIRT_GIC_DIST,
-    VIRT_GIC_CPU,
-    VIRT_GIC_V2M,
-    // The space in between here is reserved for GICv3 CPU/vCPU/HYP
-    VIRT_GIC_ITS,
-    // This redistributor space allows up to 2*64kB*123 CPUs
-    VIRT_GIC_REDIST,
-    VIRT_UART,
-    VIRT_RTC,
-    VIRT_FW_CFG,
-    VIRT_MMIO,
-    // ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size
-    VIRT_PLATFORM_BUS,
-    VIRT_PCIE_MMIO,
-    VIRT_PCIE_PIO,
-    VIRT_PCIE_ECAM,
-    VIRT_MEM,
-    // Second PCIe window, 512GB wide at the 512GB boundary
-    VIRT_PCIE_MMIO_HIGH,
+typedef struct MailboxProtocol {
+  enum RbStatusCodes {
+    SUCCESS = 0x0000, // possibly change bytecode for bitwise ops
+    INVALID_PLATFORM_STATE = 0x0001,
+    INVALID_GUEST_STATE = 0x0002,
+    INVALID_CONFIG = 0x0003,
+    INVALID_LENGTH = 0x0004,
+    ALREADY_OWNED = 0x0005,
+    INVALID_CERTIFICATE = 0x0006,
+    POLICY_FEATURE = 0x0007,
+    INACTIVE = 0x008,
+    INVALID_ADDRESS = 0x009,
+    BAD_SIGNATURE = 0X000A,
+    BAD_MEASUREMENT = 0x000B,
+    ASID_OWNED = 0x000C,
+    INVALID_ASID = 0x000D,
+    WBINVD_REQUIRED = 0x000E,
+    DF_FLUSH_REQUIRED = 0x000F,
+    INVALID_GUEST = 0x0010,
+    INVALID_COMMAND = 0x0011,
+    ACTIVE = 0x0012,
+    HWERROR_PLATFORM = 0x0013,
+    HWERROR_UNSAFE = 0x0014,
+    UNSUPPORTED = 0x0015,
+    INVALID_PARAM = 0x0016,
+    RESOURCE_LIMIT = 0x0017,
+    SECURE_DATA_INVALID = 0x0018,
+    RB_MODE_EXITED = 0x001F
   };
-} MemoryMapEntry;
+} MailboxProtocol; // Queue/Query Ring Buffer implicits
 
-struct MemoryDevice {
-  struct device *device_pt;
-  char *user_data; // supposed __iomem *io
-} MemoryDevice;
+typedef struct DecryptedCommandBuffer {
+} DecryptedCommandBuffer;
 
-struct DeviceAttribute {
-  int device_id;
-  char *stored_command[];
-} DeviceAttribute;
+typedef struct DecryptedBufferTree {
+} DecryptedBufferTree;
 
-struct VirtualTable {
-  struct serial_bus *bus;
-  char *destination;
-  char *source;
-  char *user_data;
-  size_t *data_size;
-} VirtualTable;
-
-size_t memory_device_store_command(struct MemoryDevice *device_pt,
-                                   struct DeviceAttribute device_attr,
-                                   const char *buffer_string[],
-                                   size_t t_length) {
-  return t_length;
+int main(int argc, char *argv[]) {
+  int input, output, flags;
+  FILE *file;
+  unsigned long long read;
+  char buffer[1024];
+  return 0;
 }
 
 int main(int argc, char *argv[]) { return 0; }
