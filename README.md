@@ -62,7 +62,7 @@ _...with no additional features._
 _Although, if you need a "Hyper-V" enlightenments for Windows guest, individual enlightenments can be enabled through CPU flags, e.g::_
 
 ```bash
-qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time...
+qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_time, hv_vapic, hv_synic, hv_runtime, hv_stimer, hv_syndbg
 ```
 
 _Further information about this in here:_
