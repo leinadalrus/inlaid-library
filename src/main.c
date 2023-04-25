@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include "../inc/i386_x86_64_architecture.h"
 
 #define __iomem                                                                \
   __attribute__((                                                              \
@@ -43,31 +44,6 @@ enum RbStatusCodes {
   SECURE_DATA_INVALID = 0x0018,
   RB_MODE_EXITED = 0x001F
 };
-
-typedef struct InhouseDevice {
-  struct SerialDevice *device;
-  char (*iomem)(__iomem *throughput);
-} InhouseDevice;
-
-typedef struct UserData {
-  void *destination, *source, *user_data;
-  unsigned long long data_size;
-} UserData;
-
-typedef struct DecryptedCommandBuffer {
-} DecryptedCommandBuffer;
-
-typedef struct DecryptedBufferTree {
-} DecryptedBufferTree;
-
-typedef struct DecryptedCommandHandler {
-} DecryptedCommandHandler;
-
-typedef struct LocatorService {
-} LocatorService;
-
-typedef struct AnnulService {
-} AnnulService;
 
 int main(int argc, char *argv[]) {
   int input, output, flags;
