@@ -43,17 +43,28 @@ enum RbStatusCodes {
   RB_MODE_EXITED = 0x001F
 };
 
-typedef struct InhouseDevice {
+typedef struct FilebasedDevice {
   struct SerialDevice *device;
   char (*iomem)(__iomem *throughput);
-} InhouseDevice;
+} FilebasedDevice;
 
-typedef struct UserData {
+typedef struct QVirtualDeviceData {
   void *destination, *source, *user_data;
   unsigned long long data_size;
-} UserData;
+  int status_flag;
+};
+
+typedef struct QVirtualDeviceInformation {
+  SysBusDevice parent_device;
+  MemoryRegion memory_region;
+  qemu_irq irq;
+  QVirtualDeviceData virtual_device_data;
+} QVirtualDeviceInformation;
 
 typedef struct DecryptedCommandBuffer {
+  char *commands[];
+  const char *buffers[];
+  QVirtualDeviceData *virtual_device_data;
 } DecryptedCommandBuffer;
 
 typedef struct DecryptedCommandBufferTree {
@@ -65,9 +76,12 @@ typedef struct DecryptedCommandHandler {
 } DecryptedCommandHandler;
 
 typedef struct LocatorService {
+  DecryptedCommandBuffer *decrypted_command_buffer;
+  QVirtualDeviceInformation *virtual_device_info;
 } LocatorService;
 
 typedef struct AnnulService {
+  LocatorService service_annul = NULL;
 } AnnulService;
 
 #endif // i386_X86_64_ARCHITECTURE_H
