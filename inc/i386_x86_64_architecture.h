@@ -14,7 +14,8 @@
 #include <qemu/bitops.h>
 #include <qemu/log.h>
 
-enum RbStatusCodes {
+enum RbStatusCodes
+{
   SUCCESS = 0x0000, // possibly change bytecode for bitwise ops
   INVALID_PLATFORM_STATE = 0x0001,
   INVALID_GUEST_STATE = 0x0002,
@@ -43,44 +44,52 @@ enum RbStatusCodes {
   RB_MODE_EXITED = 0x001F
 };
 
-typedef struct FilebasedDevice {
+typedef struct FilebasedDevice
+{
   struct SerialDevice *device;
   char (*iomem)(__iomem *throughput);
 } FilebasedDevice;
 
-typedef struct QVirtualDeviceData {
+typedef struct QVirtualDeviceData
+{
   void *destination, *source, *user_data;
   unsigned long long data_size;
   int status_flag;
 };
 
-typedef struct QVirtualDeviceInformation {
+typedef struct QVirtualDeviceInformation
+{
   SysBusDevice parent_device;
   MemoryRegion memory_region;
   qemu_irq irq;
   QVirtualDeviceData virtual_device_data;
 } QVirtualDeviceInformation;
 
-typedef struct DecryptedCommandBuffer {
+typedef struct DecryptedCommandBuffer
+{
   char *commands[];
   const char *buffers[];
   QVirtualDeviceData *virtual_device_data;
 } DecryptedCommandBuffer;
 
-typedef struct DecryptedCommandBufferTree {
+typedef struct DecryptedCommandBufferTree
+{
   RbStatusCodes rb_status_code;
 } DecryptedCommandBufferTree;
 
-typedef struct DecryptedCommandHandler {
+typedef struct DecryptedCommandHandler
+{
   DecryptedBufferTree *decrypted_command_buffer_tree;
 } DecryptedCommandHandler;
 
-typedef struct LocatorService {
+typedef struct LocatorService
+{
   DecryptedCommandBuffer *decrypted_command_buffer;
   QVirtualDeviceInformation *virtual_device_info;
 } LocatorService;
 
-typedef struct AnnulService {
+typedef struct AnnulService
+{
   LocatorService service_annul = NULL;
 } AnnulService;
 

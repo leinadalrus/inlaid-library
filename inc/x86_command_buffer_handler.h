@@ -1,0 +1,4 @@
+#ifndef x86_COMMAND_BUFFER_HANDLER_H
+#define x86_COMMAND_BUFFER_HANDLER_H
+
+#endif
