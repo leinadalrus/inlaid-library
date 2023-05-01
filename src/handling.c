@@ -55,11 +55,11 @@ const int *default_optional_result_strategy(
   return 0;
 }
 
-const int *determine_inferred_101_load() { return 0; }
+const int *determine_inferred_101_load() { return 0; } // Scheme 1
 
-const int *report_101_patron_info() { return 0; }
+const int *report_101_patron_info() { return 0; } // Scheme 2
 
-const int *many_many_directory_compute() { return 0; }
+const int *many_many_directory_compute() { return 0; } // Scheme 3
 
 inline const int *load_balance_pow2() {
   struct PhantomMarker *phantom_marker;
