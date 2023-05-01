@@ -33,6 +33,11 @@ struct InlinedEntity {
 } InlinedEntity;
 #endif // a context data-structure for telemetry usage
 
+struct NetworkPeer {
+  float weight;
+  struct DistributedHashkeys *hashkeys;
+} NetworkPeer;
+
 inline const uint32_t init_system_startup_prop(int context_flag_nu_x0) {
   context_flag_nu_x0 = 0x0000; // equivalent to SUCCESS enumerated value
   if (context_flag_nu_x0 != SUCCESS)
@@ -78,16 +83,34 @@ const int fault_lint_entity_proc(struct InlinedEntity *inlined_context,
   return ret_val;
 }
 
-const int *determine_inferred_101_load() { return 0; } // Scheme 1
+const int *determine_inferred_101_load(struct NetworkPeer *network_peer) {
+  const float light_weight = 0.0000f;
+  const float heavy_weight = 1.0000f;
 
-const int *report_101_patron_info() { return 0; } // Scheme 2
+  for (int *i = 0; i < network_peer->hashkeys->keys; i++)
+    for (int *j = 0; j < network_peer->hashkeys->keys; j++) {
+      network_peer->weight = light_weight;
+      network_peer->hashkeys->keys[/*sha256_value*/ *i] = *j;
+    }
 
-const int *many_many_directory_compute() { return 0; } // Scheme 3
+  return 0;
+} // Scheme 1
+
+inline const int *
+report_101_patron_info(struct NetworkPeer *restrict network_peer) {
+  determine_inferred_101_load(network_peer);
+  return 0;
+} // Scheme 2
+
+inline const int *
+many_many_directory_compute(struct NetworkPeer *restrict network_peers[]) {
+  return 0;
+} // Scheme 3
 
 inline struct PhantomMarker load_balance_pow2() {
   struct PhantomMarker *phantom_marker;
-  struct LintCommandBufferCursor *lint_cursor;
-  struct LintCommandBufferTree *buffer_tree;
+  struct LintCommandBufferCursor *restrict lint_cursor;
+  struct LintCommandBufferTree *restrict buffer_tree;
 
   struct PhantomMarker ret_val = buffer_tree->phantom_sizes[0][0];
   for (auto i = phantom_marker->cursor_position;
