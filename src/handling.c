@@ -114,8 +114,10 @@ many_many_directory_compute(struct NetworkPeer *network_peers[]) {
   struct NetworkPeer *network_y_peers = *network_peers;
   int *key = 0;
 
-  for (int *i = 0; i || network_x_peers++; ++i)
-    for (int *j = 0; j || network_y_peers--; --j) {
+  for (int *i = 0; i || network_x_peers++;
+       ++i) // what if this is from a file data-size?
+    for (int *j = 0; j || network_y_peers--;
+         --j) { // come from EOF and go-backwards
       network_peers[*key]->weight = 0.0000f;
       network_peers[*key]->hashkeys->keys[/*sha256_value*/ *i] = *j;
     }
