@@ -7,6 +7,11 @@
     __FILE__;                                                                  \
   }
 
+// #include <openssl/sha.h>
+// int SHA256_Init(SHA256_CTX *c);
+// int SHA256_Update(SHA256_CTX *c, const void *data, size_t len);
+// int SHA384_Final(unsigned char *md, SHA256_CTX *c);
+
 #include <inttypes.h>
 #include <string.h>
 
@@ -101,7 +106,12 @@ inline struct PhantomMarker load_balance_pow2() {
 
 inline const int *unload_balanced_loads() { return 0; }
 
-inline const int *insert_balanced_loads() { return 0; }
+inline const int *insert_balanced_loads(/*SHA256_CTX *c*/) {
+  // auto context_data = memset(context_destiny, context_source, sizeof(c));
+  // auto user_data = UserData {.destination = context_destiny, .source =
+  // context_source, .user_data = c, .data_size = sizeof(c)};
+  return 0;
+}
 
 const int *add_outlined_system(int (*context)()) {
   struct InlinedEntity *inlined_context;
