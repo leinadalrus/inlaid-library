@@ -3,8 +3,8 @@
 
 #define __va_args_sentinel__(M, ...)                                           \
   {                                                                            \
-    errno = 0;                                                                 \
-    ret_val = 0;                                                               \
+    errno = __LINE__;                                                          \
+    __FILE__;                                                                  \
   }
 
 #include <inttypes.h>
