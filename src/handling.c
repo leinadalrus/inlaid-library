@@ -2,10 +2,6 @@
 #include <inttypes.h>
 #include <string.h>
 
-#ifdef RbStatusCodes
-#define rb_status_code RbStatusCodes
-#endif // RbStatusCodes
-
 const int *init_system_startup_prop(int (*context)()) { return 0; }
 
 const int *setup_startup_system(int (*outlined_startup_context)()) {
