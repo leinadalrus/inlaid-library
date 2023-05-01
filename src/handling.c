@@ -108,6 +108,8 @@ inline const int *unload_balanced_loads(/*SHA256_CTX *c*/) {
   // auto context_data = memset(context_destiny, context_source, sizeof(c));
   // auto user_data = UserData {.destination = context_destiny, .source =
   // context_source, .user_data = c, .data_size = sizeof(c)};
+  // free(user_data);
+  // free(context_data);
 
   return 0;
 }
