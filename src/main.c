@@ -1,54 +1,50 @@
 #pragma GCC diagnostic warning "-Wformat"
 #pragma GCC diagnostic error "-Wuninitialized"
+
 #include <assert.h>
 #include <fcntl.h>
 #include <memory.h>
 #include <signal.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
 #include <sys/stat.h>
 
 #include "../inc/i386_x86_64_architecture.h"
 
-#define __iomem   \
-  __attribute__(( \
-      noderef,    \
+#define __iomem                                                                \
+  __attribute__((                                                              \
+      noderef,                                                                 \
       address_space(2))) // temporary definition of __iomem from sparse
 
 #define SLICE_ARRAY_SIZE 16384
 
-void virtual_device_information_set_irq(
-  VirtualDeviceInformation *dev_info, 
-  int irq)
-{
+void virtual_device_information_set_irq(QVirtualDeviceInformation *dev_info,
+                                        int irq) {
   dev_info->status_flag = irq;
-  qemu_set_irq(dev_info->irq, 1); // NOTE: flagged data-status of 'irq' is separated.
+  qemu_set_irq(dev_info->irq,
+               1); // NOTE: flagged data-status of 'irq' is separated.
 }
 
-void virtual_device_information_clear_irq(VirtualDeviceInformation *dev_info)
-{
+void virtual_device_information_clear_irq(QVirtualDeviceInformation *dev_info) {
   qemu_set_irq(dev_info->irq, 0);
 }
 
-uint64_t virtual_device_information_read(
-  void *any_opaque, 
-  hwaddr address_offset unsigned int data_size)
-{
+uint64_t
+virtual_device_information_read(void *any_opaque,
+                                hwaddr address_offset unsigned int data_size) {
   uint64_t ret_val = 0;
-  VirtualDeviceInformation *dev_info = (VirtualDeviceInformation *)any_opaque;
+  QVirtualDeviceInformation *dev_info = (QVirtualDeviceInformation *)any_opaque;
   DecryptedCommandBufferTree *command_buffer_tree;
   int is_enabled = dev_info->virtual_device_data->destination & BIT(0);
 
-  if (is_enabled == 0)
-  {
+  if (is_enabled == 0) {
     fprintf(stderr, "Device is disabled!\n");
     ret_val = 0;
   }
 
-  switch (address_offset)
-  {
+  switch (address_offset) {
   case command_buffer_tree->rb_status_code->SUCCESS:
     ret_val = (uint64_t)dev_info->virtual_device_data->source;
 
@@ -65,24 +61,21 @@ uint64_t virtual_device_information_read(
   return ret_val;
 }
 
-uint64_t virtual_device_information_write(
-  void *any_opaque, hwaddr address_offset, 
-  uint64_t assigned_value, 
-  unsigned int data_size)
-{
+uint64_t virtual_device_information_write(void *any_opaque,
+                                          hwaddr address_offset,
+                                          uint64_t assigned_value,
+                                          unsigned int data_size) {
   uint64_t ret_val = 0;
-  VirtualDeviceInformation *dev_info = (VirtualDeviceInformation *)any_opaque;
+  QVirtualDeviceInformation *dev_info = (QVirtualDeviceInformation *)any_opaque;
   DecryptedCommandBufferTree *command_buffer_tree;
   int is_enabled = dev_info->virtual_device_data->destination & BIT(0);
 
-  if (is_enabled == 0)
-  {
+  if (is_enabled == 0) {
     fprintf(stderr, "Device is disabled!\n");
     ret_val = 0;
   }
 
-  switch (address_offset)
-  {
+  switch (address_offset) {
   case command_buffer_tree->rb_status_code->SUCCESS:
     dev_info->virtual_device_data->destination = (int)value;
 
