@@ -104,12 +104,19 @@ inline struct PhantomMarker load_balance_pow2() {
   return ret_val;
 }
 
-inline const int *unload_balanced_loads() { return 0; }
+inline const int *unload_balanced_loads(/*SHA256_CTX *c*/) {
+  // auto context_data = memset(context_destiny, context_source, sizeof(c));
+  // auto user_data = UserData {.destination = context_destiny, .source =
+  // context_source, .user_data = c, .data_size = sizeof(c)};
+
+  return 0;
+}
 
 inline const int *insert_balanced_loads(/*SHA256_CTX *c*/) {
   // auto context_data = memset(context_destiny, context_source, sizeof(c));
   // auto user_data = UserData {.destination = context_destiny, .source =
   // context_source, .user_data = c, .data_size = sizeof(c)};
+
   return 0;
 }
 
