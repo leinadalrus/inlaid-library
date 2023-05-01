@@ -1,54 +1,76 @@
-#include "../inc/amd_x86_ring_buffer.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+#define __va_args_sentinel__(M, ...)                                           \
+  {                                                                            \
+    errno = 0;                                                                 \
+    ret_val = 0;                                                               \
+  }
+
 #include <inttypes.h>
 #include <string.h>
 
-const int *init_system_startup_prop(int (*context)()) { return 0; }
+#ifdef RbStatusCodes
+#else
+#include "../inc/amd_x86_ring_buffer.h"
+// have the enum be readily defined for a strategy pattern for enumerated
+// values.
 
-const int *setup_startup_system(int (*outlined_startup_context)()) {
-#ifdef telemetry_entity_context
-#define struct                                                                 \
-  TelemetryEntity {}                                                           \
-  TelemetryEntity;
-#define struct TelemetryEntity *telemetry_entity_context;
-#endif
+#ifdef inlined_context
+#define struct InlinedEntity {
+void *lint_context;
+}
+InlinedEntity;
+#define struct InlinedEntity *inlined_context;
+#else
+struct InlinedEntity {
+  void *linting_entity;
+} InlinedEntity;
+#endif // a context data-structure for telemetry usage
 
-  struct TelemetryEntity {
-    void *linting_entity;
-  } TelemetryEntity;
-
-  struct TelemetryEntity *telemetry_source;
-  struct TelemetryEntity *telemetry_destiny;
-  memcpy(telemetry_destiny, telemetry_source, sizeof(TelemetryEntity));
-  return 0;
+inline const uint32_t init_system_startup_prop(int context_flag_nu_x0) {
+  context_flag_nu_x0 = 0x0000; // equivalent to SUCCESS enumerated value
+  if (context_flag_nu_x0 != SUCCESS)
+    context_flag_nu_x0 ^=
+        RB_MODE_EXITED; // is-equal-to: context_flag_nu_x0 ^ RB_MODE_EXITED
+  return context_flag_nu_x0;
 }
 
-const int *add_outlined_system(int (*context)()) { return 0; }
+const int setup_startup_system(int (*outlined_startup_context)()) {
+  int ret_val = 0;
 
-const int *fault_lint_entity_sentinel() { return 0; }
+  struct InlinedEntity *inlined_source;
+  struct InlinedEntity *inlined_destiny;
 
-const int *default_optional_result_strategy(
-    int (*SAFE_GUARD_STRATEGY_CONTEXT)(int inline_flag_code)) {
-#ifdef SAFE_GUARD_STRATEGY_CONTEXT
-#define SAFE_GUARD_STRATEGY_CONTEXT                                            \
-  struct StrategyContext {                                                     \
-    void *destination, source, user_data;                                      \
-    uint64_t data_size;                                                        \
-  } StrategyContext;
-#endif // SAFE_GUARD_STRATEGY_CONTEXT
+  memcpy(inlined_destiny, inlined_source, sizeof(InlinedEntity));
 
-  if (setup_startup_system != init_system_startup_prop)
-    add_outlined_system(SAFE_GUARD_STRATEGY_CONTEXT);
-
-  enum RbStatusCodes rb_status_code = SUCCESS;
+  enum RbStatusCodes rb_status_code;
 
   switch (rb_status_code) {
-  case 0:
-  case 1:
+  case SUCCESS:
+    ret_val = 0x0000;
   default:
     break;
   }
 
-  return 0;
+  return ret_val;
+}
+
+const int fault_lint_entity_proc(struct InlinedEntity *inlined_context,
+                                 enum RbStatusCodes rb_status_code) {
+  int ret_val = 0;
+
+  switch (rb_status_code) {
+  case SUCCESS:
+    ret_val = 0;
+  default:
+    if (SUCCESS != 0x0000) { // we want: init_system_startup_prop != SUCCESS
+      ret_val = 1;
+      __va_args_sentinel__(ret_val);
+    }
+    break;
+  }
+  return ret_val;
 }
 
 const int *determine_inferred_101_load() { return 0; } // Scheme 1
@@ -57,13 +79,37 @@ const int *report_101_patron_info() { return 0; } // Scheme 2
 
 const int *many_many_directory_compute() { return 0; } // Scheme 3
 
-inline const int *load_balance_pow2() {
+inline struct PhantomMarker load_balance_pow2() {
   struct PhantomMarker *phantom_marker;
   struct LintCommandBufferCursor *lint_cursor;
   struct LintCommandBufferTree *buffer_tree;
-  return 0;
+
+  struct PhantomMarker ret_val = buffer_tree->phantom_sizes[0][0];
+  for (auto i = phantom_marker->cursor_position;
+       i < lint_cursor->phantom_marker; ++i)
+    for (auto j = phantom_marker->read_position; j < buffer_tree->phantom_sizes;
+         ++j) {
+      ret_val = buffer_tree->phantom_sizes[i][j];
+      if ((i ^ j) == SUCCESS) {
+        int k = i ^ j;
+        ret_val = buffer_tree->phantom_sizes[k][k];
+      }
+    }
+
+  return ret_val;
 }
 
 inline const int *unload_balanced_loads() { return 0; }
 
 inline const int *insert_balanced_loads() { return 0; }
+
+const int *add_outlined_system(int (*context)()) {
+  struct InlinedEntity *inlined_context;
+  inlined_context = memset(inlined_context, SUCCESS, sizeof(InlinedEntity));
+
+  load_balance_pow2();
+
+  return 0;
+}
+
+#endif // RbStatusCodes #ifdef
