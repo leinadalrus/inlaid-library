@@ -99,11 +99,27 @@ const int *determine_inferred_101_load(struct NetworkPeer *network_peer) {
 inline const int *
 report_101_patron_info(struct NetworkPeer *restrict network_peer) {
   determine_inferred_101_load(network_peer);
+
+  for (int *k = 0; k < network_peer->hashkeys->keys; k++) {
+    printf("\nNetwork peer => Hashkey := \n\t%d",
+           network_peer->hashkeys->keys[*k]);
+  }
   return 0;
 } // Scheme 2
 
 inline const int *
-many_many_directory_compute(struct NetworkPeer *restrict network_peers[]) {
+many_many_directory_compute(struct NetworkPeer *network_peers[]) {
+  report_101_patron_info(*network_peers);
+  struct NetworkPeer *network_x_peers = *network_peers;
+  struct NetworkPeer *network_y_peers = *network_peers;
+  int *key = 0;
+
+  for (int *i = 0; i || network_x_peers++; ++i)
+    for (int *j = 0; j || network_y_peers--; --j) {
+      network_peers[*key]->weight = 0.0000f;
+      network_peers[*key]->hashkeys->keys[/*sha256_value*/ *i] = *j;
+    }
+
   return 0;
 } // Scheme 3
 
