@@ -23,10 +23,10 @@ const int _va_args_filedescs_sentinel(int argc, char *argv[]) {
   errno_t errno_strf = _sopen_s(&input_filedesc, argv[1], O_RDONLY, _SH_DENYNO,
                                 0); // open is deprecated. Use: _sopen_s
 
-  if (input_filedesc == -1)
+  if (errno_strf == -1)
     ret_val = -1;
 
-  if (_close(input_filedesc) == -1)
+  if (_close(errno_strf) == -1)
     ret_val = -1;
 
   if (_close(output_filedesc) == -1)
