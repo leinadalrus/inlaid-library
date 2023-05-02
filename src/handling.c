@@ -131,10 +131,10 @@ inline struct PhantomMarker load_balance_pow2() {
   struct LintCommandBufferTree *restrict buffer_tree;
 
   struct PhantomMarker ret_val = buffer_tree->phantom_sizes[0][0];
-  for (auto i = phantom_marker->cursor_position;
-       i < lint_cursor->phantom_marker; ++i)
-    for (auto j = phantom_marker->read_position; j < buffer_tree->phantom_sizes;
-         ++j) {
+  for (int i = phantom_marker->cursor_position;
+       i < sizeof(lint_cursor->phantom_marker); ++i)
+    for (int j = phantom_marker->read_position;
+         j < sizeof(buffer_tree->phantom_sizes); ++j) {
       ret_val = buffer_tree->phantom_sizes[i][j];
       if ((i ^ j) == SUCCESS) {
         int k = i ^ j;
