@@ -32,29 +32,29 @@ enum RbStatusCodes {
   RB_MODE_EXITED = 0x001F
 };
 
-struct RingBufferX86 {
+typedef struct RingBufferX86 {
   int *head;
   int *next;
 } RingBufferX86;
 
-struct IntervalMatrix {
+typedef struct IntervalMatrix {
   int intervals[sizeof(char)][sizeof(char)];
 } IntervalMatrix;
 
-struct DistributedHashkeys {
+typedef struct DistributedHashkeys {
   int keys[];
 } DistributedHashkeys;
 
-struct DistributedHashtable {
+typedef struct DistributedHashtable {
   struct IntervalMatrix *interval_matrix;
   struct DistributedHashkeys hashkeys[];
 } DistributedHashtable;
 
-struct Chord_t {
+typedef struct Chord_t {
   struct RingBufferX86 *ring_buffer;
 } Chord_t;
 
-struct ArbitraryNetwork {
+typedef struct ArbitraryNetwork {
   struct Chord_t *chord_t;
 } ArbitraryNetwork;
 
