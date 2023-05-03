@@ -1,6 +1,6 @@
-# "systemd-ioofd"
+# "systemd-sinecured"
 
-###### _System-Daemon---Indexed-outside-of-Filesystem-Daemon_
+###### _The System-Daemon for an ecclesiastical benefice without cure of souls._
 
 - _A system-daemon for the Linux system._
 - _Being developed as an idea for a dynamic file-directory._
