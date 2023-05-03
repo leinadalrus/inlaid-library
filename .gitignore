@@ -1,0 +1,10 @@
+*.infra/**
+*cache/**
+*build/**
+*test/**
+*ext/**
+*lib/**
+*.cmake
+*.json
+*.txt
+*.exe
