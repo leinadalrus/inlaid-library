@@ -16,8 +16,6 @@ I also will try in the future to have this idea work with interopting with any C
 I would have also used Google's 'protobuf' or Apache's 'Arrow', but these cross-language development platforms have undesirable licensings.
 
 I want this project to stick between the lines of 'zlib' and 'MIT' licensing.
-<<<<<<< Updated upstream
-=======
 
 ###### _Emulate the host "x86" guest OS from the buildroot:_
 
@@ -571,5 +569,3 @@ dc_toolchain_conan:
 `source main` or `source systemd_ioofd`
 `. main` or `. systemd_ioofd`
 ...would be the general commands to execute the binary.
-
-> > > > > > > Stashed changes
