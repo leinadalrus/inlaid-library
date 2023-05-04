@@ -11,25 +11,13 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#include "../inc/i386_x86_64_architecture.h"
+#include "../inc/amd_command_buffer_handler.h"
+#include "../inc/amd_command_ring_buffer.h"
 
 #define __iomem                                                                \
   __attribute__((                                                              \
       noderef,                                                                 \
       address_space(2))) // temporary definition of __iomem from sparse
-
-#define SLICE_ARRAY_SIZE 16384
-
-void virtual_device_information_set_irq(QVirtualDeviceInformation *dev_info,
-                                        int irq) {
-  dev_info->status_flag = irq;
-  qemu_set_irq(dev_info->irq,
-               1); // NOTE: flagged data-status of 'irq' is separated.
-}
-
-void virtual_device_information_clear_irq(QVirtualDeviceInformation *dev_info) {
-  qemu_set_irq(dev_info->irq, 0);
-}
 
 uint64_t
 virtual_device_information_read(void *any_opaque,

@@ -1,7 +1,7 @@
-#ifndef AMD_X86_RING_BUFFER_H
-#define AMD_X86_RING_BUFFER_H
+#ifndef AMD_COMMAND_RING_BUFFER_H
+#define AMD_COMMAND_RING_BUFFER_H
 
-#include "x86_command_buffer_handler.h"
+#include "amd_command_buffer_handler.h"
 
 enum RbStatusCodes {
   SUCCESS = 0x0000, // possibly change bytecode for bitwise ops
@@ -32,10 +32,10 @@ enum RbStatusCodes {
   RB_MODE_EXITED = 0x001F
 };
 
-typedef struct RingBufferX86 {
+typedef struct CommandRingBuffer {
   int *head;
   int *next;
-} RingBufferX86;
+} CommandRingBuffer;
 
 typedef struct IntervalMatrix {
   int intervals[sizeof(char)][sizeof(char)];
@@ -51,12 +51,11 @@ typedef struct DistributedHashtable {
 } DistributedHashtable;
 
 typedef struct Chord_t {
-  struct RingBufferX86 *ring_buffer;
+  struct CommandRingBuffer *ring_buffer;
 } Chord_t;
 
 typedef struct ArbitraryNetwork {
   struct Chord_t *chord_t;
 } ArbitraryNetwork;
 
-#endif // ! AMD_X86_RING_BUFFER_H
-#define AMD_X86_RING_BUFFER_H
+#endif // AMD_COMMAND_RING_BUFFER_H

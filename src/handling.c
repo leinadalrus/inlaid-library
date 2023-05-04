@@ -17,19 +17,19 @@
 
 #ifdef RbStatusCodes
 #else
-#include "../inc/amd_x86_ring_buffer.h"
+#include "../inc/amd_command_ring_buffer.h"
 // have the enum be readily defined for a strategy pattern for enumerated
 // values.
 
 #ifdef inlined_context
 #define struct InlinedEntity {
-void *lint_context;
+void *decrypted_context;
 }
 InlinedEntity;
 #define struct InlinedEntity *inlined_context;
 #else
 struct InlinedEntity {
-  void *linting_entity;
+  void *decrypteding_entity;
 } InlinedEntity;
 #endif // a context data-structure for telemetry usage
 
@@ -66,8 +66,8 @@ const int setup_startup_system(int (*outlined_startup_context)()) {
   return ret_val;
 }
 
-const int fault_lint_entity_proc(struct InlinedEntity *inlined_context,
-                                 enum RbStatusCodes rb_status_code) {
+const int fault_decrypted_entity_proc(struct InlinedEntity *inlined_context,
+                                      enum RbStatusCodes rb_status_code) {
   int ret_val = 0;
 
   switch (rb_status_code) {
@@ -127,12 +127,12 @@ many_many_directory_compute(struct NetworkPeer *network_peers[]) {
 
 inline struct PhantomMarker load_balance_pow2() {
   struct PhantomMarker *phantom_marker;
-  struct LintCommandBufferCursor *restrict lint_cursor;
-  struct LintCommandBufferTree *restrict buffer_tree;
+  struct DecryptedCommandBufferCursor *restrict decrypted_cursor;
+  struct DecryptedCommandBufferTree *restrict buffer_tree;
 
   struct PhantomMarker ret_val = buffer_tree->phantom_sizes[0][0];
   for (int i = phantom_marker->cursor_position;
-       i < sizeof(lint_cursor->phantom_marker); ++i)
+       i < sizeof(decrypted_cursor->phantom_marker); ++i)
     for (int j = phantom_marker->read_position;
          j < sizeof(buffer_tree->phantom_sizes); ++j) {
       ret_val = buffer_tree->phantom_sizes[i][j];
