@@ -5,22 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef signed short int16_t;
-#define __spu_vector16_t signed short int16_t;
-
-typedef struct SpuVector16_t {
-  unsigned char u8_16;
-  signed char i8_16;
-  unsigned short uhalfword_16; // unsigned halfwords
-  signed short halfword_16;    // signed halfwords
-  unsigned uword_32;
-  signed word_32;
-  unsigned long long udoubleword_64;
-  signed long long doubleword_64;
-  double double_precision_floats_64;
-  __spu_vector16_t long long quadword_16;
-} SpuVector16_t;
-
 typedef struct PhantomMarker {
   char *token_byte;
   char *heap_slice;
