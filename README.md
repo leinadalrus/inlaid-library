@@ -3,7 +3,7 @@
 ###### _The System-Daemon for an ecclesiastical benefice without cure of souls._
 
 - _A system-daemon for the Linux system._
-- _Being developed as an idea for a dynamic file-directory._
+- _Being developed as an idea for a dynamic file-directory (using containers)._
 - _Help containerize an x86_64 (i386/AMD) architecture._
 
 Between a server and its nodes, the daemon checks to see if the compressed files received are valid, verifying its integrity.
