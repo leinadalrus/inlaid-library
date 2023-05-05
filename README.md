@@ -1,6 +1,6 @@
 # "Sinecurio-Containers"
 
-###### _The System-Daemon for an ecclesiastical benefice without cure of souls._
+###### _A C99 SPU environment interpreter 'Hyper-v with QEMU' for an ecclesiastical benefice without cure of souls._
 
 - _A system-daemon for the Linux system._
 - _Being developed as an idea for a dynamic file-directory (using containers)._
