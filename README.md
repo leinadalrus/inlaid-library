@@ -17,6 +17,21 @@ I would have also used Google's 'protobuf' or Apache's 'Arrow', but these cross-
 
 I want this project to stick between the lines of 'zlib' and 'MIT' licensing.
 
+# TODO:
+
+* SPU Environment
+* SPI Environment
+
+* AMD/"coreboot" Instruction Table
+* AMD Interpreters ("i386" or "x86\_64")
+* Memory Management (Harvard-style Cache Model)
+
+* OpenGL Support and Platform
+* zlib and glib Support and Platform
+
+* Programming Interface/API
+* Digital Signal Processing (daemons, virtual IO control, etc.)
+
 ###### _Emulate the host "x86" guest OS from the buildroot:_
 
 _First download QEMU from the mirror repository:_

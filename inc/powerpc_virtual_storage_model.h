@@ -1,6 +1,8 @@
 #ifndef POWERPC_VIRTUAL_STORAGE_MODEL_H
 #define POWERPC_VIRTUAL_STORAGE_MODEL_H
 
+#include "amd_command_ring_buffer.h"
+
 // VirtualAddressSpace
 // must be larger than the EffectiveAddressSpace
 //
@@ -17,7 +19,34 @@ typedef struct PpePageTable {
 } PpePageTable;
 
 typedef struct PpeTranslationLookasideBuffer {
+  signed char address_offset; // int8_t equivalent?
 } PpeTranslationLookasideBuffer;
+
+typedef struct PpuOffsetLookasideBuffer {
+  enum RbStatusCodes rb_status_code;
+  PpeMemoryEntity ppe_memory_entity;
+  PpeSegmentLookasideBuffer ppe_segment_lookaside_buffer;
+  PpeTranslationLookasideBuffer ppe_translation_lookaside_buffer;
+} PpcOffsetLookasideBuffer;
+
+typedef struct SpuMemoryEntity {
+} SpuMemoryEntity;
+
+typedef struct SpuSgementLookasideBuffer {
+} SpuSgementLookasideBuffer;
+
+typedef struct SpuPageTable {
+} SpuPageTable;
+
+typedef struct SpuTranslationLookasideBuffer {
+} SpuTranslationLookasideBuffer;
+
+typedef struct SpuOffsetLookasideBuffer {
+  enum RbStatusCodes rb_status_code;
+  SpuMemoryEntity spu_memory_entity;
+  SpuSgementLookasideBuffer spu_segment_lookaside_buffer;
+  SpuTranslationLookasideBuffer spu_translation_lookaside_buffer;
+} SpuOffsetLookasideBuffer;
 
 // The cache management instructions allow programs to perform the following
 // functions: Invalidate the copy of storage in an instruction cache block
