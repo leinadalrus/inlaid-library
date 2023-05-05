@@ -1,5 +1,5 @@
-#ifndef x86_COMMAND_BUFFER_HANDLER_H
-#define x86_COMMAND_BUFFER_HANDLER_H
+#ifndef AMD_COMMAND_BUFFER_HANDLER_H
+#define AMD_COMMAND_BUFFER_HANDLER_H
 
 #include <stdint.h>
 #include <stdio.h>
@@ -12,38 +12,38 @@ typedef struct PhantomMarker {
   signed int read_position;
 } PhantomMarker;
 
-typedef struct LintCommandBufferCursor {
+typedef struct DecryptedCommandBufferCursor {
   PhantomMarker phantom_marker[sizeof(char)][sizeof(char)]; // reference-based
                                                             //
-} LintCommandBufferCursor;
+} DecryptedCommandBufferCursor;
 
-typedef struct LintCommandBufferTree {
+typedef struct DecryptedCommandBufferTree {
   PhantomMarker phantom_sizes[sizeof(char)][sizeof(char)]; // note: need matrix
                                                            //
-} LintCommandBufferTree;
+} DecryptedCommandBufferTree;
 
-typedef struct LintCommandHandler {
-  LintCommandBufferTree *lint_command_buffer_tree;
-} LintCommandHandler;
+typedef struct DecryptedCommandHandler {
+  DecryptedCommandBufferTree *lint_command_buffer_tree;
+} DecryptedCommandHandler;
 
-typedef struct LintCommandContext {
+typedef struct DecryptedCommandContext {
   void *lint_command_context;
-} LintCommandContext;
+} DecryptedCommandContext;
 
-typedef struct LintServiceLocator {
-  LintCommandBufferTree *lint_command_buffer_tree;
-  LintCommandHandler *lint_command_handler;
-} LintServiceLocator;
+typedef struct DecryptedServiceLocator {
+  DecryptedCommandBufferTree *lint_command_buffer_tree;
+  DecryptedCommandHandler *lint_command_handler;
+} DecryptedServiceLocator;
 
-const int defer_context(LintCommandContext *lint_command_context);
+const int defer_context(DecryptedCommandContext *lint_command_context);
 int handled_deferred_context(int (*defer_context_callback)(), void *user_data,
                              void *iomem_source, void *table_data,
                              uint64_t data_size);
 
-typedef struct LintAnnulService {
-  LintCommandBufferTree *lint_command_buffer_tree;
-  LintCommandHandler *lint_command_handler;
-} LintAnnulService;
+typedef struct DecryptedAnnulService {
+  DecryptedCommandBufferTree *lint_command_buffer_tree;
+  DecryptedCommandHandler *lint_command_handler;
+} DecryptedAnnulService;
 
 // `handle_context` of singleton strategy function pointers/contexts
 const int handle_context(char *destination, char *source, uint8_t data_size,
@@ -52,4 +52,4 @@ int read_handled_context_argument(int (*interface_handle_callback)(),
                                   char *user_data_header,
                                   signed int status_flag, uint64_t data_size);
 
-#endif // x86_COMMAND_BUFFER_HANDLER_H
+#endif // AMD_COMMAND_BUFFER_HANDLER_H

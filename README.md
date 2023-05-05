@@ -3,7 +3,7 @@
 ###### _The System-Daemon for an ecclesiastical benefice without cure of souls._
 
 - _A system-daemon for the Linux system._
-- _Being developed as an idea for a dynamic file-directory._
+- _Being developed as an idea for a dynamic file-directory (using containers)._
 - _Help containerize an x86_64 (i386/AMD) architecture._
 
 Between a server and its nodes, the daemon checks to see if the compressed files received are valid, verifying its integrity.
@@ -17,6 +17,21 @@ I also will try in the future to have this idea work with interopting with any C
 I would have also used Google's 'protobuf' or Apache's 'Arrow', but these cross-language development platforms have undesirable licensings.
 
 I want this project to stick between the lines of 'zlib' and 'MIT' licensing.
+
+# TODO:
+
+* SPU Environment
+* SPI Environment
+
+* AMD/"coreboot" Instruction Table
+* AMD Interpreters ("i386" or "x86\_64")
+* Memory Management (Harvard-style Cache Model)
+
+* OpenGL Support and Platform
+* zlib and glib Support and Platform
+
+* Programming Interface/API
+* Digital Signal Processing (daemons, virtual IO control, etc.)
 
 ###### _Emulate the host "x86" guest OS from the buildroot:_
 
