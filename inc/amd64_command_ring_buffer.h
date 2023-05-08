@@ -1,7 +1,7 @@
 #ifndef AMD_COMMAND_RING_BUFFER_H
 #define AMD_COMMAND_RING_BUFFER_H
 
-#include "amd_command_buffer_handler.h"
+#include "amd64_command_buffer_handler.h"
 
 enum RbStatusCodes {
   SUCCESS = 0x0000, // possibly change bytecode for bitwise ops

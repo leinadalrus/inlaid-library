@@ -17,7 +17,7 @@
 
 #ifdef RbStatusCodes
 #else
-#include "../inc/amd_command_ring_buffer.h"
+#include "../inc/amd64_command_ring_buffer.h"
 // have the enum be readily defined for a strategy pattern for enumerated
 // values.
 

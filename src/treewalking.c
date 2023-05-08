@@ -1,5 +1,5 @@
-#include "../inc/amd_command_buffer_handler.h"
-#include "../inc/amd_command_ring_buffer.h"
+#include "../inc/amd64_command_buffer_handler.h"
+#include "../inc/amd64_command_ring_buffer.h"
 #include "../inc/memory_flow_controller_command.h"
 #include "../inc/powerpc_virtual_storage_model.h"
 
