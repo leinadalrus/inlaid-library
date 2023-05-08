@@ -42,7 +42,7 @@ typedef struct IntervalMatrix {
 } IntervalMatrix;
 
 typedef struct DistributedHashkeys {
-  int keys[];
+  int keys[0];
 } DistributedHashkeys;
 
 typedef struct DistributedHashtable {

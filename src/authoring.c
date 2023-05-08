@@ -11,6 +11,9 @@
 #define CHUNK_BUFFER_SLICE 1024
 #endif
 
+typedef struct DecryptedCommandArenaConfig {
+} DecryptedCommandArenaConfig;
+
 const int _va_args_filedescs_sentinel(int argc, char *argv[]) {
   int input_filedesc, output_filedesc, open_flags;
   char buffers[CHUNK_BUFFER_SLICE];
@@ -33,4 +36,9 @@ const int _va_args_filedescs_sentinel(int argc, char *argv[]) {
     ret_val = -1;
 
   return ret_val;
+}
+
+const int *
+write_into_arena_allocated_config(DecryptedCommandArenaConfig *self) {
+  return 0;
 }
