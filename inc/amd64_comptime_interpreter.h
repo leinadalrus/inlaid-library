@@ -1,5 +1,5 @@
-#ifndef AMD_COMPTIME_INTERPRETER_H
-#define AMD_COMPTIME_INTERPRETER_H
+#ifndef AMD_MAILBOX_PROTOCOL_HANDLER_H
+#define AMD_MAILBOX_PROTOCOL_HANDLER_H
 
 enum Amd64GuestPolicy {
   NODBG = 0x0000,
@@ -22,11 +22,8 @@ typedef struct ArenaState {
   ArenaData *arena_data;
 } ArenaState;
 
-typedef struct Amd64Interpreter {
+typedef struct Amd64MailboxProtocol {
   enum Amd64GuestPolicy guest_policy;
 } Amd64Interpreter;
 
-typedef struct Amd64Recompiler {
-} Amd64Recompiler;
-
-#endif // AMD_COMPTIME_INTERPRETER_H
+#endif // AMD_MAILBOX_PROTOCOL_HANDLER_H
