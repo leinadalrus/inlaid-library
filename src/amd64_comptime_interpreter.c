@@ -1,5 +1,6 @@
-#include "../inc/amd64_command_ring_buffer.h"
 #include "../inc/amd64_comptime_interpreter.h"
+#include "../inc/amd64_command_ring_buffer.h"
+#include "../inc/amd64_mailbox_protocol_handler.h"
 // #include "../inc/amd_command_buffer_handler.h"
 // #include "../inc/powerpc_virtual_storage_model.h"
 
