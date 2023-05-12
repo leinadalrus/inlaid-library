@@ -1,6 +1,7 @@
 #ifndef SPE_FUNCTION_OFFLOAD_HOOK_H
 #define SPE_FUNCTION_OFFLOAD_HOOK_H
 
+#include "spe_function_arena_data.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,15 +49,6 @@ int send_microprogram_counters_host_packet(uint8_t data, int length,
                                            uint8_t timestamp);
 int receive_microprogram_counters_replies(uint8_t data, uint8_t timestamp,
                                           uint16_t bitmask);
-
-typedef struct ArenaData {
-  void *destination, *source, *table_data;
-  uint16_t data_size;
-} ArenaData;
-
-typedef struct ArenaState {
-  ArenaData state;
-} ArenaState;
 
 typedef struct LintArenaBundle {
   Thread thread;

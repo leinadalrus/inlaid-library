@@ -1,6 +1,7 @@
 #ifndef AMD64_ORCV2_JIT_INTERPRETER_H
 #define AMD64_ORCV2_JIT_INTERPRETER_H
 
+#include "spe_function_offload_hook.h"
 #include <stdint.h>
 
 #ifdef AMD64_ORC_JIT_INTERPRETER_H
@@ -43,10 +44,18 @@ typedef struct OrcV2JitAdapter {
 typedef struct OrcV2JitInterpreter {
 } OrcV2JitInterpreter;
 
-int initialise_external_jit_interpreter();
-void deinitialise_external_jit_interpreter();
-void reset_external_jit_interpreter();
-void start_external_jit_interpreter();
-void stop_external_jit_interpreter();
+typedef struct OrcV2DataBundle {
+  OrcV2Jit *jit;
+  OrcV2JitAdapter *adapter;
+  OrcV2JitInterpreter *interpreter;
+} OrcV2DataBundle;
+
+int orcv2_jit_startup_sentinel();
+
+int initialise_external_jit_interpreter(OrcV2JitInterpreter *interpreter);
+void deinitialise_external_jit_interpreter(OrcV2JitInterpreter *interpreter);
+void reset_external_jit_interpreter(OrcV2JitInterpreter *interpreter);
+void start_external_jit_interpreter(OrcV2JitInterpreter *interpreter);
+void stop_external_jit_interpreter(OrcV2JitInterpreter *interpreter);
 
 #endif // !AMD64_ORCV2_JIT_INTERPRETER_H
