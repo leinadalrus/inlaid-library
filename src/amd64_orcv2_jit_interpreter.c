@@ -1,10 +1,13 @@
 #include "../inc/amd64_orcv2_jit_interpreter.h"
-#include <stdint.h>
-#include <string.h>
+// need to have this include file separated
+// and outside of include guards
 
 #ifndef AMD64_ORC_JIT_INTERPRETER_H
 extern int amd64_orcv2_jit_interpreter_toggle;
 #endif
+
+#include <stdint.h>
+#include <string.h>
 
 void load_maked_coreboot_bios() {}
 
@@ -36,6 +39,8 @@ int orcv2_jit_startup_sentinel() {
   default:
     break;
   }
+
+  return 0;
 }
 
 int initialise_external_jit_interpreter(OrcV2JitInterpreter *interpreter) {

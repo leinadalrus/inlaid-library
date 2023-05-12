@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-enum Amd64Entry {};
-
 typedef struct Thread {
 } Thread;
 
@@ -50,21 +48,10 @@ int send_microprogram_counters_host_packet(uint8_t data, int length,
 int receive_microprogram_counters_replies(uint8_t data, uint8_t timestamp,
                                           uint16_t bitmask);
 
-typedef struct LintArenaBundle {
+typedef struct MicroProgramBundle {
   Thread thread;
   Mutex mutex;
   MicroProgramCounter microprogram_counter;
-} LintArenaBundle;
-
-// TODO Singleton-Strategy Pattern for Contextual-Root-Objects'(s data)
-typedef struct SingletonStrategy {
-  // NOTE members not given a "private:" label before a typedef struct body
-  // init'd is already privated immutable
-  ArenaState _private_arena_state;
-
-  ArenaState __protected_arena_state__ =
-      this->_private_arena_state; // "protected" also means shared between
-                                  // inherited typedef structes
-} SingletonStrategy;
+} MicroProgramBundle;
 
 #endif // SPE_FUNCTION_OFFLOAD_HOOK_H
