@@ -1,3 +1,6 @@
+#ifndef SPE_FUNCTION_ARENA_DATA_H
+#define SPE_FUNCTION_ARENA_DATA_H
+
 #include <stdint.h>
 
 typedef struct ArenaData {
@@ -8,3 +11,5 @@ typedef struct ArenaData {
 typedef struct ArenaState {
   ArenaData arena_data;
 } ArenaState;
+
+#endif // SPE_FUNCTION_ARENA_DATA_H

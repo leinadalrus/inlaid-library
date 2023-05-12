@@ -1,4 +1,10 @@
 #include "../inc/amd64_orcv2_jit_interpreter.h"
+#include <stdint.h>
+#include <string.h>
+
+#ifndef AMD64_ORC_JIT_INTERPRETER_H
+extern int amd64_orcv2_jit_interpreter_toggle;
+#endif
 
 void load_maked_coreboot_bios() {}
 
@@ -24,23 +30,25 @@ uint64_t set_orcv2_memory_region_timings(uint32_t starting_address,
 void run_internal_system_clock_cycler(uint32_t processing_unit_clock_address) {}
 
 int orcv2_jit_startup_sentinel() {
-  switch(amd64_orcv2_jit_interpreter_toggle) {
-    case 0:
-    case 1:
-    default:
+  switch (amd64_orcv2_jit_interpreter_toggle) {
+  case 0:
+  case 1:
+  default:
     break;
   }
 }
 
 int initialise_external_jit_interpreter(OrcV2JitInterpreter *interpreter) {
   OrcV2DataBundle *orcv2_data_bundle;
-  ArenaBundle *arena_bundle;
+  ArenaState *arena_state;
   MemoryRegion *memory_region;
 
+  uint8_t destination = (unsigned char)arena_state->arena_data.destination;
   // arena_data->destination is mutable:
-  arena_bundle->arena_data->destination = memory_region->memory;
+  destination = destination >> memory_region->memory;
   // arena_data->table_data is the bitmask for bit-ops
-  arena_bundle-arena_data->table_data = memory_region->mask;
+  uint32_t table = (unsigned int)arena_state->arena_data.table_data;
+  table = table >> memory_region->mask;
 
   return 0;
 }
@@ -48,7 +56,8 @@ int initialise_external_jit_interpreter(OrcV2JitInterpreter *interpreter) {
 void deinitialise_external_jit_interpreter(OrcV2JitInterpreter *interpreter) {
   free(interpreter);
   interpreter = NULL;
-  OrcV2JitInterpreter new_interpreter = OrcV2JitInterpreter{};
+  OrcV2JitInterpreter *new_interpreter =
+      memset(interpreter, NULL, sizeof(OrcV2JitInterpreter));
   interpreter = new_interpreter;
 }
 
@@ -58,8 +67,6 @@ void reset_external_jit_interpreter(OrcV2JitInterpreter *interpreter) {
   orcv2_jit_startup_sentinel();
 }
 
-void start_external_jit_interpreter(OrcV2JitInterpreter *interpreter) {
-
-}
+void start_external_jit_interpreter(OrcV2JitInterpreter *interpreter) {}
 
 void stop_external_jit_interpreter(OrcV2JitInterpreter *interpreter) {}
