@@ -1,6 +1,7 @@
 #ifndef AMD64_ORCV2_JIT_INTERPRETER_H
 #define AMD64_ORCV2_JIT_INTERPRETER_H
 
+#include "function_offload_phantom_marker.h"
 #include "spe_function_offload_hook.h"
 #include <stdint.h>
 
@@ -42,6 +43,7 @@ typedef struct OrcV2JitAdapter {
 } OrcV2JitAdapter;
 
 typedef struct OrcV2JitInterpreter {
+  FunctionOffloadPhantomMarker *phantom_marker;
 } OrcV2JitInterpreter;
 
 typedef struct OrcV2DataBundle {
