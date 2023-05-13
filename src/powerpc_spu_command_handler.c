@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-#include <unistd.h> // windows equal to unistd
+#include <io.h> // windows equal to unistd
 
 #ifndef CHUNK_BUFFER_SLICE
 #define CHUNK_BUFFER_SLICE 1024
@@ -29,20 +29,15 @@ const int _va_args_filedescs_sentinel(int argc, char *argv[]) {
   int input_filedesc, output_filedesc, open_flags;
   char buffers[CHUNK_BUFFER_SLICE];
   int ret_val = 0;
+  FILE *file;
 
   if (argc != 3 || strcmp(argv[1], "--help") == 0)
     ret_val = 1;
 
   // NOTE: open(...) is an <fcntl.h> function
-  int errno_strf = open(argv[1], O_RDONLY); // open is deprecated. Use: _sopen_s
+  int errno_t = fopen_s(&file, argv[1], O_RDONLY); // open is deprecated. Use: _sopen_s
 
-  if (errno_strf == -1)
-    ret_val = -1;
-
-  if (close(errno_strf) == -1)
-    ret_val = -1;
-
-  if (close(output_filedesc) == -1)
+  if (fclose(file) == -1)
     ret_val = -1;
 
   return ret_val;
@@ -89,7 +84,7 @@ const int fault_decrypted_entity_proc(enum RbStatusCodes rb_status_code) {
   return ret_val;
 }
 
-const int *determine_inferred_101_load(ArbitraryCellUnit *restrict cell_unit) {
+const int *determine_inferred_101_load(CommandRingBuffer *restrict cell_unit) {
   const float light_weight = 0.0000f;
   const float heavy_weight = 1.0000f;
 
@@ -104,7 +99,7 @@ const int *determine_inferred_101_load(ArbitraryCellUnit *restrict cell_unit) {
 } // Scheme 1
 
 inline const int *
-report_101_patron_info(ArbitraryCellUnit *restrict cell_unit) {
+report_101_patron_info(CommandRingBuffer *restrict cell_unit) {
   determine_inferred_101_load(cell_unit);
 
   // for (int *k = 0; k < cell_unit->hashkeys->keys; k++)
@@ -116,14 +111,14 @@ report_101_patron_info(ArbitraryCellUnit *restrict cell_unit) {
 } // Scheme 2
 
 inline const int *
-many_many_directory_compute(ArbitraryCellUnit *restrict cell_units) {
+many_many_directory_compute(CommandRingBuffer *restrict cell_units) {
   report_101_patron_info(cell_units);
-  for (int i = 0; i < sizeof(ArbitraryCellUnit);
+  for (int i = 0; i < sizeof(CommandRingBuffer);
        i++) // change sizeof(ArbitraryCellUnit) to ...
-    for (int j = 0; j < sizeof(ArbitraryCellUnit);
+    for (int j = 0; j < sizeof(CommandRingBuffer);
          j++) { // cell.arena_state.data_size
-      ArbitraryCellUnit network_x_peers = cell_units[i];
-      ArbitraryCellUnit network_y_peers = cell_units[j];
+      CommandRingBuffer network_x_peers = cell_units[i];
+      CommandRingBuffer network_y_peers = cell_units[j];
     }
   int *key = 0;
 

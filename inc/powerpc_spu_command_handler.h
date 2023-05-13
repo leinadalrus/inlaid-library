@@ -7,27 +7,23 @@ typedef struct SynergisticProcessingUnitHandler {
   FILE *file;
 } SynergisticProcessingUnitHandler;
 
-typedef struct SynergisticProcessingUnitHandlerVirtualTable {
-  int initialize_table_data();
-  void deinitialize_table_data();
-  void reset_processing_unit();
-  void stop_processing_unit();
+int initialize_table_data();
+void deinitialize_table_data();
+void reset_processing_unit();
+void stop_processing_unit();
 
-  void set_microprogram_power_count(uint32_t power_count);
-  void set_bias(uint16_t bias);
-  void set_degrade_bit_by_ten(int enable);
-  void set_apply_bias(int enable);
+void set_microprogram_power_count(uint32_t power_count);
+void set_bias(uint16_t bias);
+void set_degrade_bit_by_ten(int enable);
+void set_apply_bias(int enable);
 
-  uint8_t read_file_encoded_u8(uint32_t address_offset);
-  uint16_t read_file_encoded_u16(uint32_t address_offset);
-  uint32_t read_file_encoded_u32(uint32_t address_offset);
+uint8_t read_file_encoded_u8(uint32_t address_offset);
+uint16_t read_file_encoded_u16(uint32_t address_offset);
+uint32_t read_file_encoded_u32(uint32_t address_offset);
 
-  void write_file_encoded_u8(uint32_t address_offset, uint8_t address_sizetype);
-  void write_file_encoded_u16(uint32_t address_offset,
-                              uint16_t address_sizetype);
-  void write_file_encoded_u32(uint32_t address_offset,
-                              uint32_t address_sizetype);
-} SynergisticProcessingUnitHandlerVirtualTable;
+void write_file_encoded_u8(uint32_t address_offset, uint8_t address_sizetype);
+void write_file_encoded_u16(uint32_t address_offset, uint16_t address_sizetype);
+void write_file_encoded_u32(uint32_t address_offset, uint32_t address_sizetype);
 
 typedef struct SynergisticProcessingUnitCapture {
   uint32_t number;
@@ -47,19 +43,17 @@ typedef struct SynergisticProcessingUnitCapture {
   uint32_t fifo_level;
 } SynergisticProcessingUnitCapture;
 
-typedef struct SynergisticProcessingUnitCaptureVirtualTable {
-  void fifo_flush_data();
-  void fifo_write_data();
+void fifo_flush_data();
+void fifo_write_data();
 
-  void set_count(uint8_t data);
-  void set_destination_address(uint32_t data);
-  void set_timer_reload(uint32_t data);
-  void set_length(uint32_t);
+void set_count(uint8_t data);
+void set_destination_address(uint32_t data);
+void set_timer_reload(uint32_t data);
+void set_length(uint32_t);
 
-  void start();
-  void run(int32_t data);
+void start();
+void run(int32_t data);
 
-  void bus_write_u32(uint32_t address, uint64_t data);
-} SynergisticProcessingUnitCaptureVirtualTable;
+void bus_write_u32(uint32_t address, uint64_t data);
 
 #endif // POWERPC_SPU_COMMAND_HANDLER_H
