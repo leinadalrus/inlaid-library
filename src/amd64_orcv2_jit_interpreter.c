@@ -6,6 +6,7 @@
 extern int amd64_orcv2_jit_interpreter_toggle;
 #endif
 
+#include <memory.h>
 #include <stdint.h>
 #include <string.h>
 
