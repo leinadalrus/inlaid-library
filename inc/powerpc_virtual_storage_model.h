@@ -1,7 +1,7 @@
 #ifndef POWERPC_VIRTUAL_STORAGE_MODEL_H
 #define POWERPC_VIRTUAL_STORAGE_MODEL_H
 
-#include "amd_command_ring_buffer.h"
+#include "amd64_command_ring_buffer.h"
 
 // VirtualAddressSpace
 // must be larger than the EffectiveAddressSpace
@@ -23,7 +23,7 @@ typedef struct PpeTranslationLookasideBuffer {
 } PpeTranslationLookasideBuffer;
 
 typedef struct PpuOffsetLookasideBuffer {
-  enum RbStatusCodes rb_status_code;
+  enum RingBufferStatusCodes rb_status_code;
   PpeMemoryEntity ppe_memory_entity;
   PpeSegmentLookasideBuffer ppe_segment_lookaside_buffer;
   PpeTranslationLookasideBuffer ppe_translation_lookaside_buffer;
@@ -42,7 +42,7 @@ typedef struct SpuTranslationLookasideBuffer {
 } SpuTranslationLookasideBuffer;
 
 typedef struct SpuOffsetLookasideBuffer {
-  enum RbStatusCodes rb_status_code;
+  enum RingBufferStatusCodes rb_status_code;
   SpuMemoryEntity spu_memory_entity;
   SpuSgementLookasideBuffer spu_segment_lookaside_buffer;
   SpuTranslationLookasideBuffer spu_translation_lookaside_buffer;

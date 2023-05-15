@@ -1,4 +1,4 @@
-# "Sinecurio-Containers"
+# "The Inlaid Library"
 
 ###### _A C99 SPU environment interpreter 'Hyper-v with QEMU' for an ecclesiastical benefice without cure of souls._
 
@@ -52,8 +52,7 @@ cd qemu
 - appleframeworks
 - pixman-1
 
-_Necessary installation to have cgcc and pixman-1:
-_
+_Necessary installation to have cgcc and pixman-1:_
 
 ```bash
 sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev

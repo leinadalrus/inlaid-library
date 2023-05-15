@@ -1,9 +1,9 @@
 #ifndef AMD_COMMAND_RING_BUFFER_H
 #define AMD_COMMAND_RING_BUFFER_H
 
-#include "amd_command_buffer_handler.h"
+#include "amd64_command_buffer_handler.h"
 
-enum RbStatusCodes {
+enum RingBufferStatusCodes {
   SUCCESS = 0x0000, // possibly change bytecode for bitwise ops
   INVALID_PLATFORM_STATE = 0x0001,
   INVALID_GUEST_STATE = 0x0002,
@@ -42,7 +42,7 @@ typedef struct IntervalMatrix {
 } IntervalMatrix;
 
 typedef struct DistributedHashkeys {
-  int keys[];
+  int keys[0];
 } DistributedHashkeys;
 
 typedef struct DistributedHashtable {

@@ -11,8 +11,8 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#include "../inc/amd_command_buffer_handler.h"
-#include "../inc/amd_command_ring_buffer.h"
+#include "../inc/amd64_command_buffer_handler.h"
+#include "../inc/amd64_command_ring_buffer.h"
 #include "../inc/powerpc_virtual_storage_model.h"
 
 #define __iomem                                                                \
@@ -71,7 +71,7 @@ uint64_t virtual_device_information_write(
   switch (address_offset->rb_status_code) {
   case SUCCESS:
 
-    auto assigned_value =
+    assigned_value =
         address_offset->ppe_translation_lookaside_buffer.address_offset
         << (signed char)0; // don't do (signed char*)0
     // do (signed char)0 to get address instead
