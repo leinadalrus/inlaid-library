@@ -23,7 +23,7 @@ typedef struct OrcV2RegionBundle {
   OrcV2InternalClock orcv2_internal_clock;
 } OrcV2RegionBundle;
 
-void load_maked_coreboot_bios();
+void load_maked_coreboot_bios(int(*unix_nan_boxing));
 int get_orcv2_memory_region(uint32_t address, int is_written,
                             MemoryRegion *memory_region);
 
@@ -54,7 +54,8 @@ typedef struct OrcV2DataBundle {
 
 int orcv2_jit_startup_sentinel();
 
-int initialise_external_jit_interpreter(OrcV2JitInterpreter *interpreter);
+OrcV2JitInterpreter *
+initialise_external_jit_interpreter(OrcV2JitInterpreter *interpreter);
 void deinitialise_external_jit_interpreter(OrcV2JitInterpreter *interpreter);
 void reset_external_jit_interpreter(OrcV2JitInterpreter *interpreter);
 void start_external_jit_interpreter(OrcV2JitInterpreter *interpreter);

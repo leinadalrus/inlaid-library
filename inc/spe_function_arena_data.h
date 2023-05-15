@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 typedef struct ArenaData {
-  void *destination, *source, *table_data;
+  intptr_t destination, source, table_data;
   uint16_t data_size;
 } ArenaData;
 
