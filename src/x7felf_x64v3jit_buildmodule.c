@@ -1,12 +1,12 @@
-#include "../inc/amd64_orcv2jit_libexec.h"
+#include "../inc/x7felf_x64v3jit_buildmodule.h"
 #include "../inc/ndebug_tassert_messages.h"
 
 #ifdef ASSERT_VARGS
 #define ASSERT_VARGS(_str, ...) // redefined for re-use
 #endif                          // !ASSERT_VARGS
 
-#ifndef ORCV2JIT_X86
-#define ORCV2JIT_X86
+#ifndef X64V3JIT
+#define X64V3JIT
 
 enum TestCodes {
   C3 = 0xC3,
@@ -66,7 +66,4 @@ const int terminate_pageblock_source(const char *restrict pageblock_source) {
   return 0;
 }
 
-#endif // !ORCV2JIT_X86
-
-#if defined(ORCV2JIT_X86) || defined(ORCV2JIT_X64)
-#endif // !ORCV2JIT_X86 || ORCV2JIT_X64
+#endif // !X64V3JIT

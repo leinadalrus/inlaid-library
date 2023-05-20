@@ -2,7 +2,7 @@
 #define X7FELF_X64V3JIT_INTERPRETER_H
 
 #include "function_offload_phantom_marker.h"
-#include "spe_function_offload_hook.h"
+#include "function_offload_model_hook.h"
 #include <stdint.h>
 
 #ifdef AMD64_ORC_JIT_INTERPRETER_H

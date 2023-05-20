@@ -1,7 +1,7 @@
-#ifndef SPE_FUNCTION_OFFLOAD_HOOK_H
-#define SPE_FUNCTION_OFFLOAD_HOOK_H
+#ifndef FUNCTION_OFFLOAD_MODEL_HOOK_H
+#define FUNCTION_OFFLOAD_MODEL_HOOK_H
 
-#include "spe_function_arena_data.h"
+#include "function_offload_arena_data.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,4 +54,4 @@ typedef struct MicroProgramBundle {
   MicroProgramCounter microprogram_counter;
 } MicroProgramBundle;
 
-#endif // SPE_FUNCTION_OFFLOAD_HOOK_H
+#endif // !FUNCTION_OFFLOAD_MODEL_HOOK_H

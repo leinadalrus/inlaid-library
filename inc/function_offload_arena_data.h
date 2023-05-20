@@ -1,5 +1,5 @@
-#ifndef SPE_FUNCTION_ARENA_DATA_H
-#define SPE_FUNCTION_ARENA_DATA_H
+#ifndef FUNCTION_OFFLOAD_ARENA_DATA_H
+#define FUNCTION_OFFLOAD_ARENA_DATA_H
 
 #include <stdint.h>
 
@@ -12,4 +12,4 @@ typedef struct ArenaState {
   ArenaData arena_data;
 } ArenaState;
 
-#endif // SPE_FUNCTION_ARENA_DATA_H
+#endif // !FUNCTION_OFFLOAD_ARENA_DATA_H
