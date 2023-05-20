@@ -1,3 +1,6 @@
+#pragma GCC diagnostic warning "-Wformat"
+#pragma GCC diagnostic error "-Wuninitialized"
+
 #ifdef __linux__
 #include "/llvm/adt/stringref.h"
 #include "/llvm/executionengine/orc/compileutils.h"

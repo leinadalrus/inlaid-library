@@ -11,8 +11,15 @@
 #include <string.h>
 #include <sys/stat.h>
 
+#if _WIN32
+#include "C:\\raylib\\raylib\\src\\raylib.h"
+#elif __linux__
+#include </raylib/src/raylib.h>
+#endif // !_WIN32 || !__linux__
+
 #include "../inc/amd64_command_buffer_handler.h"
 #include "../inc/amd64_command_ring_buffer.h"
+#include "../inc/ndebug_tassert_messages.h"
 #include "../inc/powerpc_virtual_storage_model.h"
 
 #define __iomem                                                                \
@@ -20,16 +27,15 @@
       noderef,                                                                 \
       address_space(2))) // temporary definition of __iomem from sparse
 
-uint64_t
-virtual_device_information_read(void *any_opaque,
-                                struct PpuOffsetLookasideBuffer *address_offset,
-                                unsigned int data_size) {
+uint64_t virtual_devisor_information_read(
+    void *any_opaque, struct PpuOffsetLookasideBuffer *address_offset,
+    unsigned int data_size) {
   uint64_t ret_val = 0;
   DecryptedCommandBufferTree *command_buffer_tree;
   int is_enabled = 0; // = dev_info->virtual_device_data->destination & BIT(0);
 
   if (is_enabled == 0) {
-    fprintf(stderr, "Device is disabled!\n");
+    fprintf(stderr, "Devisor is disabled!\n");
     ret_val = 0;
   }
 
@@ -56,7 +62,7 @@ virtual_device_information_read(void *any_opaque,
   return ret_val;
 }
 
-uint64_t virtual_device_information_write(
+uint64_t virtual_devisor_information_write(
     void *any_opaque, struct PpuOffsetLookasideBuffer *address_offset,
     uint64_t assigned_value, unsigned int data_size) {
   uint64_t ret_val = 0;
@@ -64,7 +70,7 @@ uint64_t virtual_device_information_write(
   int is_enabled = 0; // = dev_info->virtual_device_data->destination & BIT(0);
 
   if (is_enabled == 0) {
-    fprintf(stderr, "Device is disabled!\n");
+    fprintf(stderr, "Devisor is disabled!\n");
     ret_val = 0;
   }
 
@@ -93,4 +99,20 @@ uint64_t virtual_device_information_write(
   }
 
   return ret_val;
+}
+
+int main(void) {
+  InitWindow(600, 400, "Inlaid Library");
+
+  while (!WindowShouldClose()) {
+    BeginDrawing();
+
+    ClearBackground(BLANK);
+
+    EndDrawing();
+  }
+
+  CloseWindow();
+
+  return 0;
 }
