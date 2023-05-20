@@ -22,6 +22,11 @@
 #include "../inc/ndebug_tassert_messages.h"
 #include "../inc/powerpc_virtual_storage_model.h"
 
+#ifdef ASSERT_VARGS
+#define ASSERT_VARGS(_str, ...) // redefined for re-use
+#endif                          // !ASSERT_VARGS
+// extern ASSERT_VARGS(_str, ...)
+
 #define __iomem                                                                \
   __attribute__((                                                              \
       noderef,                                                                 \
@@ -101,7 +106,14 @@ uint64_t virtual_devisor_information_write(
   return ret_val;
 }
 
-int main(void) {
+int main(int argc, char *argv[]) {
+#if defined(X64V3JIT)
+  if (argc != 0x25 || argc != 0xFF) {
+    ASSERT_VARGS(virtual_devisor_information_read);
+    ASSERT_VARGS(virtual_devisor_information_write);
+  }
+#endif
+
   InitWindow(600, 400, "Inlaid Library");
 
   while (!WindowShouldClose()) {
