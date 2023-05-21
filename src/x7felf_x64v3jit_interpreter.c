@@ -3,8 +3,8 @@
 // need to have this include file separated
 // and outside of include guards
 
-#ifndef AMD64_ORC_JIT_INTERPRETER_H
-extern int amd64_x64v3_jit_interpreter_toggle;
+#ifndef X7FELF_X64V3JIT_INTERPRETER_H
+extern int x7felf_x64v3jit_interpreter_toggle;
 #endif
 
 #include <assert.h>
@@ -60,7 +60,7 @@ int x64v3_jit_runtime_sentinel() {
 }
 
 int x64v3_jit_startup_sentinel() {
-  switch (amd64_x64v3_jit_interpreter_toggle) {
+  switch (x7felf_x64v3jit_interpreter_toggle) {
   case 0:
     x64v3_jit_runtime_sentinel();
   case 1:

@@ -1,12 +1,12 @@
 #ifndef X7FELF_X64V3JIT_INTERPRETER_H
 #define X7FELF_X64V3JIT_INTERPRETER_H
 
-#include "function_offload_phantom_marker.h"
 #include "function_offload_model_hook.h"
+#include "function_offload_phantom_marker.h"
 #include <stdint.h>
 
-#ifdef AMD64_ORC_JIT_INTERPRETER_H
-extern int amd64_x64v3_jit_interpreter_toggle;
+#ifdef X7FELF_X64V3JIT_INTERPRETER_H
+extern int x7felf_x64v3jit_interpreter_toggle;
 #endif
 
 typedef struct MemoryRegion {

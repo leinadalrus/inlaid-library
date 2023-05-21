@@ -14,12 +14,12 @@
 #if _WIN32
 #include "C:\\raylib\\raylib\\src\\raylib.h"
 #elif __linux__
-#include </raylib/src/raylib.h>
+#include <raylib.h>
 #endif // !_WIN32 || !__linux__
 
 #include "../inc/amd64_command_buffer_handler.h"
 #include "../inc/amd64_command_ring_buffer.h"
-#include "../inc/ndebug_tassert_messages.h"
+#include "../inc/ndebug_testassert_messages.h"
 #include "../inc/powerpc_virtual_storage_model.h"
 
 #ifdef ASSERT_VARGS

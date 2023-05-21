@@ -1,5 +1,5 @@
 #include "../inc/x7felf_x64v3jit_buildmodule.h"
-#include "../inc/ndebug_tassert_messages.h"
+#include "../inc/ndebug_testassert_messages.h"
 
 #ifdef ASSERT_VARGS
 #define ASSERT_VARGS(_str, ...) // redefined for re-use
@@ -17,7 +17,7 @@ enum TestCodes {
   E9 = 0xE9,
   EA = 0xEA,
   FF = 0xff,
-  TWENTY_FIVE = 0x25,
+  XVV = 0x25,
 };
 
 const char *ENTRY_CODES;
@@ -40,7 +40,7 @@ inline const int *maligned_vargs_exec(int argc, char *restrict argv[]) {
   char *id, *bytes;
 
   if (argc != 2)
-    fprintf(EXIT_FAILURE, "%s", argv[0]);
+    printf("Exit Failure:\t%s", argv[0]);
 
   return 0;
 }
@@ -49,7 +49,7 @@ const int terminate_pageblock_source(const char *restrict pageblock_source) {
   const int n0 = pageblock_source[0];
   const int n1 = pageblock_source[1];
 
-  enum TestCodes test_code;
+  enum TestCodes test_code = 0x0;
   switch (test_code) {
   case C3:
   case CB:
@@ -58,7 +58,7 @@ const int terminate_pageblock_source(const char *restrict pageblock_source) {
   case E9:
   case EA:
   case FF:
-  case TWENTY_FIVE:
+  case XVV:
   default:
     return 1;
   }
