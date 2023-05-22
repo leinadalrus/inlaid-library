@@ -33,29 +33,24 @@
       noderef,                                                                 \
       address_space(2))) // temporary definition of __iomem from sparse
 
-uint64_t virtual_devisor_information_read(
-    void *any_opaque, struct PpuOffsetLookasideBuffer *address_offset,
-    unsigned int data_size) {
-  uint64_t ret_val = 0;
-  DecryptedCommandBufferTree *command_buffer_tree;
+uint16_t read_virtual_enumerated_header(
+    struct PpuOffsetLookasideBuffer *address_offset) {
   int is_enabled = 0; // = dev_info->virtual_device_data->destination & BIT(0);
+  uint64_t ret_val = 0;
+  const char *restrict memio_buffer;
+
+  FILE *ifloop_file, *switchstate_file;
+  DecryptedCommandBufferTree *command_buffer_tree;
 
   if (is_enabled == 0) {
     fprintf(stderr, "Devisor is disabled!\n");
     ret_val = 0;
   }
+  COVER_TESTASSERT_IF(0, is_enabled, memio_buffer, ifloop_file);
 
   switch (address_offset->rb_status_code) {
   case SUCCESS:
-    ret_val =
-        (uint64_t)
-            address_offset->ppe_translation_lookaside_buffer.address_offset;
-
   case INVALID_LENGTH:
-    ret_val =
-        (uint64_t)
-            address_offset->ppe_translation_lookaside_buffer.address_offset;
-
   case INACTIVE:
     ret_val =
         (uint64_t)
@@ -64,54 +59,28 @@ uint64_t virtual_devisor_information_read(
   default:
     ret_val = 1;
   }
+  COVER_TESTASSERT_ANYOPAQUE(SUCCESS, address_offset->rb_status_code,
+                             memio_buffer, switchstate_file);
 
   return ret_val;
 }
 
-uint64_t virtual_devisor_information_write(
-    void *any_opaque, struct PpuOffsetLookasideBuffer *address_offset,
-    uint64_t assigned_value, unsigned int data_size) {
-  uint64_t ret_val = 0;
-  DecryptedCommandBufferTree *command_buffer_tree;
-  int is_enabled = 0; // = dev_info->virtual_device_data->destination & BIT(0);
-
-  if (is_enabled == 0) {
-    fprintf(stderr, "Devisor is disabled!\n");
-    ret_val = 0;
-  }
-
-  switch (address_offset->rb_status_code) {
-  case SUCCESS:
-
-    assigned_value =
-        address_offset->ppe_translation_lookaside_buffer.address_offset
-        << (signed char)0; // don't do (signed char*)0
-    // do (signed char)0 to get address instead
-
-    ret_val = assigned_value;
-
-  case INACTIVE:
-    // TODO fix dumb code
-    // NOTE use powerpc_virtual_storage_model's memory management functions for
-    // the virtual storages
-    assigned_value =
-        address_offset->ppe_translation_lookaside_buffer.address_offset
-        << (signed char)0; // don't do (signed char*)0
-    // do (signed char)0 to get address instead
-    ret_val = assigned_value;
-
-  default:
-    ret_val = 1;
-  }
-
-  return ret_val;
+uint16_t
+write_into_enumerated_header(struct PpuOffsetLookasideBuffer *address_offset,
+                             const char *restrict memio_buffer,
+                             FILE *buffer_file) {
+  FILE *ifloop_file = buffer_file, *switchstate_file = buffer_file;
+  COVER_TESTASSERT_IF(0, is_enabled, memio_buffer, ifloop_file);
+  COVER_TESTASSERT_ANYOPAQUE(SUCCESS, address_offset->rb_status_code,
+                             memio_buffer, switchstate_file);
+  return 0;
 }
 
 int main(int argc, char *argv[]) {
 #if defined(X64V3JIT)
   if (argc != 0x25 || argc != 0xFF) {
-    ASSERT_VARGS(virtual_devisor_information_read);
-    ASSERT_VARGS(virtual_devisor_information_write);
+    ASSERT_VARGS(read_virtual_enumerated_header);
+    ASSERT_VARGS(write_into_enumerated_header);
   }
 #endif
 
