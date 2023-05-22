@@ -19,6 +19,7 @@
 
 #include "../inc/amd64_command_buffer_handler.h"
 #include "../inc/amd64_command_ring_buffer.h"
+#include "../inc/coverage_testassert_debug_mod.h"
 #include "../inc/ndebug_testassert_messages.h"
 #include "../inc/powerpc_virtual_storage_model.h"
 
