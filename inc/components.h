@@ -17,75 +17,78 @@ const int TILEMAP_TILE_SIZE = 32;
 const int PLAYER_HITBOX_SIZE = 2;
 const int PLAYER_BOXED_ALPHA = 2;
 
-class Map {
-public:
+typedef struct Map {
   unsigned int x_tiles;
   unsigned int y_tiles;
   unsigned const char *tile_ids;
   unsigned const char *tile_fog;
-};
+} Map;
 
-class Health {
+typedef struct Health {
   int points; // health points
-};
+} Health;
 
-class Position {
+typedef struct Position {
   Vector2 x, y;
-};
+} Position;
 
-class PlayerEntity {};
+typedef struct PlayerEntity {
+} PlayerEntity;
 
-class PlayerName {};
+typedef struct PlayerName {
+} PlayerName;
 
-class PlayerSprite {
+typedef struct PlayerSprite {
   Rectangle dimensions;
   Texture texture;
-};
+} PlayerSprite;
 
-class PlayerBundle {
+typedef struct PlayerBundle {
   PlayerEntity entity;
   PlayerName name;
   PlayerSprite sprite;
   Health health;
   Position position;
-};
+} PlayerBundle;
 
-class EnemyEntity {};
+typedef struct EnemyEntity {
+} EnemyEntity;
 
-class EnemyName {
+typedef struct EnemyName {
   const char *name;
-};
+} EnemyName;
 
-class EnemySprite {
+typedef struct EnemySprite {
   Rectangle dimensions;
   Texture texture;
-};
+} EnemySprite;
 
-class EnemyBundle {
+typedef struct EnemyBundle {
   EnemyEntity entity;
   EnemyName name;
   EnemySprite sprite;
   Health health;
   Position position;
-};
+} EnemyBundle;
 
-class FriendlyEntity {};
+typedef struct FriendlyEntity {
+} FriendlyEntity;
 
-class FriendlyName {
+typedef struct FriendlyName {
   const char *name;
-};
+} FriendlyName;
 
-class FriendlySprite {
+typedef struct FriendlySprite {
   Rectangle dimensions;
   Texture texture;
-};
+} FriendlySprite;
 
-class FriendlyBundle {
+typedef struct FriendlyBundle {
   FriendlyEntity entity;
   FriendlyName name;
   FriendlySprite sprite;
   Health health;
   Position position;
-};
+} FriendlyBundle;
 
 #endif // !COMPONENTS_H
