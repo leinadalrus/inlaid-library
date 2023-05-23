@@ -1,64 +1,84 @@
 #ifndef COVERAGE_TESTASSERT_DEBUG_MOD_H
 #define COVERAGE_TESTASSERT_DEBUG_MOD_H
 
-#ifndef COVER_TESTASSERT_IF
-#define COVER_TESTASSERT_IF(_ifstate, _str, _iof, ...)                         \
+#ifndef DXINPUT_TESTASSERT_VARGS
+#define DXINPUT_TESTASSERT_VARGS(_f, _b, ...)                                  \
   {                                                                            \
-    FILE *file;                                                                \
+    FILE *file = fopen("/~/bios/bin/dwarfelf.bin", "wb");                      \
     const char *buffer;                                                        \
-    if (#_ifstate || #_str == "for") {                                         \
-      if (__LINE__ == #_ifstate) {                                             \
+    fwrite(#_b, sizeof(*#_b), sizeof(const char *), file);                     \
+    _str = __LINE__; /*TODO*/                                                  \
+    fclose(file);                                                              \
+  }
+#endif // !DXINPUT_TESTASSERT_VARGS
+
+#ifndef DXOUTPUT_TESTMESSAGE_C
+#define DXOUTPUT_TESTMESSAGE_C(_f, _b, ...)                                    \
+  {                                                                            \
+    FILE *#_f = fopen("/~/bios/bin/dwarfelf.bin", "r");                        \
+    char *#_b, *res;                                                           \
+    fclose(#_f);                                                               \
+  }
+#endif // !DXOUTPUT_TESTMESSAGE_C
+
+#ifndef COVER_TESTASSERT_IF
+#define COVER_TESTASSERT_IF(_ifstate, _str, ...)                               \
+  {                                                                            \
+    if (#_ifstate || #_str == "if") {                                          \
+      switch (__LINE__) {                                                      \
+      case _ifstate:                                                           \
+      case _str:                                                               \
+      default:                                                                 \
         printf("%s\n:\t%d", __FILE__, __LINE__);                               \
         printf("\n%v:\n\tStored Value: %v", #_ifstate, #_str);                 \
-        printf("\n%v:\n\t:%s", #_iof, __FILE__);                               \
       }                                                                        \
     }                                                                          \
   }
 #endif // !COVER_TESTASSERT_IF
 
 #ifndef COVER_TESTASSERT_FOR
-#define COVER_TESTASSERT_FOR(_forloop, _str, _iof, ...)                        \
+#define COVER_TESTASSERT_FOR(_forloop, _str, ...)                              \
   {                                                                            \
-    FILE *file;                                                                \
-    const char *buffer;                                                        \
     if (#_forloop || #_str == "for") {                                         \
-      if (__LINE__ == #_forloop) {                                             \
+      switch (__LINE__) {                                                      \
+      case _forloop:                                                           \
+      case _str:                                                               \
+      default:                                                                 \
         printf("%s\n:\t%d", __FILE__, __LINE__);                               \
         printf("\n%v:\n\tStored Value: %v", #_forloop, #_str);                 \
-        printf("\n%v:\n\t:%s", #_iof, __FILE__);                               \
       }                                                                        \
     }                                                                          \
   }
 #endif // !COVER_TESTASSERT_FOR
 
 #ifndef COVER_TESTASSERT_WHILE
-#define COVER_TESTASSERT_WHILE(_whileloop, _str, _iof, ...)                    \
+#define COVER_TESTASSERT_WHILE(_whileloop, _str, ...)                          \
   {                                                                            \
-    FILE *file;                                                                \
-    const char *buffer;                                                        \
     if (#_whileloop || #_str == "while") {                                     \
-      if (__LINE__ == #_whileloop) {                                           \
-        \ printf("%s\n:\t%d", __FILE__, __LINE__);                             \
+      switch (__LINE__) {                                                      \
+      case _whileloop:                                                         \
+      case _str:                                                               \
+      default:                                                                 \
+        printf("%s\n:\t%d", __FILE__, __LINE__);                               \
         printf("\n%v:\n\tStored Value: %v", #_whileloop, #_str);               \
-        printf("\n%v:\n\t:%s", #_iof, __FILE__);                               \
       }                                                                        \
     }                                                                          \
   }
 #endif // !COVER_TESTASSERT_WHILE
 
 #ifndef COVER_TESTASSERT_ANYOPAQUE
-#define COVER_TESTASSERT_ANYOPAQUE(_opaqueswitch, _str, _iof, ...)             \
+#define COVER_TESTASSERT_ANYOPAQUE(_opaqueswitch, _str, ...)                   \
   {                                                                            \
-    FILE *file;                                                                \
-    const char *buffer;                                                        \
     if (#_opaqueswitch || #_str == "switch") {                                 \
-      if (__LINE__ == #_opaqueswitch) {                                        \
+      switch (__LINE__) {                                                      \
+      case _opaqueswitch:                                                      \
+      case _str:                                                               \
+      default:                                                                 \
         printf("%s\n:\t%d", __FILE__, __LINE__);                               \
         printf("\n%v:\n\tStored Value: %v", #_opaqueswitch, #_str);            \
-        printf("\n%v:\n\t:%s", #_iof, __FILE__);                               \
       }                                                                        \
     }                                                                          \
   }
-
 #endif // !COVER_TESTASSERT_ANYOPAQUE
+  
 #endif // !COVERAGE_TESTASSERT_DEBUG_MOD_H
