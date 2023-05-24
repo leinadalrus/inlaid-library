@@ -1,12 +1,12 @@
-#ifndef X7FELF_X64V3JIT_INTERPRETER_H
-#define X7FELF_X64V3JIT_INTERPRETER_H
+#ifndef ASMJIT_INTERPRETER_H
+#define ASMJIT_INTERPRETER_H
 
 #include "function_offload_model_hook.h"
 #include "function_offload_phantom_marker.h"
 #include <stdint.h>
 
-#ifdef X7FELF_X64V3JIT_INTERPRETER_H
-extern int x7felf_x64v3jit_interpreter_toggle;
+#ifdef ASMJIT_INTERPRETER_H
+extern int asmjit_interpreter_toggle;
 #endif
 
 typedef struct MemoryRegion {
@@ -61,4 +61,4 @@ void reset_external_jit_interpreter(X64V3JitInterpreter *interpreter);
 void start_external_jit_interpreter(X64V3JitInterpreter *interpreter);
 void stop_external_jit_interpreter(X64V3JitInterpreter *interpreter);
 
-#endif // !X7FELF_X64V3JIT_INTERPRETER_H
+#endif // !ASMJIT_INTERPRETER_H

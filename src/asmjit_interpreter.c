@@ -1,10 +1,10 @@
-#include "../inc/x7felf_x64v3jit_interpreter.h"
+#include "../inc/asmjit_interpreter.h"
 #include "../inc/amd64_command_ring_buffer.h"
 // need to have this include file separated
 // and outside of include guards
 
-#ifndef X7FELF_X64V3JIT_INTERPRETER_H
-extern int x7felf_x64v3jit_interpreter_toggle;
+#ifndef ASMJIT_INTERPRETER_H
+extern int asmjit_interpreter_toggle;
 #endif
 
 #include <assert.h>
@@ -60,7 +60,7 @@ int x64v3_jit_runtime_sentinel() {
 }
 
 int x64v3_jit_startup_sentinel() {
-  switch (x7felf_x64v3jit_interpreter_toggle) {
+  switch (asmjit_interpreter_toggle) {
   case 0:
     x64v3_jit_runtime_sentinel();
   case 1:

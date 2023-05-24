@@ -46,8 +46,10 @@ uint16_t read_virtual_enumerated_header(
   default:
     ret_val = 1;
   }
-  COVER_TESTASSERT_SWITCHSTATE(CURRENT_COLUMN, SHORT_OFFSET, SUCCESS,
-                               address_offset->rb_status_code);
+  COVER_TESTASSERT_SWITCHSTATE(
+      CURRENT_COLUMN, SHORT_OFFSET,
+      address_offset->ppe_translation_lookaside_buffer.address_offset,
+      switchstate_file->_vtable_offset);
 
   return ret_val;
 }
