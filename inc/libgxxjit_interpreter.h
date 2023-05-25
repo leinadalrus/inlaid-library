@@ -5,7 +5,7 @@
 #include "function_offload_phantom_marker.h"
 #include <stdint.h>
 
-#ifdef ASMJIT_INTERPRETER_H
+#ifdef LIBGXXJIT_INTERPRETER_H
 extern int libgxxjit_interpreter_toggle;
 #endif
 
