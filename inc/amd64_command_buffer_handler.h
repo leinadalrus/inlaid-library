@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "function_offload_phantom_marker.h"
+
 typedef struct PhantomMarker {
   char *token_byte;
   char *heap_slice;
@@ -13,12 +15,12 @@ typedef struct PhantomMarker {
 } PhantomMarker;
 
 typedef struct DecryptedCommandBufferCursor {
-  PhantomMarker phantom_marker[sizeof(char)][sizeof(char)]; // reference-based
+  PhantomMarker phantom_marker[VECTOR_SLICE_CHUNK][VECTOR_SLICE_CHUNK]; // reference-based
                                                             //
 } DecryptedCommandBufferCursor;
 
 typedef struct DecryptedCommandBufferTree {
-  PhantomMarker phantom_sizes[sizeof(char)][sizeof(char)]; // note: need matrix
+  PhantomMarker phantom_sizes[VECTOR_SLICE_CHUNK][VECTOR_SLICE_CHUNK]; // note: need matrix
                                                            //
 } DecryptedCommandBufferTree;
 

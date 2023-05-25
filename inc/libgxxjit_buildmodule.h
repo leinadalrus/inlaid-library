@@ -1,8 +1,8 @@
 #include "function_offload_model_hook.h"
 #include "ndebug_testassert_messages.h"
 
-#ifndef ASMJIT_BUILDMODULE_H
-#define ASMJIT_BUILDMODULE_H
+#ifndef LIBGXXJIT_BUILDMODULE_H
+#define LIBGXXJIT_BUILDMODULE_H
 
 #ifdef __linux__
 #include <err.h>
@@ -22,4 +22,4 @@ inline const uint16_t fetch_entrylist_opcode(intptr_t *opcode_ptr) {
   return opcode;
 }
 
-#endif // !ASMJIT_BUILDMODULE_H
+#endif // !LIBGXXJIT_BUILDMODULE_H
