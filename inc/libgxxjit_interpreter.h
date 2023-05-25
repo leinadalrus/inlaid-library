@@ -1,9 +1,21 @@
+#include "function_offload_model_hook.h"
+#include "function_offload_phantom_marker.h"
+
 #ifndef LIBGXXJIT_INTERPRETER_H
 #define LIBGXXJIT_INTERPRETER_H
 
-#include "function_offload_model_hook.h"
-#include "function_offload_phantom_marker.h"
+#if __linux__
+#include <assert.h>
+#include <memory.h>
 #include <stdint.h>
+#include <string.h>
+#elif _WIN32
+#include <cassert>
+#include <memory>
+#include <cstdint>
+#include <cstring>
+#include 
+#endif
 
 #ifdef LIBGXXJIT_INTERPRETER_H
 extern int libgxxjit_interpreter_toggle;

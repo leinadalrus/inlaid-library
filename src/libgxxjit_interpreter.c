@@ -3,14 +3,9 @@
 // need to have this include file separated
 // and outside of include guards
 
-#ifndef LIBGXXJIT_INTERPRETER_H
+#ifdef LIBGXXJIT_INTERPRETER_H
 extern int libgxxjit_interpreter_toggle;
 #endif
-
-#include <assert.h>
-#include <memory.h>
-#include <stdint.h>
-#include <string.h>
 
 void load_maked_coreboot_bios(int(*unix_nan_boxing)) {
   switch (*unix_nan_boxing) {
