@@ -1,4 +1,4 @@
-#include "../inc/asmjit_buildmodule.h"
+#include "../inc/libgxxjit_buildmodule.h"
 #include "../inc/ndebug_testassert_messages.h"
 
 #ifdef ASSERT_VARGS
@@ -19,6 +19,9 @@ enum TestCodes {
   FF = 0xff,
   XVV = 0x25,
 };
+
+extern const char *PpuEntries[]; // SPU into PPU Entry Codes
+extern const char *SpuEntries[]; // SPU from PPU Entry Codes
 
 const char *ENTRY_CODES;
 
