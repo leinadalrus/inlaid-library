@@ -1,8 +1,8 @@
 #if _WIN32
 #include <C:\\raylib\\raylib\\src\\raylib.h>
-#include <cstdint>
-#include <cstdio>
-#include <cstdlib>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 #elif __linux__
 #include <raylib.h>
 #include <stdint.h>
