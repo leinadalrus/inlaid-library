@@ -70,7 +70,9 @@ LibGxxJitInterpreter *
 initialise_external_jit_interpreter(LibGxxJitInterpreter *interpreter);
 void deinitialise_external_jit_interpreter(LibGxxJitInterpreter *interpreter);
 void reset_external_jit_interpreter(LibGxxJitInterpreter *interpreter);
-void start_external_jit_interpreter(LibGxxJitInterpreter *interpreter);
-void stop_external_jit_interpreter(LibGxxJitInterpreter *interpreter);
+void start_external_jit_interpreter(LibGxxJitInterpreter *interpreter,
+                                    gcc_jit_context *ctxt);
+void stop_external_jit_interpreter(LibGxxJitInterpreter *interpreter,
+                                   gcc_jit_context *ctxt);
 
 #endif // !LIBGXXJIT_INTERPRETER_H
