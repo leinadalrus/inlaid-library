@@ -6,15 +6,15 @@
 
 #if __linux__
 #include <assert.h>
+#include <libgccjit.h>
 #include <memory.h>
 #include <stdint.h>
 #include <string.h>
 #elif _WIN32
-#include <cassert>
-#include <cstdint>
-#include <cstring>
-#include <libgccjit.h>
-#include <memory>
+#include <assert.h>
+#include <memory.h>
+#include <stdint.h>
+#include <string.h>
 #endif
 
 #ifdef LIBGXXJIT_INTERPRETER_H
