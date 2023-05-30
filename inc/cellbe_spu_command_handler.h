@@ -1,5 +1,5 @@
-#ifndef POWERPC_SPU_COMMAND_HANDLER_H
-#define POWERPC_SPU_COMMAND_HANDLER_H
+#ifndef CELLBE_SPU_COMMAND_HANDLER_H
+#define CELLBE_SPU_COMMAND_HANDLER_H
 
 #include "../inc/amd64_command_ring_buffer.h"
 
@@ -56,4 +56,4 @@ void run(int32_t data);
 
 void bus_write_u32(uint32_t address, uint64_t data);
 
-#endif // POWERPC_SPU_COMMAND_HANDLER_H
+#endif // CELLBE_SPU_COMMAND_HANDLER_H

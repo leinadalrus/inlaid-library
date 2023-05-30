@@ -1,5 +1,5 @@
-#ifndef POWERPC_VIRTUAL_STORAGE_MODEL_H
-#define POWERPC_VIRTUAL_STORAGE_MODEL_H
+#ifndef CELLBE_HARVARD_STYLE_CACHE_H
+#define CELLBE_HARVARD_STYLE_CACHE_H
 
 #include "amd64_command_ring_buffer.h"
 
@@ -71,4 +71,4 @@ invalidate_modified_data_cache_block(PpeSegmentLookasideBuffer *dcbf);
 // Store the modified contents of a range of effective addresses and invalidate
 // the block (sdcrf)
 
-#endif // POWERPC_VIRTUAL_STORAGE_MODEL_H
+#endif // CELLBE_HARVARD_STYLE_CACHE_H
