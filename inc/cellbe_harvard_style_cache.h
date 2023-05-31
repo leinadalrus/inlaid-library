@@ -2,6 +2,9 @@
 #define CELLBE_HARVARD_STYLE_CACHE_H
 
 #include "amd64_command_ring_buffer.h"
+#include "cellbe_memorymap.h"
+#include "cellbe_spu_command_handler.h"
+#include "cellbe_vector_simd_pem.h"
 
 // VirtualAddressSpace
 // must be larger than the EffectiveAddressSpace
@@ -9,25 +12,25 @@
 // NOTE Harvard Style Cache Model
 // NOTE CombinedCacheModel
 
-typedef struct PpeMemoryEntity {
-} PpeMemoryEntity;
+typedef struct PpuMemoryEntity {
+} PpuMemoryEntity;
 
-typedef struct PpeSegmentLookasideBuffer {
-} PpeSegmentLookasideBuffer;
+typedef struct PpuSegmentLookasideBuffer {
+} PpuSegmentLookasideBuffer;
 
-typedef struct PpePageTable {
-} PpePageTable;
+typedef struct PpuPageTable {
+} PpuPageTable;
 
-typedef struct PpeTranslationLookasideBuffer {
+typedef struct PpuTranslationLookasideBuffer {
   signed char address_offset; // int8_t equivalent?
-} PpeTranslationLookasideBuffer;
+} PpuTranslationLookasideBuffer;
 
 typedef struct PpuOffsetLookasideBuffer {
   enum RingBufferStatusCodes rb_status_code;
-  PpeMemoryEntity ppe_memory_entity;
-  PpeSegmentLookasideBuffer ppe_segment_lookaside_buffer;
-  PpeTranslationLookasideBuffer ppe_translation_lookaside_buffer;
-} PpcOffsetLookasideBuffer;
+  PpuMemoryEntity ppe_memory_entity;
+  PpuSegmentLookasideBuffer ppe_segment_lookaside_buffer;
+  PpuTranslationLookasideBuffer ppe_translation_lookaside_buffer;
+} PpuOffsetLookasideBuffer;
 
 typedef struct SpuMemoryEntity {
 } SpuMemoryEntity;
@@ -57,12 +60,12 @@ typedef struct SpuOffsetLookasideBuffer {
 // make the copy of the block in the data cache invalid (dcbf)
 
 const int *invalidate_cache_block_instruction();
-const int *access_specified_data_cache_block(PpeSegmentLookasideBuffer *dcbt,
-                                             PpeSegmentLookasideBuffer *dcbtst);
-const int *set_data_cache_block_to_zero(PpeSegmentLookasideBuffer *dcbz);
-const int *copy_modified_data_cache_block(PpeSegmentLookasideBuffer *dcbf);
+const int *access_specified_data_cache_block(PpuSegmentLookasideBuffer *dcbt,
+                                             PpuSegmentLookasideBuffer *dcbtst);
+const int *set_data_cache_block_to_zero(PpuSegmentLookasideBuffer *dcbz);
+const int *copy_modified_data_cache_block(PpuSegmentLookasideBuffer *dcbf);
 const int *
-invalidate_modified_data_cache_block(PpeSegmentLookasideBuffer *dcbf);
+invalidate_modified_data_cache_block(PpuSegmentLookasideBuffer *dcbf);
 
 // NOTE functions to-do:
 // Bring a range of effective addresses into the SL1 (sdcrt and sdcrtst)

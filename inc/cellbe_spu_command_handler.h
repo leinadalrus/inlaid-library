@@ -2,6 +2,11 @@
 #define CELLBE_SPU_COMMAND_HANDLER_H
 
 #include "../inc/amd64_command_ring_buffer.h"
+#if _WIN32
+#include <stdint.h>
+#elif __linux__
+#include <stdint.h>
+#endif
 
 typedef struct SynergisticProcessingUnitHandler {
   FILE *file;

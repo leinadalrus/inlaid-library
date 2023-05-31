@@ -1,5 +1,6 @@
 #ifndef CELLBE_VECTOR_SIMD_PEM_H
 #define CELLBE_VECTOR_SIMD_PEM_H
+
 enum CellMemoryOperandAlignments {
   BYTE = 0x1111,
   HALFWORD = 0x0111,
