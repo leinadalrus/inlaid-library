@@ -41,7 +41,11 @@ class MemoryArenaId {
 
 class MemoryRegion {};
 
-class AnnulService {};
+class MemoryRegionServiceLocator {};
+
+class AnnulMemoryRegionLocator {}; // annul memory region service locator
+
+class MemoryRegionServicePool {};
 
 class ExistentialProcessor {}; // TODO: make unalterable table composition as to
                                // not mutate values already existing

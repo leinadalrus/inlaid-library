@@ -15,6 +15,8 @@ using namespace asmjit;
 X86Gp getDstRegByValue() { return x86::ecx; }
 
 void usingOperandsExample(X86Assembler &a) {
+  int eq_comp_idx = 0; // mutable
+  int eq_comp_ops = 0; // mutable
   // Create some operands.
   X86Gp dst = getDstRegByValue(); // Get `ecx` register returned by a function.
   X86Gp src = x86::rax; // Get `rax` register directly from the provided `x86`
@@ -30,15 +32,19 @@ void usingOperandsExample(X86Assembler &a) {
 
   // Reconstruct `idx` stored in mem:
   X86Gp idx_2 = X86Gp::fromTypeAndId(m.getIndexType(), m.getIndexId());
-  idx == idx_2; // True, `idx` and idx_2` are identical.
+  if (idx == idx_2) // True, `idx` and idx_2` are identical.
+    eq_comp_idx = 1;
 
   Operand op = m; // Possible.
   op.isMem();     // True (can be casted to Mem and X86Mem).
 
-  m == op;                             // True, `op` is just a copy of `m`.
+  if (m == op) // True, `op` is just a copy of `m`.
+    eq_comp_ops = 1;
   static_cast<Mem &>(op).addOffset(1); // Static cast is fine and valid here.
-  m == op; // False, `op` now points to [rax + r10 + 1], which is not [rax +
-           // r10].
+  // m == op; // False, `op` now points to [rax + r10 + 1], which is not [rax +
+  // r10].
+  if (m == op)
+    eq_comp_ops = 0;
 
   // Emitting 'mov'
   a.mov(dst, m); // Type-safe way.
