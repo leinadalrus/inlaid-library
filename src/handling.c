@@ -17,6 +17,7 @@
 #include "../inc/amd64_command_buffer_handler.h"
 #include "../inc/amd64_command_ring_buffer.h"
 #include "../inc/cellbe_harvard_style_cache.h"
+#include "../inc/cellbe_spu_command_handler.h"
 #include "../inc/components.h"
 #include "../inc/coverage_testassert_debug_mod.h"
 #include "../inc/handling.h"
@@ -97,6 +98,7 @@ void write_file_encoded_u32(uint32_t address_offset,
                             uint32_t address_sizetype) {}
 
 void fifo_flush_data() {}
+
 void fifo_write_data() {}
 
 void set_count(uint8_t data) {}
