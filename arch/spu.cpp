@@ -16,6 +16,27 @@
 #include "../inc/function_offload_model_hook.h"
 #include "../inc/function_offload_phantom_marker.h"
 
+enum class SpuChannelMnemonics {
+  SPU_RD_EVENT_STAT = 0,
+  SPU_WR_EVENT_MASK = 1,
+  SPU_WR_EVENT_ACK = 2,
+  SPU_RD_SIG_NOTIFY1 = 3,
+  SPU_RD_SIG_NOTIFY2 = 4,
+  SPU_WR_DEC = 7,
+  SPU_RD_DEC = 8,
+  SPU_RD_EVENT_MASK = 11,
+  SPU_RD_MACH_STAT = 13,
+  SPU_WR_SRR0 = 14,
+  SPU_RD_SRR0 = 15,
+  SPU_WR_OUT_MBOX = 28, // Mailbox
+  SPU_RD_IN_MBOX = 29,
+  SPU_WR_OUT_INTR_MBOX = 30,
+}; // `enum class` used to further enumeration immutability
+
+class SpuChannel {
+  // NOTE: discover: common SPU architecture instructions
+};
+
 class SpuCommand {
 public:
   void execute();
