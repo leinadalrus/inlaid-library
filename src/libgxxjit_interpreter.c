@@ -1,11 +1,11 @@
 #include "../inc/libgxxjit_interpreter.h"
 #include "../inc/amd64_command_buffer_handler.h"
 #include "../inc/amd64_command_ring_buffer.h"
+#include "../inc/cellbe_harvard_style_cache.h"
 #include "../inc/components.h"
 #include "../inc/coverage_testassert_debug_mod.h"
 #include "../inc/handling.h"
 #include "../inc/ndebug_testassert_messages.h"
-#include "../inc/cellbe_harvard_style_cache.h"
 
 #if _WIN32
 #include <memory.h>
@@ -161,7 +161,7 @@ void start_external_jit_interpreter(LibGxxJitInterpreter *interpreter,
 void stop_external_jit_interpreter(LibGxxJitInterpreter *interpreter,
                                    gcc_jit_context *ctxt) {}
 
-int run() {
+int run_jit_context(LibGxxJitInterpreter interpreter) {
   gcc_jit_context *ctxt;
   gcc_jit_result *result;
 
@@ -178,7 +178,8 @@ int run() {
                                   0);
 
   /* Populate the context.  */
-  create_code(ctxt);
+  // create_code(ctxt); // TODO: need to make work: fn
+  start_external_jit_interpreter(&interpreter, ctxt);
 
   /* Compile the code.  */
   result = gcc_jit_context_compile(ctxt);
