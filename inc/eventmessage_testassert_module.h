@@ -16,8 +16,8 @@
 #include <stdlib.h>
 #endif
 
-#ifndef NDEBUG_TESTASSERT_MESSAGES_H
-#define NDEBUG_TESTASSERT_MESSAGES_H
+#ifndef EVENTMESSAGE_TESTASSERT_MODULE_H
+#define EVENTMESSAGE_TESTASSERT_MODULE_H
 
 #define DEBUG_CHECK(_str, ...)
 
@@ -33,4 +33,4 @@
 #define ASSERT_VERBOSE(sz_message, sz_file, xn_line)                           \
   { printf("%s in %s, line %ld", sz_message, sz_file, xn_line); }
 
-#endif // !NDEBUG_TESTASSERT_MESSAGES_H
+#endif // !EVENTMESSAGE_TESTASSERT_MODULE_H

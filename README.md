@@ -20,18 +20,24 @@ I want this project to stick between the lines of 'zlib' and 'MIT' licensing.
 
 # TODO:
 
-* SPU Environment
-* SPI Environment
+- SPU Environment
+- SPI Environment
 
-* AMD/"coreboot" Instruction Table
-* AMD Interpreters ("i386" or "x86\_64")
-* Memory Management (Harvard-style Cache Model)
+- AMD/"coreboot" Instruction Table
+- AMD Interpreters ("i386" or "x86_64")
+- Memory Management (Harvard-style Cache Model)
 
-* OpenGL Support and Platform
-* zlib and glib Support and Platform
+- OpenGL Support and Platform
+- zlib and glib Support and Platform
 
-* Programming Interface/API
-* Digital Signal Processing (daemons, virtual IO control, etc.)
+- Programming Interface/API
+- Digital Signal Processing (daemons, virtual IO control, etc.)
+
+# NOTE
+
+Change Coverage Test-assertion Module.
+The conditional statements and their bodies must have a generic value passed through
+which has its changes/side-effects notices by the pre-processor environment.
 
 ###### _Emulate the host "x86" guest OS from the buildroot:_
 
@@ -66,6 +72,7 @@ make
 ```
 
 When done right, the following output should be:
+
 ```bash
 Using './build' as the directory for build output
 The Meson build system
@@ -563,17 +570,17 @@ qemu-system-x86_64 \
 
 #### You mainly want to make the binary with:
 
-_i.e_ `make systemd_ioofd`
+_i.e_ `make linux_bios`
 
 Make commands are compiled...
 _...with these Makefile commands:_
 
 ```Makefile
-systemd_ioofd: src/main.c $(EXT_FILES)
-	gcc src/main.c -o out/systemd_ioofd.o
+linux_bios: src/main.c $(EXT_FILES)
+	gcc src/main.c -o out/linux_bios.o
 
-dynamic_library: systemd_ioofd.o
-	gcc systemd_ioofd.o -o systemd_ioofd
+dynamic_library: linux_bios.o
+	gcc linux_bios.o -o linux_bios
 
 dc_toolchain_conan:
 	cd build
@@ -581,6 +588,6 @@ dc_toolchain_conan:
 	cmake --build .
 ```
 
-`source main` or `source systemd_ioofd`
-`. main` or `. systemd_ioofd`
+`source main` or `source linux_bios`
+`. main` or `. linux_bios`
 ...would be the general commands to execute the binary.

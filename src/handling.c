@@ -19,9 +19,9 @@
 #include "../inc/cellbe_harvard_style_cache.h"
 #include "../inc/cellbe_spu_command_handler.h"
 #include "../inc/components.h"
-#include "../inc/coverage_testassert_debug_mod.h"
+#include "../inc/coverage_testassert_module.h"
+#include "../inc/eventmessage_testassert_module.h"
 #include "../inc/handling.h"
-#include "../inc/ndebug_testassert_messages.h"
 
 #ifdef ASSERT_VARGS
 // #define ASSERT_VARGS(_str, ...) // redefined for re-use
