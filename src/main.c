@@ -174,7 +174,7 @@ int main() {
     if (frame_count >= (FPS_SET_TARGET / frame_speed)) {
       frame_count = 0;
       current_frame++;
-      if (current_frame > 5)
+      if (current_frame > 4)
         current_frame = 0;
     }
 
