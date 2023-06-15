@@ -194,7 +194,7 @@ int main() {
   }
 
   for (int i = 0; i < sizeof *bundled; ++i) {
-    free(bundled);
+    // free(bundled); // free called on unallocated object
     annul_player_entity_instance(player_instance);
     annul_player_service_location(service_instance);
   }
