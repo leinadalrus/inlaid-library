@@ -24,7 +24,7 @@ I want this project to stick between the lines of 'zlib' and 'MIT' licensing.
 - SPI Environment
 
 - AMD/"coreboot" Instruction Table
-- AMD Interpreters ("i386" or "x86_64")
+- AMD Interpreters ("i386" or "x86\\\_64")
 - Memory Management (Harvard-style Cache Model)
 
 - OpenGL Support and Platform
@@ -32,6 +32,8 @@ I want this project to stick between the lines of 'zlib' and 'MIT' licensing.
 
 - Programming Interface/API
 - Digital Signal Processing (daemons, virtual IO control, etc.)
+
+- Create an OpenGL rendering system: for a 2D concave image and game actor play stage
 
 # NOTE
 

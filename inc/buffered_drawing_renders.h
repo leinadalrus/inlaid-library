@@ -41,7 +41,7 @@ typedef struct VertexPoints {
   GLfloat c2[3];
 } VertexPoints;
 
-int initialise_Trig_VBOs();
+int initialise_trig_vbos();
 GLfloat *transform_a2_buffers(VertexPoints a2_buffers);
 GLfloat *transform_b2_buffers(VertexPoints b2_buffers);
 GLfloat *transform_c2_buffers(VertexPoints c2_buffers);

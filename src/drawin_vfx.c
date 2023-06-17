@@ -1,14 +1,9 @@
 #if _WIN32
-#include <C:/raylib/raylib/src/raylib.h>
-#include <io.h> // equivalent to <unistd.h>
-#elif __linux__
-#include <raylib.h>
-#include <unistd.h> // equivalent to <io.h>
-#endif
-
-#if _WIN32
 #include "../ext/glew-2.1.0/include/GL/glew.h"
 #include "../ext/glfw-3.3.8/include/GLFW/glfw3.h"
+#include <C:/raylib/raylib/src/raylib.h>
+#include <io.h> // equivalent to <unistd.h>
+
 // #include <GL/glew.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -17,6 +12,8 @@
 #elif __linux__
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <raylib.h>
+#include <unistd.h> // equivalent to <io.h>
 // #include <glad/gl.h> // Use `glad` for `raylib`
 #include <stdint.h>
 #include <stdio.h>
@@ -25,10 +22,10 @@
 #endif
 
 #include "../inc/buffered_drawing_renders.h"
-
+// TODO: buffered-in battle stage with a concave image and flat 2D floor
 const char *read_shader_idl_content(const char *filename) { return filename; }
 
-int initialise_Trig_VBOs() {
+int initialise_trig_vbos() {
   struct VertexPoints {
     GLfloat a2[3];
     GLfloat b2[3];
