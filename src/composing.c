@@ -52,17 +52,23 @@ enum CurrentMeshEntityModes {
 
 struct MissingNo; // return non-null data-structure result
 
+enum CurrentMeshEntityModes active_patt = VACANT, active_col = VACANT;
+const Color shades[] = {BLANK, BLACK, DARKGRAY, WHITE};
+enum { MAX_SHADES = SIZEOF(shades) };
+Rectangle rects[MAX_SHADES] = {0};
+
+typedef struct ComposerData {
+  Color shades;
+  Rectangle rectangle;
+  Texture texture;
+} ComposerData;
+
 const Rectangle rect_patt[] = {
     (Rectangle){1, 1, 2, 2},
     (Rectangle){1, 1, 2, 2},
     (Rectangle){1, 1, 2, 2},
     (Rectangle){1, 1, 2, 2},
 };
-
-enum CurrentMeshEntityModes active_patt = VACANT, active_col = VACANT;
-const Color shades[] = {BLANK, BLACK, DARKGRAY, WHITE};
-enum { MAX_SHADES = SIZEOF(shades) };
-Rectangle rects[MAX_SHADES] = {0};
 
 int cover_current_processor_modes_for(enum CurrentProcessorModes mode) {
   int boolean = 0;
@@ -106,10 +112,12 @@ int init_partial_pattern_draws() {
   return boolean;
 }
 
-int undefined_cell_use_case(enum CurrentMeshEntityModes mesh_mode) {
+int undefined_cell_use_case(struct ComposerData data,
+                            enum CurrentMeshEntityModes mesh_mode) {
   int boolean = 0;
   const Vector2 crosshair =
       GetMousePosition(); // TODO: use keyboard keys to move mouse
+  data.texture = LoadTexture("../assets/textures/abyssal-dark.png");
 
   // TODO: collision and blocking of user input
   for (int i = 0; i < SIZEOF(rect_patt); i++) {
@@ -129,23 +137,30 @@ int undefined_cell_use_case(enum CurrentMeshEntityModes mesh_mode) {
       break;
     }
   }
+  // TODO: macro define WindowShouldClose clause
+#ifdef WindowShouldClose
+  while (!WindowShouldClose()) {
+    BeginDrawing();
+
+    DrawTexture(data.texture, 2 + MARGIN_SIZE, 30 + MARGIN_SIZE, ORANGE);
+
+    EndDrawing();
+  }
+#endif
 
   return boolean;
 }
 
-int vacant_cell_use_case(enum CurrentMeshEntityModes mesh_mode) {
-  int boolean = 0;
-  // TODO: clipping and processing of user input
-  return boolean;
-}
-
-int occupied_cell_use_case(enum CurrentMeshEntityModes mesh_mode) {
+int occupied_cell_use_case(ComposerData data,
+                           enum CurrentMeshEntityModes mesh_mode) {
   int boolean = 0;
   // TODO: collision and blocking of user input
+  undefined_cell_use_case(data, OCCUPIED);
   return boolean;
 }
 
-int cover_current_mesh_entity_mode_for(struct MissingNo *restrict x,
+int cover_current_mesh_entity_mode_for(struct ComposerData data,
+                                       struct MissingNo *restrict x,
                                        struct MissingNo *restrict y) {
   int boolean = 0;
   enum CurrentMeshEntityModes mesh_mode;
@@ -156,14 +171,14 @@ int cover_current_mesh_entity_mode_for(struct MissingNo *restrict x,
 
   switch (mesh_mode) {
   case UNDEFINED:
-    undefined_cell_use_case(UNDEFINED);
-    boolean = undefined_cell_use_case(UNDEFINED);
+    undefined_cell_use_case(data, UNDEFINED);
+    boolean = undefined_cell_use_case(data, UNDEFINED);
   case VACANT:
-    vacant_cell_use_case(VACANT);
-    boolean = vacant_cell_use_case(VACANT);
+    undefined_cell_use_case(data, VACANT);
+    boolean = undefined_cell_use_case(data, VACANT);
   case OCCUPIED:
-    occupied_cell_use_case(OCCUPIED);
-    boolean = occupied_cell_use_case(OCCUPIED);
+    occupied_cell_use_case(data, OCCUPIED);
+    boolean = occupied_cell_use_case(data, OCCUPIED);
   default:
     boolean = 1;
   }

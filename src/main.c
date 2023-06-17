@@ -57,6 +57,40 @@ typedef struct PlayerEntity {
   PlayerServiceLocator *player_service_locator;
 } PlayerEntity;
 
+typedef struct InputCommand {
+  void *(command);
+} InputCommand;
+
+void execute_command(InputCommand command);
+
+typedef struct AttackCommand {
+  InputCommand *command;
+} AttackCommand;
+
+typedef struct DelayCommand {
+  InputCommand *command;
+} DelayCommand;
+
+typedef struct SustainCommand {
+  InputCommand *command;
+} SustainCommand;
+
+typedef struct ReleaseCommand {
+  InputCommand *command;
+} ReleaseCommand;
+
+typedef struct InputHandler {
+  InputCommand *attack_command;
+  InputCommand *delay_command;
+  InputCommand
+      *sustain_command; // call the actual root member which manipulates
+  InputCommand *release_command; // don't use the actual structs to call
+} InputHandler;
+
+void handle_command_inputs(InputHandler handler);
+
+void execute_game_actor(InputCommand *command, PlayerEntity *player);
+
 int initd_checked_player_instance(PlayerServiceLocator *service_instance) {
   struct PlayerEntity {
     PlayerServiceLocator player_service_locator;
