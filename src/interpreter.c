@@ -17,19 +17,26 @@
 #endif
 #endif
 #define MAP_ANONYMOUS int
+// cannot have dasm_arm.h and dasm_x86 in the same file
+// has near-similar definitions
 
 // TODO: PPU Interpreter
 // into SPU Recompiler
 
-#define TAPE_SIZE 30000
-#define MAX_NESTING 100
+#define CURRENT_PROGRAM_STATUS_REGISTER 32
+#define MODE_BITS 4
+
+typedef struct arm_command_t {
+  dasm_State *command;
+} arm_command_t; // Command strategy pattern
+// TODO: Singleton strategy pattern
 
 typedef struct DasmStateContainer {
   unsigned int n;
   unsigned int npc;
   unsigned int nextpc;
   unsigned int nloops;
-  unsigned int loops[MAX_NESTING];
+  unsigned int loops[MODE_BITS];
   dasm_State *dasm_state;
 } DasmStateContainer;
 
@@ -39,8 +46,9 @@ typedef struct DasmStateEncodeLink {
 } DasmStateEncodeLink;
 
 // ... we'll rename bf_interpret to bf_compile and change its type signature:
-// void mb_interpret(const char *program, mbstate_t *state);
-void (*mb_compile(const char *program))(mbstate_t *state); // function pointer
+// void mb_interpret(const char *program, arm_state_t *state);
+void (*arm_compile(const char *program))(
+    arm_command_t *command); // function pointer
 
 void *link_and_encode(DasmStateEncodeLink s, dasm_State *d[]) {
   dasm_link(d, &s.size);
