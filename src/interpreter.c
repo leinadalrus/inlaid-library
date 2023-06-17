@@ -2,13 +2,15 @@
 #pragma error                                                                  \
     "Wrong DynASM flags used: pass `-D X64` and/or `-D WIN` to dynasm.lua as appropriate"
 #endif
-#include "../ext/LuaJIT-2.0.5/dynasm/dasm_proto.h"
-#include "../ext/LuaJIT-2.0.5/dynasm/dasm_x86.h"
 #include <stdio.h>
 #include <stdlib.h>
 #if _WIN32
+#include "../ext/LuaJIT-2.0.5/dynasm/dasm_proto.h"
+#include "../ext/LuaJIT-2.0.5/dynasm/dasm_x86.h"
 #include <Windows.h>
 #else
+#include <LuaJit-2.0.5/dynasm/dasm_proto.h>
+#include <LuaJit-2.0.5/dynasm/dasm_x86.h>
 #include <sys/mman.h>
 #if !defined(MAP_ANONYMOUS) && defined(MAP_ANON)
 #define MAP_ANONYMOUS MAP_ANON
@@ -43,7 +45,10 @@ void (*mb_compile(const char *program))(mbstate_t *state); // function pointer
 void *link_and_encode(DasmStateEncodeLink s, dasm_State *d[]) {
   dasm_link(d, &s.size);
 #ifdef _WIN32
-  s.buffer = VirtalAlloc(0, s.size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+  // s.buffer = VirtalAlloc(0, s.size, MEM_RESERVE | MEM_COMMIT,
+  // PAGE_READWRITE); NOTE(Daniel): using memset over a virtual memory
+  // allocation function
+  s.buffer = memset(0, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 #else
   s.buffer = mmap(0, s.size, PROT_READ | PROT_WRITE,
                   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
