@@ -19,15 +19,30 @@
 #define MAP_ANONYMOUS int
 // cannot have dasm_arm.h and dasm_x86 in the same file
 // has near-similar definitions
-
+#include "../inc/coverage_testassert_module.h"
+#include "../inc/eventmessage_testassert_module.h"
 // TODO: PPU Interpreter
 // into SPU Recompiler
 
 #define CURRENT_PROGRAM_STATUS_REGISTER 32
 #define MODE_BITS 4
 
+enum CurrentProgramStatusModes {
+  USER_MODE = 0b10000,
+  FIQ_MODE = 0b10001,
+  IRQ_MODE = 0b10010,
+  SUPERVISOR_MODE = 0b10011,
+  ABORT_MODE = 0b10111,
+  UNDEFINED_MODE = 0b11011,
+  SYSTEM_MODE = 0b11111,
+};
+
 typedef struct arm_command_t {
   dasm_State *command;
+  enum CurrentProgramStatusModes current_program_status_mode;
+  unsigned char *current_program_status_register;
+  unsigned char (*input)(struct arm_command_t *command);
+  void (*output)(struct arm_command_t *command, unsigned char string);
 } arm_command_t; // Command strategy pattern
 // TODO: Singleton strategy pattern
 
