@@ -2,8 +2,10 @@
 #pragma error                                                                  \
     "Wrong DynASM flags used: pass `-D X64` and/or `-D WIN` to dynasm.lua as appropriate"
 #endif
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #if _WIN32
 #include "../ext/LuaJIT-2.0.5/dynasm/dasm_proto.h"
 #include "../ext/LuaJIT-2.0.5/dynasm/dasm_x86.h"
@@ -24,10 +26,12 @@
 // TODO: PPU Interpreter
 // into SPU Recompiler
 
-#define CURRENT_PROGRAM_STATUS_REGISTER 32
 #define MODE_BITS 4
+#define CURRENT_PROGRAM_STATUS_REGISTER_TOTAL 32
+// these defintions and enums below detail the 32 registers
+#define CURRENT_PROGRAM_STATUS_REGISTER_RESERVED 4
 
-enum CurrentProgramStatusModes {
+enum CurrentProcessorModes {
   USER_MODE = 0b10000,
   FIQ_MODE = 0b10001,
   IRQ_MODE = 0b10010,
@@ -36,10 +40,81 @@ enum CurrentProgramStatusModes {
   UNDEFINED_MODE = 0b11011,
   SYSTEM_MODE = 0b11111,
 };
+// the other 20 remaining registers
+enum ArmRegisters {
+  R0,
+  R1,
+  R2,
+  R3,
+  R4,
+  R5,
+  R6,
+  R7,
+  R8,
+  R9,
+  R10,
+  R11,
+  R12,
+  R13,
+  R14,
+  R15,
+  REG_IP = 12,
+  REG_SP = 13,
+  REG_LR = 14,
+  REG_PC = 15,
+}; // 32 registers in total ends here
+
+enum ArmConditions {
+  COND_EQ,
+  COND_NE,
+  COND_CS,
+  COND_CC,
+  COND_MI,
+  COND_PL,
+  COND_VS,
+  COND_VC,
+  COND_HI,
+  COND_LS,
+  COND_GE,
+  COND_LT,
+  COND_GT,
+  COND_LE,
+  COND_AL,
+};
+
+enum KnownInstructions {
+  INST_ADD_IMMEDIATE,
+  INST_B_ADDRESS,
+  INST_BL_ADDRESS,
+  INST_BLX_ADDRESS,
+  INST_BX_REGISTER,
+  INST_MOV_REGISTER,
+  INST_MOVT_IMMEDIATE,
+  INST_MOVW_IMMEDIATE,
+  INST_MVN_IMMEDIATE,
+  INST_POP_REGMASK,
+  INST_PUSH_REGMASH,
+  INST_SUB_IMMEDIATE,
+  INST_SVC_IMMEDIAT,
+  N_KNOWN_INSTRUCTIONS,
+};
+
+enum ArgumentTypes {
+  ARG_INVALID,
+  ARG_CONDITION,
+  ARG_REGISTER,
+  ARG_IMMEDIATE,
+  ARG_ADDRESS,
+  ARG_DATA_SYMBOL_ADDRESS,
+  ARG_DATA_SYMBOL_ADDRESS_TOP16,    // half of the 32 ...
+  ARG_DATA_SYMBOL_ADDRESS_BOTTOM16, // ... other half of the 32 registers
+  ARG_DATA_SYMBOL_SIZE,
+  ARG_FRAME_ADDRESS,
+  ARG_FRAME_ADDRESS_PC_RELATIVE,
+  ARG_REGMASK,
+};
 
 typedef struct arm_command_t {
-  dasm_State *command;
-  enum CurrentProgramStatusModes current_program_status_mode;
   unsigned char *current_program_status_register;
   unsigned char (*input)(struct arm_command_t *command);
   void (*output)(struct arm_command_t *command, unsigned char string);
@@ -60,8 +135,8 @@ typedef struct DasmStateEncodeLink {
   void *buffer;
 } DasmStateEncodeLink;
 
-// ... we'll rename bf_interpret to bf_compile and change its type signature:
-// void mb_interpret(const char *program, arm_state_t *state);
+// ... we'll rename arm_interpret to arm_compile and change its type signature:
+// void arm_interpret(const char *program, arm_state_t *state);
 void (*arm_compile(const char *program))(
     arm_command_t *command); // function pointer
 
@@ -88,7 +163,10 @@ void *link_and_encode(DasmStateEncodeLink s, dasm_State *d[]) {
   return s.buffer;
 }
 
-// 1. Dynamically specialized CRuby instructions
+// 1. Dynamically specialized instructions
+// 1.a) PPU (Static) Interpreter
+// 1.b) PPU Method Just-in-Time Interpreter over a Static Interpreter,
+// preferably
 // 2. RTL code instructions
 // 3. Hybrid stack/RTL instructions
 // 4. Type-specialized instructions
