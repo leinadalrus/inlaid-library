@@ -10,15 +10,15 @@
 #include "../ext/LuaJIT-2.0.5/dynasm/dasm_proto.h"
 #include "../ext/LuaJIT-2.0.5/dynasm/dasm_x86.h"
 #include <Windows.h>
+#define MAP_ANONYMOUS int
 #else
-#include <LuaJit-2.0.5/dynasm/dasm_proto.h>
-#include <LuaJit-2.0.5/dynasm/dasm_x86.h>
+#include <luajit-2.1/lua.h>
+#include <luajit-2.1/luajit.h>
 #include <sys/mman.h>
 #if !defined(MAP_ANONYMOUS) && defined(MAP_ANON)
 #define MAP_ANONYMOUS MAP_ANON
 #endif
 #endif
-#define MAP_ANONYMOUS int
 // cannot have dasm_arm.h and dasm_x86 in the same file
 // has near-similar definitions
 #include "../inc/coverage_testassert_module.h"
