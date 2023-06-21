@@ -15,7 +15,7 @@
 
 #define WINDOW_SCREEN_SIZE_WIDTH 600
 #define WINDOW_SCREEN_SIZE_HEIGHT 480
-#define WINDOW_APPLICATION_TITLE "Pfks!AnamNemesis!"
+#define WINDOW_APPLICATION_TITLE "High Hunt!"
 // FPS is defined as so to be base-10:
 #define FPS_SET_TARGET 60
 // FPS target is 10, but -2 for 8 to reflect spritesheet animation indices
@@ -50,11 +50,7 @@ typedef struct AnnulPlayerService {
 } AnnulPlayerService;
 
 int annul_player_service_location(
-    PlayerServiceLocator *player_service_locator) {
-  free(player_service_locator);
-  player_service_locator = NULL;
-  return 0;
-}
+    PlayerServiceLocator *player_service_locator);
 
 typedef struct PlayerEntity {
   PlayerServiceLocator *player_service_locator;
@@ -91,7 +87,28 @@ typedef struct InputHandler {
 } InputHandler;
 
 void handle_command_inputs(InputHandler handler);
-
 void execute_game_actor(InputCommand *command, PlayerEntity *player);
+int check_init_player_instance(PlayerServiceLocator *service_instance);
+int annul_player_entity_instance(PlayerEntity *player_entity);
+
+typedef struct PlayerName {
+  const char *name;
+} PlayerName;
+
+typedef struct PlayerBundle {
+  PlayerEntity entity;
+  Position position;
+  Health health;
+  Texture2D sprite;
+} PlayerBundle;
+
+typedef struct PlayerObserver {
+  void(*notifier);
+} PlayerObserver;
+
+int check_linked_bundle_instance(PlayerEntity *player_instance);
+PlayerBundle *init_player_bundle_instance(PlayerBundle *bundle_instance,
+                                          PlayerEntity player_instance);
+int process_world_relative_terrain();
 
 #endif // GAME_ACTOR_ENTITY_H

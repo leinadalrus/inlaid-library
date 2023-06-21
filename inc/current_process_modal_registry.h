@@ -1,0 +1,87 @@
+#ifndef CURRENT_PROCESS_MODAL_REGISTRY_H
+#define CURRENT_PROCESS_MODAL_REGISTRY_H
+
+enum CurrentProcessorModes {
+  USER_MODE = 0b10000,
+  FIQ_MODE = 0b10001,
+  IRQ_MODE = 0b10010,
+  SUPERVISOR_MODE = 0b10011,
+  ABORT_MODE = 0b10111,
+  UNDEFINED_MODE = 0b11011,
+  SYSTEM_MODE = 0b11111,
+};
+// the other 20 remaining registers
+enum ArmRegisters {
+  R0,
+  R1,
+  R2,
+  R3,
+  R4,
+  R5,
+  R6,
+  R7,
+  R8,
+  R9,
+  R10,
+  R11,
+  R12,
+  R13,
+  R14,
+  R15,
+  REG_IP = 12,
+  REG_SP = 13,
+  REG_LR = 14,
+  REG_PC = 15,
+}; // 32 registers in total ends here
+
+enum ArmConditions {
+  COND_EQ,
+  COND_NE,
+  COND_CS,
+  COND_CC,
+  COND_MI,
+  COND_PL,
+  COND_VS,
+  COND_VC,
+  COND_HI,
+  COND_LS,
+  COND_GE,
+  COND_LT,
+  COND_GT,
+  COND_LE,
+  COND_AL,
+};
+
+enum KnownInstructions {
+  INST_ADD_IMMEDIATE,
+  INST_B_ADDRESS,
+  INST_BL_ADDRESS,
+  INST_BLX_ADDRESS,
+  INST_BX_REGISTER,
+  INST_MOV_REGISTER,
+  INST_MOVT_IMMEDIATE,
+  INST_MOVW_IMMEDIATE,
+  INST_MVN_IMMEDIATE,
+  INST_POP_REGMASK,
+  INST_PUSH_REGMASH,
+  INST_SUB_IMMEDIATE,
+  INST_SVC_IMMEDIAT,
+  N_KNOWN_INSTRUCTIONS,
+};
+
+enum ArgumentTypes {
+  ARG_INVALID,
+  ARG_CONDITION,
+  ARG_REGISTER,
+  ARG_IMMEDIATE,
+  ARG_ADDRESS,
+  ARG_DATA_SYMBOL_ADDRESS,
+  ARG_DATA_SYMBOL_ADDRESS_TOP16,    // half of the 32 ...
+  ARG_DATA_SYMBOL_ADDRESS_BOTTOM16, // ... other half of the 32 registers
+  ARG_DATA_SYMBOL_SIZE,
+  ARG_FRAME_ADDRESS,
+  ARG_FRAME_ADDRESS_PC_RELATIVE,
+  ARG_REGMASK,
+};
+
+#endif // CURRENT_PROCESS_MODAL_REGISTRY_H
