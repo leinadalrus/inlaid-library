@@ -23,7 +23,7 @@ int annul_player_service_location(
   return 0;
 }
 // TODO(Daniel): utilise these codes from the included header
-// void execute_command(InputCommand command); 
+// void execute_command(InputCommand command);
 // void handle_command_inputs(InputHandler handler);
 // void execute_game_actor(InputCommand *command, PlayerEntity *player);
 
