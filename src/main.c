@@ -129,7 +129,7 @@ int main() {
       .entity = *designate_entity_scalar(
           *player_instance), // pointer-to-address because of
                              // address of stack memory
-      .position = {350.f, 280.f},
+      .position = {GetScreenWidth() / 2.f, GetScreenHeight() / 2.f},
       .health = 100,
       .sprite = LoadTexture(
           "./assets/sprites/DuboisCranceM1A1-Export/spritesheet.png"),
