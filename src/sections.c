@@ -1,5 +1,4 @@
 #include "../inc/inputs.h"
-#include <raylib.h>
 
 int create() {
   int boolean;
@@ -22,14 +21,16 @@ int refer(TilemapFloor floor) {
   RenderTexture2D tile_occlusion =
       LoadRenderTexture(floor.tiles.x, floor.tiles.y);
   SetTextureFilter(tile_occlusion.texture, TEXTURE_FILTER_BILINEAR);
+  int index[8];
 
   BeginTextureMode(tile_occlusion);
   ClearBackground(BLANK);
+  // use a type-cast of: (int) for the array subscript
   for (int i = 0; i < floor.tiles.y; i++)
     for (int j = 0; j < floor.tiles.x; j++)
-      if (floor.id[i * floor.tiles.x + j] == 0)
+      if (floor.id[i * (int)floor.tiles.x + j] == 0)
         DrawRectangle(j, i, 1, 1, BLACK);
-      else if (floor.id[i * floor.tiles.x + j] == 2)
+      else if (floor.id[i * (int)floor.tiles.x + j] == 2)
         DrawRectangle(i, j, 1, 1, Fade(BLACK, .9f));
   // NOTE(Daniel): Array subscript is not an integer[?]
   EndTextureMode();
