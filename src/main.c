@@ -16,6 +16,11 @@
 #include "../inc/current_process_modal_registry.h"
 #include "../inc/game_actor_entity.h"
 
+typedef union PlayerBundleInstanceComparator {
+  PlayerBundle user_instantiated_bundle;
+  PlayerBundle main_thread_process_bundle;
+} BundleInstanceComparator;
+
 int annul_player_service_location(
     PlayerServiceLocator *player_service_locator) {
   free(player_service_locator);
@@ -56,39 +61,26 @@ int annul_player_entity_instance(PlayerEntity *player_entity) {
 
 int (*on_notice)(const PlayerEntity entity, enum ArmRegisters registry);
 
-int check_linked_bundle_instance(PlayerEntity *player_instance) {
-  struct PlayerBundle {
-    PlayerEntity entity;
-    Position position;
-    Health health;
-    Texture2D sprite;
-  } bundle_instance = {
-      .entity = *designate_entity_scalar(
-          *player_instance), // pointer-to-address because of
-                             // address of stack memory
-      .position = {350.f, 280.f},
-      .health = 100,
-      .sprite = LoadTexture(
-          "./assets/sprites/DuboisCranceM1A1-Export/spritesheet.png"),
-  };
-
-  return 0;
-}
-
 PlayerBundle *init_player_bundle_instance(PlayerBundle *bundle_instance,
                                           PlayerEntity player_instance) {
   bundle_instance->entity =
       *designate_entity_scalar(player_instance); // pointer-to-address because
                                                  // of address of stack memory
-  bundle_instance->position.position.x = 350.f;
-  bundle_instance->position.position.y = 280.f;
+  bundle_instance->position.position.x = GetScreenWidth() / 2.f;
+  bundle_instance->position.position.y = GetScreenHeight() / 2.f;
   bundle_instance->health.health = 100;
   bundle_instance->sprite =
-      LoadTexture("./assets/sprites/DuboisCranceM1A1-Export/spritesheet.png");
+      LoadTexture("../assets/sprites/player-export/spritesheet.png");
 
-  PlayerBundle *bundled = bundle_instance;
+  bundle_instance =
+      malloc(sizeof(struct PlayerBundle)); // give stack-based address and size
 
-  return bundled; // may need memcpy and memmove
+  memmove(bundle_instance, bundle_instance,
+          sizeof(&bundle_instance)); // the memory in memmove can overlap,
+                                     // whereeas memcpy cannot or it will cause
+                                     // undefined behavior
+
+  return bundle_instance; // may need memcpy and memmove
 }
 
 int process_world_relative_terrain() {
@@ -120,25 +112,14 @@ int main() {
   struct PlayerEntity *player_instance;
   player_instance->player_service_locator = service_instance;
 
-  struct PlayerBundle {
-    PlayerEntity entity;
-    Position position;
-    Health health;
-    Texture2D sprite;
-  } bundle_instance = {
-      .entity = *designate_entity_scalar(
-          *player_instance), // pointer-to-address because of
-                             // address of stack memory
-      .position = {GetScreenWidth() / 2.f, GetScreenHeight() / 2.f},
-      .health = 100,
-      .sprite = LoadTexture(
-          "./assets/sprites/DuboisCranceM1A1-Export/spritesheet.png"),
-  };
+  struct PlayerBundle player_bundle;
+  struct PlayerBundle *bundle_instance = memset(
+      &player_bundle, 0x0000,
+      sizeof(
+          player_bundle)); // memset sets all pieces of memory to the same value
 
-  PlayerBundle *bundled;
-  bundled = memset(&bundle_instance, 0, sizeof bundle_instance);
-
-  PlayerBundle *player = init_player_bundle_instance(bundled, *player_instance);
+  PlayerBundle *player =
+      init_player_bundle_instance(bundle_instance, *player_instance);
 
   SetTargetFPS(FPS_SET_TARGET);
 
@@ -167,8 +148,9 @@ int main() {
     EndDrawing();
   }
 
-  for (int i = 0; i < sizeof *bundled; ++i) {
-    // free(bundled); // free called on unallocated object
+  for (int i = 0; i < sizeof(*bundle_instance); ++i) {
+    free(player); // free called on unallocated object
+    // free and annul all player resources
     annul_player_entity_instance(player_instance);
     annul_player_service_location(service_instance);
   }
