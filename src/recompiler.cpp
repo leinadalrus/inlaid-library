@@ -2,29 +2,28 @@
 #pragma error                                                                  \
     "Wrong DynASM flags used: pass `-D X64` and/or `-D WIN` to dynasm.lua as appropriate"
 #endif
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
+
+#if _WIN32 || __linux__
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#endif
 
 #if _WIN32
-#include "../ext/LuaJIT-2.0.5/dynasm/dasm_proto.h"
-#include "../ext/LuaJIT-2.0.5/dynasm/dasm_x86.h"
 #include <Windows.h>
 #define MAP_ANONYMOUS int
 #else
-#include <luajit-2.1/lua.h>
-#include <luajit-2.1/luajit.h>
 #include <sys/mman.h>
 #if !defined(MAP_ANONYMOUS) && defined(MAP_ANON)
 #define MAP_ANONYMOUS MAP_ANON
 #endif
 #endif
-// cannot have dasm_arm.h and dasm_x86 in the same file
-// has near-similar definitions
+// cannot have ARM.h and x86.h in the same file
+// has near-similar definitions and is not safe from UB
 #include "../inc/coverage_testassert_module.h"
 #include "../inc/eventmessage_testassert_module.h"
-// TODO: PPU Interpreter
-// into SPU Recompiler
+// TODO: PPU Recompiler-
+// -into SPU Recompiler
 
 #define MODE_BITS 4
 #define CURRENT_PROGRAM_STATUS_REGISTER_TOTAL 32
@@ -118,30 +117,37 @@ typedef struct arm_command_t {
   unsigned char *current_program_status_register;
   unsigned char (*input)(struct arm_command_t *command);
   void (*output)(struct arm_command_t *command, unsigned char string);
-} arm_command_t; // Command strategy pattern
+} arm_command_t; // Input strategy pattern
 // TODO: Singleton strategy pattern
 
-typedef struct DasmStateContainer {
+class InputHandlerState;
+
+typedef struct CommandStateContainer {
   unsigned int n;
   unsigned int npc;
   unsigned int nextpc;
   unsigned int nloops;
   unsigned int loops[MODE_BITS];
-  dasm_State *dasm_state;
-} DasmStateContainer;
+  InputHandlerState *state;
+} CommandStateContainer;
 
-typedef struct DasmStateEncodeLink {
+typedef struct InputHandlerEncodeLink {
   size_t size;
   void *buffer;
-} DasmStateEncodeLink;
+} CommandStateEncodeLink;
 
 // ... we'll rename arm_interpret to arm_compile and change its type signature:
 // void arm_interpret(const char *program, arm_state_t *state);
 void (*arm_compile(const char *program))(
     arm_command_t *command); // function pointer
 
-void *link_and_encode(DasmStateEncodeLink s, dasm_State *d[]) {
-  dasm_link(d, &s.size);
+void command_handle_encode_link(InputHandlerState *states[],
+                                size_t encode_link);
+
+void command_handle_encode(InputHandlerState *states[], void *data);
+
+void *link_and_encode(InputHandlerEncodeLink s, InputHandlerState *d[]) {
+  command_handle_encode_link(d, s.size);
 #ifdef _WIN32
   // s.buffer = VirtalAlloc(0, s.size, MEM_RESERVE | MEM_COMMIT,
   // PAGE_READWRITE); NOTE(Daniel): using memset over a virtual memory
@@ -151,7 +157,7 @@ void *link_and_encode(DasmStateEncodeLink s, dasm_State *d[]) {
   s.buffer = mmap(0, s.size, PROT_READ | PROT_WRITE,
                   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 #endif
-  dasm_encode(d, s.buffer);
+  command_handle_encode(d, s.buffer);
 #ifdef _WIN32
   {
     DWORD dwOld;
