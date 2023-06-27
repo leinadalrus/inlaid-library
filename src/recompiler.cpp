@@ -1,6 +1,6 @@
 #if ((defined(_M_X64) || defined(__amd64__)) != X64) || (defined(_WIN32) != WIN)
 #pragma error                                                                  \
-    "Wrong DynASM flags used: pass `-D X64` and/or `-D WIN` to dynasm.lua as appropriate"
+    "Wrong ASM flags used: pass `-D X64` and/or `-D WIN` to LLVM MJiT..."
 #endif
 
 #if _WIN32 || __linux__
@@ -20,8 +20,8 @@
 #endif
 // cannot have ARM.h and x86.h in the same file
 // has near-similar definitions and is not safe from UB
-#include "../inc/coverage_testassert_module.h"
-#include "../inc/eventmessage_testassert_module.h"
+#include "../../inc/coverage_testassert_module.h"
+#include "../../inc/eventmessage_testassert_module.h"
 // TODO: PPU Recompiler-
 // -into SPU Recompiler
 
@@ -164,7 +164,7 @@ void *link_and_encode(InputHandlerEncodeLink s, InputHandlerState *d[]) {
     VirtualProtect(s.buffer, s.size, PAGE_EXECUTE_READ, &dwOld);
   }
 #else
-  mprotect(buf, sz, PROT_READ | PROT_EXEC);
+  mprotect(d, s.size, PROT_READ | PROT_EXEC);
 #endif
   return s.buffer;
 }
