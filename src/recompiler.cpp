@@ -20,8 +20,8 @@
 #endif
 // cannot have ARM.h and x86.h in the same file
 // has near-similar definitions and is not safe from UB
-#include "../../inc/coverage_testassert_module.h"
-#include "../../inc/eventmessage_testassert_module.h"
+#include "../inc/coverage_testassert_module.h"
+#include "../inc/eventmessage_testassert_module.h"
 // TODO: PPU Recompiler-
 // -into SPU Recompiler
 

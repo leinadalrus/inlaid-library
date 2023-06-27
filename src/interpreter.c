@@ -4,7 +4,20 @@
 #include <stdlib.h>
 #endif
 
-#if __linux__
+#if _WIN32
+#include <C:\\llvm\\llvm\\include\\llvm-c\\ExternC.h>
+#endif
+
+#ifdef _WIN32
+#include <C:\\llvm\\llvm\\include\\llvm-c\\Analysis.h>
+#include <C:\\llvm\\llvm\\include\\llvm-c\\BitWriter.h>
+#include <C:\\llvm\\llvm\\include\\llvm-c\\Core.h>
+#include <C:\\llvm\\llvm\\include\\llvm-c\\ExecutionEngine.h>
+#include <C:\\llvm\\llvm\\include\\llvm-c\\Target.h>
+#include <C:\\llvm\\llvm\\include\\llvm-c\\Types.h>
+#endif
+
+#ifdef __linux__
 #include <llvm-c/Analysis.h>
 #include <llvm-c/BitWriter.h>
 #include <llvm-c/Core.h>
@@ -62,8 +75,8 @@ int init(int argc, char *argv[]) {
 
   error_message = NULL;
   LLVMExecutionEngineRef engine;
-  LLVMLinkInMCJIT();         // or link in Interpreter[?]
-  LLVMInitializeARMTarget(); // gotta link with our target architecture
+  LLVMLinkInMCJIT();            // or link in Interpreter[?]
+  LLVMInitializeNativeTarget(); // gotta link with our target architecture
 
   // TODO: code ...
 
