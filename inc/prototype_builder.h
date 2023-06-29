@@ -10,9 +10,18 @@ EntityPrototype init_prototype_via_execution(EntityPrototype prototype,
 EntityPrototype *clone_prototype_on_build();
 
 typedef struct PrototypeBuilder {
-  EntityPrototype *
-      prototype; // no pointer-address-reference just straight up a new instance
 } PrototypeBuilder;
+
+typedef struct PrototypeBuilderVirtualTable {
+  PrototypeBuilder (*create_builder)(PrototypeBuilder *builder);
+  PrototypeBuilder (*build_hook_strategy)(PrototypeBuilder *builder,
+                                          EntityPrototype *prototype);
+  void (*copy_ref_cell)(PrototypeBuilder *builder);
+  void (*clone_ref_cell)(PrototypeBuilder *builder, EntityPrototype *prototype);
+  void (*drop_ref_cell)(PrototypeBuilder *builder, EntityPrototype *prototype);
+  void (*destroy_hooked_strategy)(PrototypeBuilder *builder,
+                                  EntityPrototype *prototype);
+} PrototypeBuilderVirtualTable; // contains function pointers
 
 PrototypeBuilder create_handler_for_prototype(PrototypeBuilder builder,
                                               InputHandler handler);
