@@ -15,6 +15,7 @@
 
 #include "../inc/current_process_modal_registry.h"
 #include "../inc/game_actor_entity.h"
+#include "../inc/prototype_builder.h"
 
 typedef union PlayerBundleInstanceComparator {
   PlayerBundle user_instantiated_bundle;
@@ -27,10 +28,18 @@ int annul_player_service_location(
   player_service_locator = NULL;
   return 0;
 }
-// TODO(Daniel): utilise these codes from the included header
-// void execute_command(InputCommand command);
-// void handle_command_inputs(InputHandler handler);
-// void execute_game_actor(InputCommand *command, PlayerEntity *player);
+
+EntityPrototype init_prototype_via_execution(EntityPrototype prototype,
+                                             InputCommand command) {
+  return prototype;
+}
+
+PrototypeBuilder create_handler_for_prototype(PrototypeBuilder builder,
+                                              InputHandler handler) {
+  return builder;
+} // TODO(Daniel): code ...
+
+void execute_actor_prototype(InputCommand *command, PlayerEntity *player) {}
 
 int check_init_player_instance(PlayerServiceLocator *service_instance) {
   struct PlayerEntity {
