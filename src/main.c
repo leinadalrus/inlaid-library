@@ -142,17 +142,45 @@ int main() {
         current_frame = 0;
     }
 
-    if (IsKeyPressed(KEY_D))
-      frame_speed++; // do an opposing velocity check
-    else if (IsKeyPressed(KEY_A))
-      frame_speed--; // and then frame_speed++
+#ifndef LocalDirections
+    // Pre-processor boolean statement for enum declaration protection
+    enum LocalDirections { UP, DOWN, LEFT, RIGHT };
+#endif
+    enum LocalDirections directions;
+    switch (directions) {
+    case UP:
+      if (IsKeyPressed(KEY_W))
+        frame_speed++; // do an opposing velocity check
+      else if (IsKeyPressed(KEY_S))
+        frame_speed--; // and then frame_speed++
+      //
+    case DOWN:
+      if (IsKeyPressed(KEY_S))
+        frame_speed++; // do an opposing velocity check
+      else if (IsKeyPressed(KEY_W))
+        frame_speed--; // and then frame_speed++
+      //
+    case LEFT:
+      if (IsKeyPressed(KEY_A))
+        frame_speed++; // do an opposing velocity check
+      else if (IsKeyPressed(KEY_D))
+        frame_speed--; // and then frame_speed++
+      //
+    case RIGHT:
+      if (IsKeyPressed(KEY_D))
+        frame_speed++; // do an opposing velocity check
+      else if (IsKeyPressed(KEY_A))
+        frame_speed--; // and then frame_speed++
+    }
 
     if (frame_speed > max_frame_speed)
       frame_speed = max_frame_speed;
     else if (frame_speed < min_frame_speed)
       frame_speed = min_frame_speed;
 
-    DrawTexture(player->sprite, 255, 255, WHITE);
+    DrawTexture(
+        player->sprite, (256 / 32), (256 / 32),
+        WHITE); // (256/32) 8-bit sprite conversion, to match display of a GBA
 
     EndDrawing();
   }
