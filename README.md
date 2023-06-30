@@ -2,6 +2,8 @@
 
 ###### _Raylib 4.5 video game for the Gameboy Advance. Using "gba-toolchain" - and "i386"/"x86_64" interpreter._
 
+_This project works in tandem with the "white_glint" project: employed for tracing and profiling LLVM IR Passes and code._
+
 # TODO:
 
 * SPU Environment
