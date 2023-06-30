@@ -1,22 +1,6 @@
 # "The Inlaid Library"
 
-###### _A C99 SPU environment interpreter 'Hyper-v with QEMU' for an ecclesiastical benefice without cure of souls._
-
-- _A system-daemon for the Linux system._
-- _Being developed as an idea for a dynamic file-directory (using containers)._
-- _Help containerize an x86_64 (i386/AMD) architecture._
-
-Between a server and its nodes, the daemon checks to see if the compressed files received are valid, verifying its integrity.
-
-The general idea is to enable the user to have a portable daemon which can be dropped in and dropped out like a node.
-
-This was an idea I had for a virtual filesystem in Kernel Virtual Machine (KVM).
-In this way we can have a programmatic-process which can monitor and defend files within a dynamic directory.
-
-I also will try in the future to have this idea work with interopting with any C-binding package.
-I would have also used Google's 'protobuf' or Apache's 'Arrow', but these cross-language development platforms have undesirable licensings.
-
-I want this project to stick between the lines of 'zlib' and 'MIT' licensing.
+###### _Raylib 4.5 video game for the Gameboy Advance. Using "gba-toolchain" - and "i386"/"x86_64" interpreter._
 
 # TODO:
 
