@@ -1,96 +1,202 @@
-#pragma GCC diagnostic warning "-Wformat"
-#pragma GCC diagnostic error "-Wuninitialized"
+#if _WIN32
+#include <C:\\raylib\\raylib\\src\\raylib.h>
+#include <io.h> // equivalent to <unistd.h>
+#elif __linux__
+#include <raylib.h>
+#include <unistd.h> // equivalent to <io.h>
+#endif
 
-#include <assert.h>
-#include <fcntl.h>
-#include <memory.h>
-#include <signal.h>
+#if _WIN32 || __linux__
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/stat.h>
+#endif
 
-#include "../inc/amd64_command_buffer_handler.h"
-#include "../inc/amd64_command_ring_buffer.h"
-#include "../inc/powerpc_virtual_storage_model.h"
+#include "../inc/current_process_modal_registry.h"
+#include "../inc/game_actor_entity.h"
+#include "../inc/prototype_builder.h"
 
-#define __iomem                                                                \
-  __attribute__((                                                              \
-      noderef,                                                                 \
-      address_space(2))) // temporary definition of __iomem from sparse
+typedef union PlayerBundleInstanceComparator {
+  PlayerBundle user_instantiated_bundle;
+  PlayerBundle main_thread_process_bundle;
+} BundleInstanceComparator;
 
-uint64_t
-virtual_device_information_read(void *any_opaque,
-                                struct PpuOffsetLookasideBuffer *address_offset,
-                                unsigned int data_size) {
-  uint64_t ret_val = 0;
-  DecryptedCommandBufferTree *command_buffer_tree;
-  int is_enabled = 0; // = dev_info->virtual_device_data->destination & BIT(0);
-
-  if (is_enabled == 0) {
-    fprintf(stderr, "Device is disabled!\n");
-    ret_val = 0;
-  }
-
-  switch (address_offset->rb_status_code) {
-  case SUCCESS:
-    ret_val =
-        (uint64_t)
-            address_offset->ppe_translation_lookaside_buffer.address_offset;
-
-  case INVALID_LENGTH:
-    ret_val =
-        (uint64_t)
-            address_offset->ppe_translation_lookaside_buffer.address_offset;
-
-  case INACTIVE:
-    ret_val =
-        (uint64_t)
-            address_offset->ppe_translation_lookaside_buffer.address_offset;
-
-  default:
-    ret_val = 1;
-  }
-
-  return ret_val;
+int annul_player_service_location(
+    PlayerServiceLocator *player_service_locator) {
+  free(player_service_locator);
+  player_service_locator = NULL;
+  return 0;
 }
 
-uint64_t virtual_device_information_write(
-    void *any_opaque, struct PpuOffsetLookasideBuffer *address_offset,
-    uint64_t assigned_value, unsigned int data_size) {
-  uint64_t ret_val = 0;
-  DecryptedCommandBufferTree *command_buffer_tree;
-  int is_enabled = 0; // = dev_info->virtual_device_data->destination & BIT(0);
+EntityPrototype init_prototype_via_execution(EntityPrototype prototype,
+                                             InputCommand command) {
+  return prototype;
+}
 
-  if (is_enabled == 0) {
-    fprintf(stderr, "Device is disabled!\n");
-    ret_val = 0;
+PrototypeBuilder create_handler_for_prototype(PrototypeBuilder builder,
+                                              InputHandler handler) {
+  return builder;
+} // TODO(Daniel): code ...
+
+void execute_actor_prototype(InputCommand *command, PlayerEntity *player) {}
+
+int check_init_player_instance(PlayerServiceLocator *service_instance) {
+  struct PlayerEntity {
+    PlayerServiceLocator player_service_locator;
+  } player_entity = {
+      .player_service_locator = service_instance,
+  };
+
+  return 0;
+}
+
+struct PlayerEntity *designate_entity_scalar(PlayerEntity player_instance) {
+  PlayerServiceLocator *player_service_locator;
+  // TODO: move player_entity data into a new ServiceLocator function
+
+  PlayerEntity *new_player = &player_instance;
+  new_player->player_service_locator = player_service_locator;
+
+  return new_player; // return address of stack memory associated with local
+                     // variable
+}
+
+int annul_player_entity_instance(PlayerEntity *player_entity) {
+  free(player_entity);
+  player_entity = NULL;
+  return 0;
+}
+
+int (*on_notice)(const PlayerEntity entity, enum ArmRegisters registry);
+
+PlayerBundle *init_player_bundle_instance(PlayerBundle *bundle_instance,
+                                          PlayerEntity player_instance) {
+  bundle_instance->entity =
+      *designate_entity_scalar(player_instance); // pointer-to-address because
+                                                 // of address of stack memory
+  bundle_instance->position.position.x = GetScreenWidth() / 2.f;
+  bundle_instance->position.position.y = GetScreenHeight() / 2.f;
+  bundle_instance->health.health = 100;
+  bundle_instance->sprite =
+      LoadTexture("../assets/sprites/player-export/spritesheet.png");
+
+  bundle_instance =
+      malloc(sizeof(struct PlayerBundle)); // give stack-based address and size
+
+  memmove(bundle_instance, bundle_instance,
+          sizeof(&bundle_instance)); // the memory in memmove can overlap,
+                                     // whereeas memcpy cannot or it will cause
+                                     // undefined behavior
+
+  return bundle_instance; // may need memcpy and memmove
+}
+
+int process_world_relative_terrain() {
+  enum WorldTerrains { EARTH_TEXTURE, AIR_TEXTURE, WATER_TEXTURE };
+  int textiles_matrices[8][8]; // match the 32-bit register
+
+  for (int i = 0; i < GetScreenWidth(); i++) {
+    for (int j = 0; j < GetScreenHeight(); j++) {
+      textiles_matrices[i][j] = EARTH_TEXTURE;
+    }
   }
 
-  switch (address_offset->rb_status_code) {
-  case SUCCESS:
+  return 0;
+}
 
-    assigned_value =
-        address_offset->ppe_translation_lookaside_buffer.address_offset
-        << (signed char)0; // don't do (signed char*)0
-    // do (signed char)0 to get address instead
+int main() {
+  InitWindow(WINDOW_SCREEN_SIZE_WIDTH, WINDOW_SCREEN_SIZE_HEIGHT,
+             WINDOW_APPLICATION_TITLE);
 
-    ret_val = assigned_value;
+  int current_frame = 0;
+  int frame_count = 0;
+  int frame_speed = 8;
 
-  case INACTIVE:
-    // TODO fix dumb code
-    // NOTE use powerpc_virtual_storage_model's memory management functions for
-    // the virtual storages
-    assigned_value =
-        address_offset->ppe_translation_lookaside_buffer.address_offset
-        << (signed char)0; // don't do (signed char*)0
-    // do (signed char)0 to get address instead
-    ret_val = assigned_value;
+  const int max_frame_speed = 16;
+  const int min_frame_speed = 1;
 
-  default:
-    ret_val = 1;
+  PlayerServiceLocator *service_instance;
+
+  struct PlayerEntity *player_instance;
+  player_instance->player_service_locator = service_instance;
+
+  struct PlayerBundle player_bundle;
+  struct PlayerBundle *bundle_instance = memset(
+      &player_bundle, 0x0000,
+      sizeof(
+          player_bundle)); // memset sets all pieces of memory to the same value
+
+  PlayerBundle *player =
+      init_player_bundle_instance(bundle_instance, *player_instance);
+
+  SetTargetFPS(FPS_SET_TARGET);
+
+  while (!WindowShouldClose()) {
+    frame_count++;
+
+    if (frame_count >= (FPS_SET_TARGET / frame_speed)) {
+      frame_count = 0;
+      current_frame++;
+      if (current_frame > 4)
+        current_frame = 0;
+    }
+
+#ifndef LocalDirections
+    // Pre-processor boolean statement for enum declaration protection
+    enum LocalDirections { UP, DOWN, LEFT, RIGHT };
+#endif
+    enum LocalDirections directions;
+    switch (directions) {
+    case UP:
+      if (IsKeyPressed(KEY_W))
+        frame_speed++; // do an opposing velocity check
+      else if (IsKeyPressed(KEY_S))
+        frame_speed--; // and then frame_speed++
+      //
+    case DOWN:
+      if (IsKeyPressed(KEY_S))
+        frame_speed++; // do an opposing velocity check
+      else if (IsKeyPressed(KEY_W))
+        frame_speed--; // and then frame_speed++
+      //
+    case LEFT:
+      if (IsKeyPressed(KEY_A))
+        frame_speed++; // do an opposing velocity check
+      else if (IsKeyPressed(KEY_D))
+        frame_speed--; // and then frame_speed++
+      //
+    case RIGHT:
+      if (IsKeyPressed(KEY_D))
+        frame_speed++; // do an opposing velocity check
+      else if (IsKeyPressed(KEY_A))
+        frame_speed--; // and then frame_speed++
+    }
+
+    if (frame_speed > max_frame_speed)
+      frame_speed = max_frame_speed;
+    else if (frame_speed < min_frame_speed)
+      frame_speed = min_frame_speed;
+
+    DrawTexture(
+        player->sprite, (256 / 32), (256 / 32),
+        WHITE); // (256/32) 8-bit sprite conversion, to match display of a GBA
+
+    EndDrawing();
   }
 
-  return ret_val;
+  for (int i = 0; i < sizeof(*bundle_instance); ++i) {
+    free(player); // free called on unallocated object
+    // free and annul all player resources
+    annul_player_entity_instance(player_instance);
+    annul_player_service_location(service_instance);
+  }
+
+  annul_player_service_location(player->entity.player_service_locator);
+  annul_player_entity_instance(&player->entity);
+  UnloadTexture(player->sprite);
+  // finally close the window instance
+  CloseWindow();
+
+  return 0;
 }
