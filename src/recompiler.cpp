@@ -24,6 +24,7 @@
 #include "../inc/eventmessage_testassert_module.h"
 // TODO: PPU Recompiler-
 // -into SPU Recompiler
+#include <C:/llvm/llvm/include/llvm/IRBuilder.h>
 
 #define MODE_BITS 4
 #define CURRENT_PROGRAM_STATUS_REGISTER_TOTAL 32
