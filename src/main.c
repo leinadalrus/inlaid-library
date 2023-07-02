@@ -17,11 +17,6 @@
 #include "../inc/game_actor_entity.h"
 #include "../inc/prototype_builder.h"
 
-typedef union PlayerBundleInstanceComparator {
-  PlayerBundle user_instantiated_bundle;
-  PlayerBundle main_thread_process_bundle;
-} BundleInstanceComparator;
-
 int annul_player_service_location(
     PlayerServiceLocator *player_service_locator) {
   free(player_service_locator);
@@ -93,12 +88,22 @@ PlayerBundle *init_player_bundle_instance(PlayerBundle *bundle_instance,
 }
 
 int process_world_relative_terrain() {
-  enum WorldTerrains { EARTH_TEXTURE, AIR_TEXTURE, WATER_TEXTURE };
-  int textiles_matrices[8][8]; // match the 32-bit register
+  enum WorldTerrains { CHECKERED_TEXTURE, STRIPED_TEXTURE };
+  enum WorldTerrains terrain;
+
+  switch (terrain) {
+  case 0:
+    terrain = CHECKERED_TEXTURE;
+  case 1:
+  default:
+    terrain = STRIPED_TEXTURE;
+  }
+
+  int textures_matrices[8][8]; // match the 32-bit register
 
   for (int i = 0; i < GetScreenWidth(); i++) {
     for (int j = 0; j < GetScreenHeight(); j++) {
-      textiles_matrices[i][j] = EARTH_TEXTURE;
+      textures_matrices[i][j] = STRIPED_TEXTURE; // match the 32-bit register
     }
   }
 
@@ -134,7 +139,7 @@ int main() {
 
   while (!WindowShouldClose()) {
     frame_count++;
-
+    // TODO(Daniel): change all this into a Strategy design pattern
     if (frame_count >= (FPS_SET_TARGET / frame_speed)) {
       frame_count = 0;
       current_frame++;
@@ -147,36 +152,45 @@ int main() {
     enum LocalDirections { UP, DOWN, LEFT, RIGHT };
 #endif
     enum LocalDirections directions;
-    switch (directions) {
-    case UP:
-      if (IsKeyPressed(KEY_W))
-        frame_speed++; // do an opposing velocity check
-      else if (IsKeyPressed(KEY_S))
-        frame_speed--; // and then frame_speed++
-      //
-    case DOWN:
-      if (IsKeyPressed(KEY_S))
-        frame_speed++; // do an opposing velocity check
-      else if (IsKeyPressed(KEY_W))
-        frame_speed--; // and then frame_speed++
-      //
-    case LEFT:
-      if (IsKeyPressed(KEY_A))
-        frame_speed++; // do an opposing velocity check
-      else if (IsKeyPressed(KEY_D))
-        frame_speed--; // and then frame_speed++
-      //
-    case RIGHT:
-      if (IsKeyPressed(KEY_D))
-        frame_speed++; // do an opposing velocity check
-      else if (IsKeyPressed(KEY_A))
-        frame_speed--; // and then frame_speed++
-    }
 
-    if (frame_speed > max_frame_speed)
-      frame_speed = max_frame_speed;
-    else if (frame_speed < min_frame_speed)
-      frame_speed = min_frame_speed;
+    for (int x = 0; x < 8; x++) {
+      player->position.position.x = x;
+      for (int y = 0; y < 8; y++) {
+        player->position.position.y = y;
+
+        switch (directions) {
+        case UP:
+          if (IsKeyPressed(KEY_W))
+            frame_speed++; // do an opposing velocity check
+          else if (IsKeyPressed(KEY_S))
+            frame_speed--; // and then frame_speed++
+          //
+        case DOWN:
+          if (IsKeyPressed(KEY_S))
+            frame_speed++; // do an opposing velocity check
+          else if (IsKeyPressed(KEY_W))
+            frame_speed--; // and then frame_speed++
+          //
+        case LEFT:
+          if (IsKeyPressed(KEY_A))
+            frame_speed++; // do an opposing velocity check
+          else if (IsKeyPressed(KEY_D))
+            frame_speed--; // and then frame_speed++
+          //
+        case RIGHT:
+          if (IsKeyPressed(KEY_D))
+            frame_speed++; // do an opposing velocity check
+          else if (IsKeyPressed(KEY_A))
+            frame_speed--; // and then frame_speed++
+
+        default:
+          if (frame_speed > max_frame_speed)
+            frame_speed = max_frame_speed;
+          else if (frame_speed < min_frame_speed)
+            frame_speed = min_frame_speed;
+        }
+      }
+    }
 
     DrawTexture(
         player->sprite, (256 / 32), (256 / 32),
