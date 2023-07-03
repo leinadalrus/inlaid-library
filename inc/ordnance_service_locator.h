@@ -7,8 +7,8 @@
 #endif
 
 #if _WIN32
-#include "../ext/glew-2.1.0/include/GL/glew.h"
-#include "../ext/glfw-3.3.8/include/GLFW/glfw3.h"
+#include "C:\\dev\\vcpkg\\packages\\glew_x86-windows\\include\\GL\\glew.h"
+#include "C:\\dev\\vcpkg\\packages\\glfw3_x86-windows\\include\\GLFW\\glfw3.h"
 // #include <GL/glew.h>
 #include <stdint.h>
 #include <stdio.h>

@@ -7,8 +7,8 @@
 #endif
 
 #if _WIN32
-#include "../ext/glew-2.1.0/include/GL/glew.h"
-#include "../ext/glfw-3.3.8/include/GLFW/glfw3.h"
+#include "C:\\dev\\vcpkg\\packages\\glew_x86-windows\\include\\GL\\glew.h"
+#include "C:\\dev\\vcpkg\\packages\\glfw3_x86-windows\\include\\GLFW\\glfw3.h"
 // #include <GL/glew.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -46,11 +46,11 @@ GLfloat *transform_a2_buffers(VertexPoints a2_buffers);
 GLfloat *transform_b2_buffers(VertexPoints b2_buffers);
 GLfloat *transform_c2_buffers(VertexPoints c2_buffers);
 
-int create();
-int view();
-int update();
-int render(GLuint vao);
-int annul();
-int destroy();
+int create_graphx_lang_vbos();
+int view_graphx_lang_vbos();
+int update_graphx_lang_vbos();
+int render_graphx_lang_vao(GLuint vao);
+int annul_graphx_lang_bufs();
+int destroy_graphx_lang_bufs();
 
 #endif // !BUFFERED_DRAWING_RENDERS_H

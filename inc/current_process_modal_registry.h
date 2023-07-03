@@ -1,6 +1,10 @@
 #ifndef CURRENT_PROCESS_MODAL_REGISTRY_H
 #define CURRENT_PROCESS_MODAL_REGISTRY_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 enum CurrentProcessorModes {
   USER_MODE = 0b10000,
   FIQ_MODE = 0b10001,
@@ -83,5 +87,9 @@ enum ArgumentTypes {
   ARG_FRAME_ADDRESS_PC_RELATIVE,
   ARG_REGMASK,
 };
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // CURRENT_PROCESS_MODAL_REGISTRY_H

@@ -1,21 +1,7 @@
-#if _WIN32
-#include <C:\\raylib\\raylib\\src\\raylib.h>
-#include <io.h> // equivalent to <unistd.h>
-#elif __linux__
-#include <raylib.h>
-#include <unistd.h> // equivalent to <io.h>
-#endif
-
-#if _WIN32 || __linux__
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#endif
-
 #include "../inc/buffered_drawing_renders.h"
 #include "../inc/ordnance_service_locator.h"
 #include "game_actor_entity.h"
+#include <raylib.h>
 
 #ifndef INPUTS_H
 #define INPUTS_H
