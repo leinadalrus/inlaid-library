@@ -1,7 +1,26 @@
 #ifndef COVERAGE_TESTASSERT_MODULE_H
 #define COVERAGE_TESTASSERT_MODULE_H
-#define COVERAGE_DEBUG_LOCAL_STORE_START SPE0_LOCAL_STORE_START
-#define COVERAGE_DEBUG_LOCAL_STORE_END SPE0_LOCAL_STORE_END
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* file: minunit.h */
+extern int MINIMAL_TESTS_RUN;
+#define MINIMAL_UNIT_ASSERT(message, test)                                     \
+  do {                                                                         \
+    if (!(test))                                                               \
+      return message;                                                          \
+  } while (0)
+#define MINIMAL_RUN_TEST(test)                                                 \
+  do {                                                                         \
+    char *message = test();                                                    \
+    MINIMAL_TESTS_RUN++;                                                       \
+    if (message)                                                               \
+      return message;                                                          \
+  } while (0)
+// JTN002 — Jera Design LLC (no date). Available at:
+// https://jera.com/techinfo/jtns/jtn002.
 
 enum FileCodeCoverts {
   RESERVE_FLAG,
@@ -12,7 +31,7 @@ enum FileCodeCoverts {
 #ifndef DXINPUT_TESTASSERT_ITEM
 #define DXINPUT_TESTASSERT_ITEM(_f, _b, ...)                                   \
   {                                                                            \
-    FILE *file = fopen("/~/bios/bin/dwarfelf.bin", "wb");                      \
+    FILE *file = fopen("../shared/cover_test_config.conf", "wb");              \
     const char *buffer;                                                        \
     fwrite(#_b, sizeof(*#_b), sizeof(const char *), file);                     \
     _str = __LINE__; /*TODO*/                                                  \
@@ -95,6 +114,10 @@ enum FileCodeCoverts {
       }                                                                        \
     }                                                                          \
   }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // !COVER_TESTASSERT_SWITCHSTATE
 #endif // !COVERAGE_TESTASSERT_MODULE_H

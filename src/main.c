@@ -13,6 +13,7 @@
 #include <string.h>
 #endif
 
+#include "../inc/coverage_testassert_module.h"
 #include "../inc/current_process_modal_registry.h"
 #include "../inc/game_actor_entity.h"
 #include "../inc/prototype_builder.h"
@@ -110,13 +111,38 @@ int process_world_relative_terrain() {
   return 0;
 }
 
+struct FrameData {
+  int current_frame;
+  int frame_count;
+  int frame_speed;
+};
+
+int MINIMAL_TESTS_RUN = 0;
+char *test_frame_data() {
+  struct FrameData frame_data;
+  MINIMAL_UNIT_ASSERT("error, current_frame != 0",
+                      frame_data.current_frame == 0);
+  return 0;
+}
+
+char *run_tests() {
+  MINIMAL_RUN_TEST(test_frame_data);
+  return 0;
+}
+
 int main() {
   InitWindow(WINDOW_SCREEN_SIZE_WIDTH, WINDOW_SCREEN_SIZE_HEIGHT,
              WINDOW_APPLICATION_TITLE);
 
+  struct FrameData frame_data; // have this value in the "stack-space"
+
   int current_frame = 0;
   int frame_count = 0;
   int frame_speed = 8;
+
+  frame_data.current_frame = current_frame;
+  frame_data.frame_count = frame_count;
+  frame_data.frame_speed = frame_speed;
 
   const int max_frame_speed = 16;
   const int min_frame_speed = 1;
