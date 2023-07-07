@@ -5,6 +5,7 @@
 
 #if _WIN32
 #include <C:/raylib/raylib/src/raylib.h>
+#include <emscripten/emscripten.h>
 #endif
 
 #if __linux__
@@ -35,6 +36,16 @@ bool destroy_player_bundle(PlayerBundle &bundle_old,
   // delete &entity_old; : cannot delete pointer of an incomplete type
 
   return true; // return true because we just destroyed heap-space objects.
+}
+
+#ifdef __cplusplus
+#define EXTERN extern "C"
+#else
+#define EXTERN
+#endif
+
+EXTERN EMSCRIPTEN_KEEPALIVE void fn_init_main_thread(int argc, char *argv[]) {
+  printf("Function: Initialise --- Main Thread program...");
 }
 
 int main(int argc, char *argv[]) {
