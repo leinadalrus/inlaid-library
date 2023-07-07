@@ -5,10 +5,10 @@
 
 #if _WIN32
 #include <C:/raylib/raylib/src/raylib.h>
-#include <emscripten/emscripten.h>
 #endif
 
 #if __linux__
+#include <emscripten/emscripten.h>
 #include <raylib.h>
 #endif
 
@@ -43,10 +43,6 @@ bool destroy_player_bundle(PlayerBundle &bundle_old,
 #else
 #define EXTERN
 #endif
-
-EXTERN EMSCRIPTEN_KEEPALIVE void fn_init_main_thread(int argc, char *argv[]) {
-  printf("Function: Initialise --- Main Thread program...");
-}
 
 int main(int argc, char *argv[]) {
   struct PlayerEntity *entity;
