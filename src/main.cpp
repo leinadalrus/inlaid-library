@@ -1,60 +1,82 @@
 #if _WIN32 || __linux__
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
+#include <string>
 #endif
 
-#if _WIN32
-#include <C:/raylib/raylib/src/raylib.h>
-#endif
+#include "../inc/coverage_testassert_module.h"
+#include "../inc/current_process_modal_registry.h"
+#include "../inc/game_actor_entity.h"
+#include "../inc/prototype_builder.h"
 
-#if __linux__
-#include <emscripten/emscripten.h>
-#include <raylib.h>
-#endif
-
-struct PlayerEntity; // Prototype Design
-
-typedef struct PlayerBundle {
-  struct PlayerEntity *entity;
-  Vector2 position;
-} PlayerBundle; // Flyweight Design
-
-PlayerBundle *init_player_bundle(PlayerBundle *bundle,
-                                 struct PlayerEntity *entity_new,
-                                 Vector2 position_new) {
-  bundle->entity = entity_new;
-  bundle->position = position_new; // member : no pointer OD ~> non-heap object
-
-  return bundle;
+int annul_player_service_location(
+    PlayerServiceLocator *player_service_locator) {
+  free(player_service_locator);
+  player_service_locator = NULL;
+  return 0;
 }
 
-bool destroy_player_bundle(PlayerBundle &bundle_old,
-                           struct PlayerEntity &entity_old) {
-  std::free(&bundle_old);
-  std::free(&entity_old);
-  delete &bundle_old;
-  // delete &entity_old; : cannot delete pointer of an incomplete type
-
-  return true; // return true because we just destroyed heap-space objects.
+EntityPrototype init_prototype_via_execution(EntityPrototype prototype,
+                                             InputCommand command) {
+  return prototype;
 }
 
-#ifdef __cplusplus
-#define EXTERN extern "C"
-#else
-#define EXTERN
-#endif
+PrototypeBuilder create_handler_for_prototype(PrototypeBuilder builder,
+                                              InputHandler handler) {
+  return builder;
+} // TODO(Daniel): code ...
 
-int main(int argc, char *argv[]) {
-  struct PlayerEntity *entity;
-  Vector2 position =
-      Vector2{0, 0}; // No pointer OD, so we use an Address symbol in the `fn
-                     // init(..)`. Thus is now a non-heap object
+void execute_actor_prototype(InputCommand *command, PlayerEntity *player) {}
 
+int check_init_player_instance(PlayerServiceLocator *service_instance) {
+  PlayerEntity player_entity;
+  player_entity.player_service_locator = service_instance;
+
+  return 0;
+}
+
+struct PlayerEntity *designate_entity_scalar(PlayerEntity player_instance) {
+  PlayerServiceLocator *player_service_locator;
+  // TODO: move player_entity data into a new ServiceLocator function
+
+  PlayerEntity *new_player = &player_instance;
+  new_player->player_service_locator = player_service_locator;
+
+  return new_player; // return address of stack memory associated with local
+                     // variable
+}
+
+int annul_player_entity_instance(PlayerEntity *player_entity) {
+  free(player_entity);
+  player_entity = NULL;
+  return 0;
+}
+
+int (*on_notice)(const PlayerEntity entity, enum ArmRegisters registry);
+
+PlayerBundle *init_player_bundle_instance(PlayerBundle *bundle_instance,
+                                          PlayerEntity player_instance) {
+  bundle_instance->entity =
+      *designate_entity_scalar(player_instance); // pointer-to-address because
+                                                 // of address of stack memory
+  bundle_instance->position.position.x = GetScreenWidth() / 2.f;
+  bundle_instance->position.position.y = GetScreenHeight() / 2.f;
+  bundle_instance->health.health = 100;
+  bundle_instance->sprite =
+      LoadTexture("../assets/sprites/player-export/spritesheet.png");
+
+  memmove(bundle_instance, bundle_instance,
+          sizeof(&bundle_instance)); // the memory in memmove can overlap,
+                                     // whereeas memcpy cannot or it will cause
+                                     // undefined behavior
+
+  return bundle_instance; // may need memcpy and memmove
+}
+
+int process_world_relative_terrain() {
   enum WorldTerrains { CHECKERED_TEXTURE, STRIPED_TEXTURE };
   enum WorldTerrains terrain;
-  int textures_matrices[8][8]; // match the 32-bit register
-
-  PlayerBundle *player = init_player_bundle(player, entity, position);
 
   switch (terrain) {
   case 0:
@@ -64,18 +86,142 @@ int main(int argc, char *argv[]) {
     terrain = STRIPED_TEXTURE;
   }
 
-  for (int x = 0; x < 8; x++)
-    for (int y = 0; y < 8; y++)
-      textures_matrices[x][y] = terrain;
+  int textures_matrices[8][8]; // match the 32-bit register
+
+  for (int i = 0; i < GetScreenWidth(); i++) {
+    for (int j = 0; j < GetScreenHeight(); j++) {
+      textures_matrices[i][j] = STRIPED_TEXTURE; // match the 32-bit register
+    }
+  }
+
+  return 0;
+}
+
+struct FrameData {
+  int current_frame;
+  int frame_count;
+  int frame_speed;
+};
+
+int MINIMAL_TESTS_RUN = 0;
+char *test_frame_data() {
+  struct FrameData frame_data;
+  std::string message = "error, current_frame != 0";
+  char *converted_message = new char[message.length() + 1];
+  std::strcpy(converted_message, message.c_str());
+  MINIMAL_UNIT_ASSERT(converted_message, frame_data.current_frame == 0);
+  return 0;
+} // std::string to char*, https://stackoverflow.com/a/7352131.
+
+char *run_tests() {
+  MINIMAL_RUN_TEST(test_frame_data);
+  return 0;
+}
+
+int main() {
+  InitWindow(WINDOW_SCREEN_SIZE_WIDTH, WINDOW_SCREEN_SIZE_HEIGHT,
+             WINDOW_APPLICATION_TITLE);
+
+  struct FrameData frame_data; // have this value in the "stack-space"
+
+  int current_frame = 0;
+  int frame_count = 0;
+  int frame_speed = 8;
+
+  frame_data.current_frame = current_frame;
+  frame_data.frame_count = frame_count;
+  frame_data.frame_speed = frame_speed;
+
+  const int max_frame_speed = 16;
+  const int min_frame_speed = 1;
+
+  PlayerServiceLocator *service_instance;
+
+  struct PlayerEntity *player_instance;
+  player_instance->player_service_locator = service_instance;
+
+  struct PlayerBundle player_bundle;
+  struct PlayerBundle bundle_instance;
+
+  PlayerBundle *player =
+      init_player_bundle_instance(&bundle_instance, *player_instance);
+
+  SetTargetFPS(FPS_SET_TARGET);
 
   while (!WindowShouldClose()) {
-    BeginDrawing();
-    ClearBackground(BLACK);
+    frame_count++;
+    // TODO(Daniel): change all this into a Strategy design pattern
+    if (frame_count >= (FPS_SET_TARGET / frame_speed)) {
+      frame_count = 0;
+      current_frame++;
+      if (current_frame > 4)
+        current_frame = 0;
+    }
+
+#ifndef LocalDirections
+    // Pre-processor boolean statement for enum declaration protection
+    enum LocalDirections { UP, DOWN, LEFT, RIGHT };
+#endif
+    enum LocalDirections directions;
+
+    for (int x = 0; x < 8; x++) {
+      player->position.position.x = x;
+      for (int y = 0; y < 8; y++) {
+        player->position.position.y = y;
+
+        switch (directions) {
+        case UP:
+          if (IsKeyPressed(KEY_W))
+            frame_speed++; // do an opposing velocity check
+          else if (IsKeyPressed(KEY_S))
+            frame_speed--; // and then frame_speed++
+          //
+        case DOWN:
+          if (IsKeyPressed(KEY_S))
+            frame_speed++; // do an opposing velocity check
+          else if (IsKeyPressed(KEY_W))
+            frame_speed--; // and then frame_speed++
+          //
+        case LEFT:
+          if (IsKeyPressed(KEY_A))
+            frame_speed++; // do an opposing velocity check
+          else if (IsKeyPressed(KEY_D))
+            frame_speed--; // and then frame_speed++
+          //
+        case RIGHT:
+          if (IsKeyPressed(KEY_D))
+            frame_speed++; // do an opposing velocity check
+          else if (IsKeyPressed(KEY_A))
+            frame_speed--; // and then frame_speed++
+
+        default:
+          if (frame_speed > max_frame_speed)
+            frame_speed = max_frame_speed;
+          else if (frame_speed < min_frame_speed)
+            frame_speed = min_frame_speed;
+        }
+      }
+    }
+
+    DrawTexture(
+        player->sprite, (256 / 32), (256 / 32),
+        WHITE); // (256/32) 8-bit sprite conversion, to match display of a GBA
+
     EndDrawing();
   }
-  CloseWindow();
 
-  destroy_player_bundle(*player, *entity);
+  for (int i = 0; i < sizeof(bundle_instance); ++i) {
+    free(player); // free called on unallocated object
+    // free and annul all player resources
+    annul_player_entity_instance(player_instance);
+    annul_player_service_location(service_instance);
+  }
+
+  annul_player_service_location(player->entity.player_service_locator);
+  annul_player_entity_instance(&player->entity);
+  UnloadTexture(player->sprite);
+  // finally close the window instance
+  CloseWindow();
 
   return 0;
 }
