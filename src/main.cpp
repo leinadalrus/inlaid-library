@@ -5,66 +5,77 @@
 #include <string>
 #endif
 
+#if _WIN32
+#include <C:/raylib/raylib/src/raylib.h>
+#endif
+
+#if __linux__
+#include <raylib.h>
+#endif
+
 #include "../inc/coverage_testassert_module.h"
 #include "../inc/current_process_modal_registry.h"
-#include "../inc/game_actor_entity.h"
-#include "../inc/prototype_builder.h"
 
-int annul_player_service_location(
-    PlayerServiceLocator *player_service_locator) {
-  free(player_service_locator);
-  player_service_locator = NULL;
-  return 0;
-}
+class SelectiveGridmapMatrix {
+public:
+};
 
-EntityPrototype init_prototype_via_execution(EntityPrototype prototype,
-                                             InputCommand command) {
-  return prototype;
-}
+class IntermediateCommand {
+public:
+  void execute_intermediate_command();
+};
 
-PrototypeBuilder create_handler_for_prototype(PrototypeBuilder builder,
-                                              InputHandler handler) {
-  return builder;
-} // TODO(Daniel): code ...
+class AttachAttackInputHandle : public IntermediateCommand {};
 
-void execute_actor_prototype(InputCommand *command, PlayerEntity *player) {}
+class AttachDelayInputHandle : public IntermediateCommand {};
 
-int check_init_player_instance(PlayerServiceLocator *service_instance) {
-  PlayerEntity player_entity;
-  player_entity.player_service_locator = service_instance;
+class AttachSustainInputHandle : public IntermediateCommand {};
 
-  return 0;
-}
+class AttachReleaseInputHandle : public IntermediateCommand {};
 
-struct PlayerEntity *designate_entity_scalar(PlayerEntity player_instance) {
-  PlayerServiceLocator *player_service_locator;
+class AttachSignalTransgressionHandler {
+  AttachAttackInputHandle *attack_attachment;
+  AttachDelayInputHandle *delay_attachment;
+  AttachSustainInputHandle *sustain_attachment;
+  AttachReleaseInputHandle *release_attachment;
+
+public:
+};
+
+class OpaqueAimAssist {
+  SelectiveGridmapMatrix selective_gridmap_matrix;
+  AttachSignalTransgressionHandler signal_transgression_handler;
+};
+
+class PlayerEntity {};
+
+class PlayerPosition {
+public:
+  Vector2 position;
+};
+
+class PlayerBundle {
+public:
+  PlayerEntity entity;
+  PlayerPosition position;
+};
+
+PlayerEntity *designate_player_entity_scalar(PlayerEntity player_instance) {
   // TODO: move player_entity data into a new ServiceLocator function
 
   PlayerEntity *new_player = &player_instance;
-  new_player->player_service_locator = player_service_locator;
 
   return new_player; // return address of stack memory associated with local
                      // variable
 }
 
-int annul_player_entity_instance(PlayerEntity *player_entity) {
-  free(player_entity);
-  player_entity = NULL;
-  return 0;
-}
-
-int (*on_notice)(const PlayerEntity entity, enum ArmRegisters registry);
-
 PlayerBundle *init_player_bundle_instance(PlayerBundle *bundle_instance,
                                           PlayerEntity player_instance) {
-  bundle_instance->entity =
-      *designate_entity_scalar(player_instance); // pointer-to-address because
-                                                 // of address of stack memory
+  bundle_instance->entity = *designate_player_entity_scalar(
+      player_instance); // pointer-to-address because
+                        // of address of stack memory
   bundle_instance->position.position.x = GetScreenWidth() / 2.f;
   bundle_instance->position.position.y = GetScreenHeight() / 2.f;
-  bundle_instance->health.health = 100;
-  bundle_instance->sprite =
-      LoadTexture("../assets/sprites/player-export/spritesheet.png");
 
   memmove(bundle_instance, bundle_instance,
           sizeof(&bundle_instance)); // the memory in memmove can overlap,
@@ -108,7 +119,8 @@ char *test_frame_data() {
   struct FrameData frame_data;
   std::string message = "error, current_frame != 0";
   char *converted_message = new char[message.length() + 1];
-  std::strcpy(converted_message, message.c_str());
+  // don't use std::strcpy, use std::memcpy instead.
+  std::memcpy(converted_message, message.c_str(), sizeof(&converted_message));
   MINIMAL_UNIT_ASSERT(converted_message, frame_data.current_frame == 0);
   return 0;
 } // std::string to char*, https://stackoverflow.com/a/7352131.
@@ -119,8 +131,7 @@ char *run_tests() {
 }
 
 int main() {
-  InitWindow(WINDOW_SCREEN_SIZE_WIDTH, WINDOW_SCREEN_SIZE_HEIGHT,
-             WINDOW_APPLICATION_TITLE);
+  InitWindow(640, 400, "Slow Dive. Slow Crush.");
 
   struct FrameData frame_data; // have this value in the "stack-space"
 
@@ -135,10 +146,7 @@ int main() {
   const int max_frame_speed = 16;
   const int min_frame_speed = 1;
 
-  PlayerServiceLocator *service_instance;
-
   struct PlayerEntity *player_instance;
-  player_instance->player_service_locator = service_instance;
 
   struct PlayerBundle player_bundle;
   struct PlayerBundle bundle_instance;
@@ -146,12 +154,12 @@ int main() {
   PlayerBundle *player =
       init_player_bundle_instance(&bundle_instance, *player_instance);
 
-  SetTargetFPS(FPS_SET_TARGET);
+  SetTargetFPS(60);
 
   while (!WindowShouldClose()) {
     frame_count++;
     // TODO(Daniel): change all this into a Strategy design pattern
-    if (frame_count >= (FPS_SET_TARGET / frame_speed)) {
+    if (frame_count >= (60 / frame_speed)) {
       frame_count = 0;
       current_frame++;
       if (current_frame > 4)
@@ -203,23 +211,14 @@ int main() {
       }
     }
 
-    DrawTexture(
-        player->sprite, (256 / 32), (256 / 32),
-        WHITE); // (256/32) 8-bit sprite conversion, to match display of a GBA
-
     EndDrawing();
   }
 
   for (int i = 0; i < sizeof(bundle_instance); ++i) {
     free(player); // free called on unallocated object
     // free and annul all player resources
-    annul_player_entity_instance(player_instance);
-    annul_player_service_location(service_instance);
   }
 
-  annul_player_service_location(player->entity.player_service_locator);
-  annul_player_entity_instance(&player->entity);
-  UnloadTexture(player->sprite);
   // finally close the window instance
   CloseWindow();
 
