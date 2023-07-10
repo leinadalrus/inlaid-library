@@ -1,7 +1,5 @@
-#include <SDL2/SDL_keycode.h>
-#include <SDL2/SDL_video.h>
-#include <cstddef>
 #if _WIN32 || __linux__
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -9,11 +7,13 @@
 #endif
 
 #if _WIN32
-#include <C:/dev/vcpkg/packages/sdl2_x86-windows/SDL2/SDL.h>
+#include <C:/dev/vcpkg/packages/sdl2_x86-windows/include/SDL2/SDL.h>
 #endif
 
 #if __linux__
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_video.h>
 #endif
 
 #include "../inc/coverage_testassert_module.h"
@@ -38,8 +38,11 @@ public:
     delete &self_attachment;
   }
 
-  void execute_intermediate_command() { handle_user_data(); }
-  void handle_user_data();
+  void execute_intermediate_command() {
+    int x; // grasp `int x` from a Command Handle's Context
+    handle_user_data(x);
+  }
+  void handle_user_data(int x);
 };
 
 class AttachDelayToUsage : public IntermediateCommand {
@@ -56,8 +59,11 @@ public:
     delete &self_attachment;
   }
 
-  void execute_intermediate_command() { handle_user_data(); }
-  void handle_user_data();
+  void execute_intermediate_command() {
+    int x; // grasp `int x` from a Command Handle's Context
+    handle_user_data(x);
+  }
+  void handle_user_data(int x);
 };
 
 class AttachSustainToUsage : public IntermediateCommand {
@@ -74,8 +80,11 @@ public:
     delete &self_attachment;
   }
 
-  void execute_intermediate_command() { handle_user_data(); }
-  void handle_user_data();
+  void execute_intermediate_command() {
+    int x; // grasp `int x` from a Command Handle's Context
+    handle_user_data(x);
+  }
+  void handle_user_data(int x);
 };
 
 class AttachReleaseToUsage : public IntermediateCommand {
@@ -92,8 +101,11 @@ public:
     delete &self_attachment;
   }
 
-  void execute_intermediate_command() { handle_user_data(); }
-  void handle_user_data();
+  void execute_intermediate_command() {
+    int x; // grasp `int x` from a Command Handle's Context
+    handle_user_data(x);
+  }
+  void handle_user_data(int x);
 };
 
 class AdditionHandler {
@@ -197,7 +209,7 @@ public:
 }; // merge these two strategies with aliasing
 
 int AdditionHandler::handle_modal_of_execution() {
-  SDL_LoadBMP("../assets/sprites/spritesheet.png");
+  SDL_LoadBMP("../assets/sprites/Player-Sprite-Export/spritesheet.png");
   bool is_successful = true;
 
   if (SDL_LoadBMP("../assets/sprites/spritesheet.png") == NULL) {
@@ -217,7 +229,7 @@ public:
   AdditionHandler signal_transgression_handler;
 };
 
-int infer_functor_member_x(int x) {
+int fast_inverse_square_root(int x) {
   union {
     int d;
     uint32_t i;
@@ -227,7 +239,14 @@ int infer_functor_member_x(int x) {
   converter.d *= 1.5f - (x * .5f * converter.d * converter.d);
 
   return converter.d;
-} // O(1) Line-of-Best-Fit
+} // NOTE(Daniel): O(1) Line-of-Best-Fit
+  // ---
+  // John Carmack’s Unusual Fast Inverse Square Root (Quake III) (no date).
+  // Available at: https://stackoverflow.com/a/1349572.
+  // ---
+  // Understanding Quake’s Fast Inverse Square Root – BetterExplained (no date).
+  // Available at:
+  // https://betterexplained.com/articles/understanding-quakes-fast-inverse-square-root/.
 
 int infer_functor_inverse_one(int x) {
   int B;
@@ -238,11 +257,96 @@ int infer_functor_inverse_one(int x) {
       aim_automa.matrix_handle->matrix[i][j] = B;
     }
 
-  x ^= B;
-  infer_functor_member_x(x);
+  fast_inverse_square_root(x);
+  B ^= x;
 
   return B;
 } // TODO(Daniel): create ADSR equivalents
+
+void AttachAttackToUsage::handle_user_data(int x) {
+  infer_functor_inverse_one(x);
+}
+
+void AttachDelayToUsage::handle_user_data(int x) {
+  infer_functor_inverse_one(x);
+}
+
+void AttachSustainToUsage::handle_user_data(int x) {
+  infer_functor_inverse_one(x);
+}
+
+void AttachReleaseToUsage::handle_user_data(int x) {
+  infer_functor_inverse_one(x);
+}
+// TODO(Daniel): Strategy-x-Builder pattern
+
+class AdsrUsageStrategyBuilder : AdditionHandler {
+  AttachAttackToUsage attack_attachment;
+  AttachDelayToUsage delay_attachment;
+  AttachSustainToUsage sustain_attachment;
+  AttachReleaseToUsage release_attachment;
+
+public:
+  AdsrUsageStrategyBuilder();
+  ~AdsrUsageStrategyBuilder();
+
+  AdsrUsageStrategyBuilder build_attack(AttachAttackToUsage nu_attack);
+  AdsrUsageStrategyBuilder build_delay(AttachDelayToUsage nu_delay);
+  AdsrUsageStrategyBuilder build_sustain(AttachSustainToUsage nu_sustain);
+  AdsrUsageStrategyBuilder build_release(AttachReleaseToUsage nu_release);
+
+  void execute_intermediate_command();
+  void handle_user_data();
+};
+
+class AdsrUsageStrategy {
+  AttachAttackToUsage attack_attachment;
+  AttachDelayToUsage delay_attachment;
+  AttachSustainToUsage sustain_attachment;
+  AttachReleaseToUsage release_attachment;
+
+public:
+  int check_hexadecimal_address_destination() {
+    CheckRegisterHexSum *registry_sentinel; // have this in the heap
+    registry_sentinel->hexsum_calculable();
+    // Initially...supposedly written as:
+    // ArmRegisters arm_registry;
+    // CheckRegisterHexSum registry_sentinel;
+    // registry_sentinel.alias_hex_sum_merge(arm_registry);
+
+    union {
+      int a_destination;
+      int b_source;
+    } c = {.a_destination =
+               ArmRegisters::R0}; // don't initialise and override
+                                  // subobject's members all at once;
+                                  // Bring the subobject's next member
+                                  // override into the next method
+
+    registry_sentinel->alias_hex_sum_merge(c.a_destination);
+    return c.a_destination;
+  }
+
+  int check_hexadecimal_address_source() {
+    CheckRegisterHexSum *registry_sentinel; // have this in the heap
+    registry_sentinel->hexsum_calculable();
+    // Initially...supposedly written as:
+    // ArmRegisters arm_registry;
+    // CheckRegisterHexSum registry_sentinel;
+    // registry_sentinel.alias_hex_sum_merge(arm_registry);
+
+    union {
+      int a_destination;
+      int b_source;
+    } c = {.b_source = ArmRegisters::R0}; // don't initialise and override
+                                          // subobject's members all at once;
+                                          // Bring the subobject's next member
+                                          // override into the next method
+
+    registry_sentinel->alias_hex_sum_merge(c.b_source);
+    return c.b_source;
+  }
+};
 
 class WindowHandler {
 public:
