@@ -1,3 +1,6 @@
+#include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_video.h>
+#include <cstddef>
 #if _WIN32 || __linux__
 #include <cstdio>
 #include <cstdlib>
@@ -6,52 +9,253 @@
 #endif
 
 #if _WIN32
-#include <C:/raylib/raylib/src/raylib.h>
+#include <C:/dev/vcpkg/packages/sdl2_x86-windows/SDL2/SDL.h>
 #endif
 
 #if __linux__
-#include <raylib.h>
+#include <SDL2/SDL.h>
 #endif
 
 #include "../inc/coverage_testassert_module.h"
 #include "../inc/current_process_modal_registry.h"
-
-class SelectiveGridmapMatrix {
-public:
-};
 
 class IntermediateCommand {
 public:
   void execute_intermediate_command();
 };
 
-class AttachAttackInputHandle : public IntermediateCommand {};
-
-class AttachDelayInputHandle : public IntermediateCommand {};
-
-class AttachSustainInputHandle : public IntermediateCommand {};
-
-class AttachReleaseInputHandle : public IntermediateCommand {};
-
-class AttachSignalTransgressionHandler {
-  AttachAttackInputHandle *attack_attachment;
-  AttachDelayInputHandle *delay_attachment;
-  AttachSustainInputHandle *sustain_attachment;
-  AttachReleaseInputHandle *release_attachment;
+class AttachAttackToUsage : public IntermediateCommand {
+  AttachAttackToUsage *self_attachment;
 
 public:
+  AttachAttackToUsage(AttachAttackToUsage *self_attachment) {
+    this->self_attachment = self_attachment;
+  } // first we init
+  // then we de-init
+  ~AttachAttackToUsage() {
+    std::free(this->self_attachment);
+    this->self_attachment = std::nullptr_t();
+    delete &self_attachment;
+  }
+
+  void execute_intermediate_command() { handle_user_data(); }
+  void handle_user_data();
 };
 
-class OpaqueAimAssist {
-  SelectiveGridmapMatrix selective_gridmap_matrix;
-  AttachSignalTransgressionHandler signal_transgression_handler;
+class AttachDelayToUsage : public IntermediateCommand {
+  AttachDelayToUsage *self_attachment;
+
+public:
+  AttachDelayToUsage(AttachDelayToUsage *self_attachment) {
+    this->self_attachment = self_attachment;
+  } // first we init
+  // then we de-init
+  ~AttachDelayToUsage() {
+    std::free(this->self_attachment);
+    this->self_attachment = std::nullptr_t();
+    delete &self_attachment;
+  }
+
+  void execute_intermediate_command() { handle_user_data(); }
+  void handle_user_data();
+};
+
+class AttachSustainToUsage : public IntermediateCommand {
+  AttachSustainToUsage *self_attachment;
+
+public:
+  AttachSustainToUsage(AttachSustainToUsage *self_attachment) {
+    this->self_attachment = self_attachment;
+  } // first we init
+  // then we de-init
+  ~AttachSustainToUsage() {
+    std::free(this->self_attachment);
+    this->self_attachment = std::nullptr_t();
+    delete &self_attachment;
+  }
+
+  void execute_intermediate_command() { handle_user_data(); }
+  void handle_user_data();
+};
+
+class AttachReleaseToUsage : public IntermediateCommand {
+  AttachReleaseToUsage *self_attachment;
+
+public:
+  AttachReleaseToUsage(AttachReleaseToUsage *self_attachment) {
+    this->self_attachment = self_attachment;
+  } // first we init
+  // then we de-init
+  ~AttachReleaseToUsage() {
+    std::free(this->self_attachment);
+    this->self_attachment = std::nullptr_t();
+    delete &self_attachment;
+  }
+
+  void execute_intermediate_command() { handle_user_data(); }
+  void handle_user_data();
+};
+
+class AdditionHandler {
+public:
+  AttachAttackToUsage *attack_attachment;
+  AttachDelayToUsage *delay_attachment;
+  AttachSustainToUsage *sustain_attachment;
+  AttachReleaseToUsage *release_attachment;
+
+  int handle_modal_of_execution();
+}; // Strategy design pattern for Prototype models
+
+int attach_media_layer_window(SDL_Window *window, SDL_Surface *screen_surface) {
+  window = std::nullptr_t();
+  screen_surface = SDL_GetWindowSurface(window);
+
+  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    printf("SDL could not initialize the Window and Screen:\n\t%s",
+           SDL_GetError());
+  }
+
+  SDL_FillRect(screen_surface, std::nullptr_t(),
+               SDL_MapRGBA(screen_surface->format, 0x1B, 0x1B, 0x1B, 0xAA));
+
+  SDL_UpdateWindowSurface(window);
+
+  SDL_Event event;
+  bool is_finished = false;
+  while (is_finished != true) {
+    if (event.type == SDL_QUIT) {
+      SDL_DestroyWindow(window);
+      SDL_Quit();
+
+      screen_surface = std::nullptr_t();
+      std::free(screen_surface);
+      delete screen_surface;
+
+      window = std::nullptr_t();
+      std::free(window);
+
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
+int deinit_media_layer_window(SDL_Window *window, SDL_Surface *screen_surface) {
+  SDL_DestroyWindow(window);
+
+  screen_surface = std::nullptr_t();
+  std::free(screen_surface);
+  delete screen_surface;
+
+  window = std::nullptr_t();
+  std::free(window);
+
+  return 1;
+}
+
+class HandleMatrix {
+public:
+  int x, y;      // coordinates as members
+  int *matrix[]; // the actual matrix member
+};
+
+class CheckRegisterHexSum {
+  enum ArmRegisters arm_register;
+  enum CurrentProcessorModes current_processor_mode;
+
+  union { // field that tells us what is being used in a union
+    IntermediateCommand intermediate_command; // no ptr-type, str8>stack!!
+  };
+
+public:
+  int hexsum_calculable() {
+    int ret_val =
+        CurrentProcessorModes::USER_MODE | this->current_processor_mode;
+    // XOR our member binary values
+    return ret_val;
+  }
+
+  int alias_hex_sum_merge(int usage_index) { // get input from the user table
+    // NOTE(Daniel): check if we are in Arm's: USER MODE
+    if (this->current_processor_mode != CurrentProcessorModes::USER_MODE) {
+      return 1;
+    }
+
+    HandleMatrix *matrix; // init in heap-space with anonymous indices
+
+    for (int i = 0;; i++)
+      for (int j = 0;; j++) {
+        matrix->matrix[i][j] = usage_index;
+      }
+
+    std::free(matrix);
+    delete matrix;
+
+    return 0;
+  }
+}; // merge these two strategies with aliasing
+
+int AdditionHandler::handle_modal_of_execution() {
+  SDL_LoadBMP("../assets/sprites/spritesheet.png");
+  bool is_successful = true;
+
+  if (SDL_LoadBMP("../assets/sprites/spritesheet.png") == NULL) {
+    printf("Unable to load the image warranted!? %s", SDL_GetError());
+    is_successful = false;
+
+    SDL_FreeSurface(SDL_LoadBMP("../assets/sprites/spritesheet.png"));
+    SDL_LoadBMP(NULL);
+  }
+
+  return is_successful;
+}
+
+class OpaqueAimAutomaty {
+public:
+  HandleMatrix *matrix_handle;
+  AdditionHandler signal_transgression_handler;
+};
+
+int infer_functor_member_x(int x) {
+  union {
+    int d;
+    uint32_t i;
+  } converter = {.d = x};
+
+  converter.i = 0x5f3759df - (converter.i >> 1);
+  converter.d *= 1.5f - (x * .5f * converter.d * converter.d);
+
+  return converter.d;
+} // O(1) Line-of-Best-Fit
+
+int infer_functor_inverse_one(int x) {
+  int B;
+  OpaqueAimAutomaty aim_automa;
+
+  for (auto i = 0; i < 8; i++)
+    for (auto j = 0; j < 8; j++) {
+      aim_automa.matrix_handle->matrix[i][j] = B;
+    }
+
+  x ^= B;
+  infer_functor_member_x(x);
+
+  return B;
+} // TODO(Daniel): create ADSR equivalents
+
+class WindowHandler {
+public:
+  static int get_screen_width();
+  static int get_screen_height(); // methods are in static-space
 };
 
 class PlayerEntity {};
 
 class PlayerPosition {
 public:
-  Vector2 position;
+  int x;
+  int y;
 };
 
 class PlayerBundle {
@@ -74,13 +278,13 @@ PlayerBundle *init_player_bundle_instance(PlayerBundle *bundle_instance,
   bundle_instance->entity = *designate_player_entity_scalar(
       player_instance); // pointer-to-address because
                         // of address of stack memory
-  bundle_instance->position.position.x = GetScreenWidth() / 2.f;
-  bundle_instance->position.position.y = GetScreenHeight() / 2.f;
+  bundle_instance->position.x = WindowHandler::get_screen_width() / 2.f;
+  bundle_instance->position.y = WindowHandler::get_screen_height() / 2.f;
 
-  memmove(bundle_instance, bundle_instance,
-          sizeof(&bundle_instance)); // the memory in memmove can overlap,
-                                     // whereeas memcpy cannot or it will cause
-                                     // undefined behavior
+  std::memmove(bundle_instance, bundle_instance,
+               sizeof(&bundle_instance)); // the memory in memmove can overlap,
+                                          // whereeas memcpy cannot or it will
+                                          // cause undefined behavior
 
   return bundle_instance; // may need memcpy and memmove
 }
@@ -99,8 +303,8 @@ int process_world_relative_terrain() {
 
   int textures_matrices[8][8]; // match the 32-bit register
 
-  for (int i = 0; i < GetScreenWidth(); i++) {
-    for (int j = 0; j < GetScreenHeight(); j++) {
+  for (int i = 0; i < WindowHandler::get_screen_width(); i++) {
+    for (int j = 0; j < WindowHandler::get_screen_height(); j++) {
       textures_matrices[i][j] = STRIPED_TEXTURE; // match the 32-bit register
     }
   }
@@ -131,7 +335,19 @@ char *run_tests() {
 }
 
 int main() {
-  InitWindow(640, 400, "Slow Dive. Slow Crush.");
+  int ret_val = 0;
+
+  enum ArmRegisters arm_registry;
+  AdditionHandler *input_handler;
+
+  switch (arm_registry) {
+  default:
+    enum ArmRegisters arm_usage = arm_registry;
+    // now withhold the LHS value of a register for an IR module pass
+  }
+
+  SDL_Window *window;
+  SDL_Surface *screen_surface, *image_surface;
 
   struct FrameData frame_data; // have this value in the "stack-space"
 
@@ -154,9 +370,15 @@ int main() {
   PlayerBundle *player =
       init_player_bundle_instance(&bundle_instance, *player_instance);
 
-  SetTargetFPS(60);
+  attach_media_layer_window(window, screen_surface);
 
-  while (!WindowShouldClose()) {
+  AdditionHandler *addition_handle;
+  addition_handle->handle_modal_of_execution();
+
+  SDL_BlitSurface(image_surface, NULL, screen_surface, NULL);
+  // Display contents in a scrolling region
+
+  while (!window) {
     frame_count++;
     // TODO(Daniel): change all this into a Strategy design pattern
     if (frame_count >= (60 / frame_speed)) {
@@ -171,47 +393,19 @@ int main() {
     enum LocalDirections { UP, DOWN, LEFT, RIGHT };
 #endif
     enum LocalDirections directions;
+    SDL_Keycode keycode;
 
     for (int x = 0; x < 8; x++) {
-      player->position.position.x = x;
+      player->position.x = x;
       for (int y = 0; y < 8; y++) {
-        player->position.position.y = y;
+        player->position.y = y;
 
-        switch (directions) {
-        case UP:
-          if (IsKeyPressed(KEY_W))
-            frame_speed++; // do an opposing velocity check
-          else if (IsKeyPressed(KEY_S))
-            frame_speed--; // and then frame_speed++
-          //
-        case DOWN:
-          if (IsKeyPressed(KEY_S))
-            frame_speed++; // do an opposing velocity check
-          else if (IsKeyPressed(KEY_W))
-            frame_speed--; // and then frame_speed++
-          //
-        case LEFT:
-          if (IsKeyPressed(KEY_A))
-            frame_speed++; // do an opposing velocity check
-          else if (IsKeyPressed(KEY_D))
-            frame_speed--; // and then frame_speed++
-          //
-        case RIGHT:
-          if (IsKeyPressed(KEY_D))
-            frame_speed++; // do an opposing velocity check
-          else if (IsKeyPressed(KEY_A))
-            frame_speed--; // and then frame_speed++
-
-        default:
-          if (frame_speed > max_frame_speed)
-            frame_speed = max_frame_speed;
-          else if (frame_speed < min_frame_speed)
-            frame_speed = min_frame_speed;
-        }
+        if (frame_speed > max_frame_speed)
+          frame_speed = max_frame_speed;
+        else if (frame_speed < min_frame_speed)
+          frame_speed = min_frame_speed;
       }
     }
-
-    EndDrawing();
   }
 
   for (int i = 0; i < sizeof(bundle_instance); ++i) {
@@ -219,8 +413,14 @@ int main() {
     // free and annul all player resources
   }
 
-  // finally close the window instance
-  CloseWindow();
+  deinit_media_layer_window(window, screen_surface);
+  deinit_media_layer_window(NULL, image_surface);
 
-  return 0;
+  addition_handle = std::nullptr_t();
+  std::free(addition_handle);
+  delete addition_handle;
+
+  SDL_Quit();
+
+  return ret_val;
 }
